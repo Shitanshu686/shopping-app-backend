@@ -2,27 +2,45 @@ package com.shitanshu.shopping.model;
 
 public class Product {
 
-    private int id;
-    private String name;
-    private String description;
-    private double price;
-    private String image;
-    private String category;
-    private int stock;
+	private int id;
+	private String name;
+	private String description;
+	private String brand;
+	private double price;
+	private double oldPrice;
+
+	private double rating;
+
+	private String image;
+	private String category;
+
+	private int stock;
 
     public Product() {
     }
 
-    public Product(int id, String name, String description, double price, String image, String category, int stock) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.image = image;
-        this.category = category;
-        this.stock = stock;
-    }
+    public Product(int id,
+            String name,
+            String brand,
+            String description,
+            double price,
+            double oldPrice,
+            double rating,
+            String image,
+            String category,
+            int stock) {
 
+ this.id = id;
+ this.name = name;
+ this.brand = brand;
+ this.description = description;
+ this.price = price;
+ this.oldPrice = oldPrice;
+ this.rating = rating;
+ this.image = image;
+ this.category = category;
+ this.stock = stock;
+}
     public int getId() {
         return id;
     }
@@ -38,6 +56,13 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
     public String getDescription() {
         return description;
@@ -49,6 +74,21 @@ public class Product {
 
     public double getPrice() {
         return price;
+    }
+    public double getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(double oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public void setPrice(double price) {

@@ -16,30 +16,39 @@ public class ProductService {
 
         products.add(new Product(
                 1,
-                "Shirt",
-                "Cotton Casual Shirt",
-                500,
+                "Allen Solly Men's Casual Shirt",
+                "Allen Solly",
+                "100% Cotton | Regular Fit | Full Sleeve | Blue",
+                1499,
+                2199,
+                4.5,
                 "images/shirt.jpg",
-                "Clothing",
-                20));
+                "Fashion",
+                35));
 
         products.add(new Product(
                 2,
-                "Watch",
-                "Smart Watch",
-                800,
+                "Noise ColorFit Pro 5",
+                "Noise",
+                "AMOLED Display | Bluetooth Calling | IP68 Water Resistant",
+                3499,
+                4999,
+                4.4,
                 "images/watch.jpg",
-                "Accessories",
-                15));
+                "Watches",
+                18));
 
         products.add(new Product(
                 3,
-                "Shoes",
-                "Running Shoes",
-                1200,
+                "Nike Revolution 7",
+                "Nike",
+                "Running Shoes | Lightweight | Black",
+                3999,
+                5499,
+                4.7,
                 "images/shoes.jpg",
-                "Footwear",
-                10));
+                "Shoes",
+                24));
 
         return products;
     }
