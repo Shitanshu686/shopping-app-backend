@@ -19,7 +19,7 @@ public class Product {
 	private String brand;
 	private double price;
 	@Column(name = "old_price")
-	private double oldPrice;
+	private Double oldPrice;
 
 	private double rating;
 
@@ -87,11 +87,11 @@ public class Product {
     public double getPrice() {
         return price;
     }
-    public double getOldPrice() {
+    public Double getOldPrice() {
         return oldPrice;
     }
 
-    public void setOldPrice(double oldPrice) {
+    public void setOldPrice(Double oldPrice) {
         this.oldPrice = oldPrice;
     }
 

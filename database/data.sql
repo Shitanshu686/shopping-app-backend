@@ -86,4 +86,63 @@ VALUES
 'images/products/BIKE/BIKE_5.jpg',
 'BIKE',
 15),
+-- ===========================
+-- CAR
+-- ===========================
+
+('Jaguar F-Pace','Luxury SUV',7200000,'images/products/CAR/CAR_1.jpg','CAR','Jaguar',5),
+('Lamborghini Temerario','Super Sports Car',65000000,'images/products/CAR/CAR_2.jpg','CAR','Lamborghini',2),
+('BMW X3','Premium SUV',7500000,'images/products/CAR/CAR_3.jpg','CAR','BMW',4),
+('Mahindra XEV 9e','Electric SUV',3200000,'images/products/CAR/CAR_4.jpg','CAR','Mahindra',8),
+('Ford Endeavour','Premium SUV',4500000,'images/products/CAR/CAR_5.jpg','CAR','Ford',3),
+
+-- ===========================
+-- COLD DRINK
+-- ===========================
+
+('Coca-Cola Original','Refreshing soft drink',60,'images/products/COLD_DRINK/cold_Drink_1.jpg','COLD_DRINK','Coca-Cola',100),
+('Sprite','Lemon-Lime Soft Drink',60,'images/products/COLD_DRINK/cold_Drink_2.jpg','COLD_DRINK','Sprite',100),
+('Fanta Orange','Orange Flavoured Soft Drink',60,'images/products/COLD_DRINK/cold_Drink_3.jpg','COLD_DRINK','Fanta',100),
+('Mirinda Orange','Orange Soft Drink',60,'images/products/COLD_DRINK/cold_Drink_4.jpg','COLD_DRINK','Mirinda',100),
+('Real Mixed Fruit Juice','Mixed Fruit Juice',120,'images/products/COLD_DRINK/cold_Drink_5.jpg','COLD_DRINK','Real',80),
+
+-- ===========================
+-- HEALTHY DRINK
+-- ===========================
+
+('Bournvita','Health Nutrition Drink',420,'images/products/HEALTHY_DRINK/DRINK_1.jpg','HEALTHY_DRINK','Cadbury',50),
+('Horlicks Classic Malt','Nutrition Health Drink',450,'images/products/HEALTHY_DRINK/DRINK_2.jpg','HEALTHY_DRINK','Horlicks',50),
+('PowerVita Plus','Herbal Nutrition Drink',380,'images/products/HEALTHY_DRINK/DRINK_3.jpg','HEALTHY_DRINK','Patanjali',40),
+('Complan','Nutrition Drink',480,'images/products/HEALTHY_DRINK/DRINK_4.jpg','HEALTHY_DRINK','Complan',45),
+('Horlicks Chocolate Delight','Chocolate Health Drink',460,'images/products/HEALTHY_DRINK/DRINK_5.jpg','HEALTHY_DRINK','Horlicks',50),
+
+-- ===========================
+-- PERFUME
+-- ===========================
+
+('The Blue','Long Lasting Perfume',899,'images/products/PERFUME/perfume_1.jpg','PERFUME','Penshoppe',35),
+('Amalfi Bleu','Premium Eau De Toilette',1499,'images/products/PERFUME/perfume_2.jpg','PERFUME','SKINN',25),
+('Ocean Breeze Body Mist','Refreshing Body Mist',699,'images/products/PERFUME/perfume_3.jpg','PERFUME','Aqualogica',30),
+('Blu Eau De Parfum','Luxury Perfume',1799,'images/products/PERFUME/perfume_4.jpg','PERFUME','Ajmal',20),
+('Vanilla Eau De Parfum','Sweet Vanilla Fragrance',1599,'images/products/PERFUME/perfume_5.jpg','PERFUME','Ajmal',20),
+
+-- ===========================
+-- SNACK
+-- ===========================
+
+('Kurkure Masala Munch','Crunchy Masala Snack',20,'images/products/SNACK/Snack_1.jpg','SNACK','Kurkure',200),
+('Bikaji Bikaneri Bhujia','Traditional Bhujia Snack',120,'images/products/SNACK/Snack_2.jpg','SNACK','Bikaji',80),
+('Lay''s Sizzlin Hot','Spicy Potato Chips',20,'images/products/SNACK/Snack_3.jpg','SNACK','Lay''s',200),
+('Uncle Chipps Spicy Treat','Crispy Potato Chips',20,'images/products/SNACK/Snack_4.jpg','SNACK','Uncle Chipps',150),
+('Too Yumm! Spanish Tomato Chips','Spanish Tomato Flavour Chips',30,'images/products/SNACK/Snack_5.jpg','SNACK','Too Yumm!',120),
+
+-- ===========================
+-- SURF
+-- ===========================
+
+('Surf Excel Easy Wash','Detergent Powder',120,'images/products/SURF/SURF_1.jpg','SURF','Surf Excel',70),
+('Surf Excel Easy Wash Powder','Powerful Stain Removal',180,'images/products/SURF/SURF_2.jpg','SURF','Surf Excel',60),
+('Rin Detergent Powder','Bright Wash Detergent',90,'images/products/SURF/SURF_3.jpg','SURF','Rin',80),
+('Fena Detergent Powder','Laundry Washing Powder',110,'images/products/SURF/SURF_4.jpg','SURF','Fena',70),
+('Tide Double Power','Advanced Cleaning Detergent',220,'images/products/SURF/SURF_5.jpg','SURF','Tide',60);
 ;
