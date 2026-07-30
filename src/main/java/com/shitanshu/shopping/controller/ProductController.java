@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.shitanshu.shopping.model.Product;
 import com.shitanshu.shopping.service.ProductService;
@@ -40,5 +40,12 @@ public class ProductController {
                                  @RequestBody Product product) {
 
         return productService.updateProduct(id, product);
+    }
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable int id) {
+
+        productService.deleteProduct(id);
+
+        return "Product deleted successfully.";
     }
 }
