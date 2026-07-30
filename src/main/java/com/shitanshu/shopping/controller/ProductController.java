@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.shitanshu.shopping.model.Product;
 import com.shitanshu.shopping.service.ProductService;
-
+import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/products")
 @CrossOrigin(origins = "*")
@@ -34,5 +34,11 @@ public class ProductController {
     @PostMapping
     public Product addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
+    }
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable int id,
+                                 @RequestBody Product product) {
+
+        return productService.updateProduct(id, product);
     }
 }

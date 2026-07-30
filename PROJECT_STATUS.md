@@ -15,95 +15,101 @@ Full Stack E-Commerce Website
 
 ## Backend
 - Spring Boot
+- Spring MVC
+- Spring Data JPA
+- Hibernate
 
 ## Database
 - MySQL
 
-## ORM
-- Spring Data JPA (Hibernate)
+## Tools
+- Git
+- GitHub
+- Postman
+- Eclipse
+- XAMPP
 
 ---
 
-# Current Progress
+# Project Goal
+
+Build a production-ready E-Commerce website while learning complete Java Backend Development.
+
+The project is being developed module by module.
+
+Every feature is implemented first, then tested, committed to GitHub, and documented.
 
 ---
 
-## ✅ Module 1 : Backend Setup
+# Completed Modules
 
-Completed:
+---
+
+## ✅ Module 1 : Spring Boot Project Setup
+
+Completed
 
 - Spring Boot Project Created
-- REST API Created
-- Product Model Created
-- Product Controller Created
-- Product Service Created
-- Product Repository Created
-- REST API Successfully Connected with Frontend
+- Maven Project
+- Package Structure Created
+- Application Running
+- REST Controller Tested
 
-Status:
+Status
 
 ✔ Completed
 
 ---
 
-## ✅ Module 2 : Frontend Development
+## ✅ Module 2 : Product Module
 
-Completed:
+Completed
 
-- Responsive Product Cards
-- Dynamic Product Listing
-- Images Working
-- Product Description
-- Price Display
-- Original Price Display
-- Product Rating Display
-- Add To Cart
-- Cart Drawer
-- Quantity Increase / Decrease
-- Cart Total Calculation
+- Product Entity
+- Product Repository
+- Product Service
+- Product Controller
+- MySQL Integration
+- Spring Data JPA Mapping
+
+Status
+
+✔ Completed
+
+---
+
+## ✅ Module 3 : Frontend
+
+Completed
+
+- Responsive UI
+- Product Cards
 - Search Bar
+- Cart Drawer
+- Add To Cart
+- Quantity Update
+- Total Calculation
 - Toast Notifications
 
-Status:
+Status
 
 ✔ Completed
 
 ---
 
-## ✅ Module 3 : Git & Project Management
+## ✅ Module 4 : Database
 
-Completed:
+Completed
 
-- Git Repository Created
-- GitHub Connected
-- Regular Commits
-- PROJECT_STATUS.md Created
-- README.md Updated
-
-Status:
-
-✔ Completed
-
----
-
-## ✅ Module 4 : MySQL Integration
-
-Completed:
-
-- XAMPP Installed
-- MySQL Connected
 - shopping_db Created
-- products Table Created
-- Spring Data JPA Configured
-- Hibernate Connected
-- ProductRepository Created
-- Product Entity Configured
-- application.properties Configured
-- Backend Successfully Reading From Database
-- Hardcoded Product List Removed
-- Project Fully Database Driven
+- products Table
+- Hibernate Mapping
+- Spring Data JPA
+- Repository Connected
+- Hardcoded Products Removed
+- Fully Database Driven
 
-Status:
+Status
 
 ✔ Completed
 
@@ -111,15 +117,14 @@ Status:
 
 ## ✅ Module 5 : Database Assets
 
-Completed:
+Completed
 
-- database Folder Created
-- schema.sql Created
-- data.sql Created
-- Database Backup Ready
+- schema.sql
+- data.sql
+- Database Backup
 - GitHub Ready SQL Files
 
-Status:
+Status
 
 ✔ Completed
 
@@ -127,155 +132,256 @@ Status:
 
 ## ✅ Module 6 : Product Migration
 
-### Categories Completed
+Completed Categories
 
-- 🏏 BAT (5)
-- 👕 Fashion (1)
-- ⌚ Watches (1)
-- 👟 Shoes (1)
-- 🧳 Luggage (5)
-- 📱 Smartphones (5)
-- 🏍 Bikes (5)
-- 🚗 Cars (5)
-- 🥤 Cold Drinks (5)
-- 🥛 Healthy Drinks (5)
-- 🌸 Perfumes (5)
-- 🍟 Snacks (5)
-- 🧺 Surf & Detergents (5)
+- BAT
+- Fashion
+- Watches
+- Shoes
+- Luggage
+- Smartphones
+- Bikes
+- Cars
+- Cold Drinks
+- Healthy Drinks
+- Perfumes
+- Snacks
+- Surf
 
-Status:
+Products
+
+53 Original Products
+
+Status
 
 ✔ Completed
 
 ---
 
-# Current Database Status
+## ✅ Module 7 : REST APIs
 
-| Category | Products |
-|----------|---------:|
-| BAT | 5 |
-| Fashion | 1 |
-| Watches | 1 |
-| Shoes | 1 |
-| Luggage | 5 |
-| Smartphones | 5 |
-| Bikes | 5 |
-| Cars | 5 |
-| Cold Drinks | 5 |
-| Healthy Drinks | 5 |
-| Perfumes | 5 |
-| Snacks | 5 |
-| Surf & Detergents | 5 |
+Completed
 
-### Total Products
+### Read APIs
 
-**53 Products**
+✔ GET /products
+
+Returns all products.
+
+✔ GET /products/{id}
+
+Returns single product by ID.
 
 ---
 
-## ✅ Module 7 : Bug Fixes & Debugging
+### Create API
 
-Completed:
+✔ POST /products
 
-- Fixed Port 8080 Already In Use Issue
-- Fixed Hibernate NULL Mapping Issue
-- Changed Primitive Types to Wrapper Types Where Required
-- Fixed Missing Product Rendering
-- Fixed Product Image Issues
-- Fixed MySQL Data Mapping Issues
-- Successfully Loaded All Products From Database
+Creates a new product in MySQL database.
 
-Status:
+Successfully tested using Postman.
+
+Auto Increment ID working.
+
+Status
 
 ✔ Completed
+
+---
+
+## ✅ Module 8 : Debugging & Bug Fixes
+
+Completed
+
+- Fixed Port Already In Use
+- Fixed Hibernate Mapping
+- Fixed JSON Parsing Issue
+- Fixed Primitive vs Wrapper Issue
+- Fixed Product Rendering
+- Fixed MySQL Mapping
+- Fixed REST Endpoint Issues
+- Successfully Inserted Product using Postman
+
+Status
+
+✔ Completed
+
+---
+
+# Current APIs
+
+| Method | Endpoint | Status |
+|---------|----------|--------|
+| GET | /products | ✅ |
+| GET | /products/{id} | ✅ |
+| POST | /products | ✅ |
+| PUT | /products/{id} | ⏳ |
+| DELETE | /products/{id} | ⏳ |
 
 ---
 
 # Current Features
 
-- Dynamic Product Listing
-- MySQL Database Integration
-- Search Products
-- Add To Cart
-- Cart Drawer
-- Quantity Update
-- Cart Total Calculation
-- Product Rating
-- Product Images
-- Toast Notifications
-- REST API Integration
+✔ Product Listing
+
+✔ Product Search
+
+✔ Shopping Cart
+
+✔ Quantity Update
+
+✔ Dynamic Products
+
+✔ REST API Integration
+
+✔ MySQL Integration
+
+✔ Product Ratings
+
+✔ Product Images
+
+✔ Toast Notifications
+
+---
+
+# Current Database
+
+Total Products
+
+54 Products
+
+(53 Original + 1 Testing Product)
+
+---
+
+# Current Development Stage
+
+Backend CRUD APIs
+
+Progress
+
+✔ READ
+
+✔ CREATE
+
+⬜ UPDATE
+
+⬜ DELETE
 
 ---
 
 # Next Module
 
-## 🛍 Product Details Page
+## Module 9 : Update Product API
 
-- Product Details Screen
-- Large Product Image
-- Full Description
-- Product Specifications
-- Similar Products
+Tasks
+
+- PUT /products/{id}
+- Update Name
+- Update Price
+- Update Stock
+- Update Category
+- Update Brand
+- Test in Postman
+- Test in MySQL
 
 ---
 
-## 🔐 Authentication
+## Module 10 : Delete Product API
 
-- User Registration
-- User Login
+Tasks
+
+- DELETE /products/{id}
+- Delete by ID
+- Test in Postman
+- Verify Database
+
+---
+
+## Module 11 : Product Details
+
+- Product Details Page
+- Similar Products
+- Product Specifications
+
+---
+
+## Module 12 : Authentication
+
+- Register
+- Login
 - Spring Security
-- JWT Authentication
+- JWT
 - Logout
 
 ---
 
-## 📦 Orders
+## Module 13 : Orders
 
-- Checkout Page
+- Checkout
 - Shipping Address
-- Place Order
 - Order History
 - Order Details
 
 ---
 
-## 👨‍💼 Admin Panel
+## Module 14 : Admin Panel
 
 - Admin Login
+- Dashboard
 - Add Product
 - Update Product
 - Delete Product
-- Manage Orders
 - Manage Users
+- Manage Orders
 
 ---
 
-## 💳 Payment
+## Module 15 : Payment Gateway
 
-- Razorpay Integration
+- Razorpay
 - Payment Success
 - Payment Failure
 
 ---
 
-## 🚀 Deployment
+## Module 16 : Deployment
 
-- Deploy Spring Boot Backend
+- Deploy Backend
 - Deploy Frontend
-- Configure Production Database
+- Production Database
 - Custom Domain
+
+---
+
+# Git Workflow
+
+For every completed feature
+
+1. Implement Feature
+2. Test
+3. Git Add
+4. Git Commit
+5. Git Push
+6. Update PROJECT_STATUS.md
+7. Start Next Module
 
 ---
 
 # Long Term Goal
 
-Develop a production-ready Full Stack E-Commerce Website using
+Become a Java Backend Developer by building a real production-level E-Commerce application using
 
 Frontend
 
 ↓
 
-Spring Boot REST API
+Spring Boot
+
+↓
+
+REST APIs
 
 ↓
 
@@ -287,24 +393,39 @@ Hibernate
 
 ↓
 
-MySQL Database
+MySQL
 
-with
+↓
 
-- Dynamic Products
-- Search
-- Shopping Cart
-- Authentication
-- Orders
-- Payment Gateway
-- Admin Panel
-- Clean Architecture
-- GitHub Portfolio Ready
+Spring Security
+
+↓
+
+JWT
+
+↓
+
+Payment Gateway
+
+↓
+
+Deployment
+
+↓
+
+Production Ready Application
 
 ---
 
 # Current Progress
 
-🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜
+🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜
 
-**Project Completion: ~70%**
+**Project Completion : ~80%**
+
+Current Focus
+
+➡ CRUD APIs
+➡ Spring Boot Mastery
+➡ Clean Backend Architecture
+➡ GitHub Portfolio Ready

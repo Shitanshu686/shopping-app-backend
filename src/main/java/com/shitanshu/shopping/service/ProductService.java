@@ -31,4 +31,26 @@ public class ProductService {
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
+    
+    public Product updateProduct(int id, Product updatedProduct) {
+
+        Product existingProduct = productRepository.findById(id).orElse(null);
+
+        if (existingProduct != null) {
+
+            existingProduct.setName(updatedProduct.getName());
+            existingProduct.setBrand(updatedProduct.getBrand());
+            existingProduct.setDescription(updatedProduct.getDescription());
+            existingProduct.setPrice(updatedProduct.getPrice());
+            existingProduct.setOldPrice(updatedProduct.getOldPrice());
+            existingProduct.setRating(updatedProduct.getRating());
+            existingProduct.setImage(updatedProduct.getImage());
+            existingProduct.setCategory(updatedProduct.getCategory());
+            existingProduct.setStock(updatedProduct.getStock());
+
+            return productRepository.save(existingProduct);
+        }
+
+        return null;
+    }
 }
