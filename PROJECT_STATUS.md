@@ -1,59 +1,25 @@
-# 🛒 ShopEase
-
-## Project Type
-
-Full Stack E-Commerce Website
+# 📋 Detailed Development Plan
 
 ---
 
-# Tech Stack
+# 🚀 Phase 2 : Professional Backend
 
-## Frontend
-- HTML
-- CSS
-- JavaScript
-
-## Backend
-- Spring Boot
-- Spring MVC
-- Spring Data JPA
-- Hibernate
-
-## Database
-- MySQL
-
-## Tools
-- Git
-- GitHub
-- Postman
-- Eclipse
-- XAMPP
+The goal of this phase is to transform the basic CRUD application into a professional backend following industry standards.
 
 ---
 
-# Project Goal
-
-Build a production-ready E-Commerce website while learning complete Java Backend Development.
-
-The project is being developed module by module.
-
-Every feature is implemented first, then tested, committed to GitHub, and documented.
-
----
-
-# Completed Modules
-
----
-
-## ✅ Module 1 : Spring Boot Project Setup
+## ✅ Module 9 : Exception Handling (Completed)
 
 Completed
 
-- Spring Boot Project Created
-- Maven Project
-- Package Structure Created
-- Application Running
-- REST Controller Tested
+- ProductNotFoundException
+- Custom Runtime Exception
+- @ControllerAdvice
+- @ExceptionHandler
+- Global Exception Handler
+- Custom JSON Error Response
+- 404 Error Handling
+- Tested using Postman
 
 Status
 
@@ -61,371 +27,413 @@ Status
 
 ---
 
-## ✅ Module 2 : Product Module
+## 🔄 Module 10 : ResponseEntity
 
-Completed
+Goal
 
-- Product Entity
-- Product Repository
-- Product Service
-- Product Controller
-- MySQL Integration
-- Spring Data JPA Mapping
-
-Status
-
-✔ Completed
-
----
-
-## ✅ Module 3 : Frontend
-
-Completed
-
-- Responsive UI
-- Product Cards
-- Search Bar
-- Cart Drawer
-- Add To Cart
-- Quantity Update
-- Total Calculation
-- Toast Notifications
-
-Status
-
-✔ Completed
-
----
-
-## ✅ Module 4 : Database
-
-Completed
-
-- shopping_db Created
-- products Table
-- Hibernate Mapping
-- Spring Data JPA
-- Repository Connected
-- Hardcoded Products Removed
-- Fully Database Driven
-
-Status
-
-✔ Completed
-
----
-
-## ✅ Module 5 : Database Assets
-
-Completed
-
-- schema.sql
-- data.sql
-- Database Backup
-- GitHub Ready SQL Files
-
-Status
-
-✔ Completed
-
----
-
-## ✅ Module 6 : Product Migration
-
-Completed Categories
-
-- BAT
-- Fashion
-- Watches
-- Shoes
-- Luggage
-- Smartphones
-- Bikes
-- Cars
-- Cold Drinks
-- Healthy Drinks
-- Perfumes
-- Snacks
-- Surf
-
-Products
-
-53 Original Products
-
-Status
-
-✔ Completed
-
----
-
-## ✅ Module 7 : REST APIs
-
-Completed
-
-### Read APIs
-
-✔ GET /products
-
-Returns all products.
-
-✔ GET /products/{id}
-
-Returns single product by ID.
-
----
-
-### Create API
-
-✔ POST /products
-
-Creates a new product in MySQL database.
-
-Successfully tested using Postman.
-
-Auto Increment ID working.
-
-Status
-
-✔ Completed
-
----
-
-## ✅ Module 8 : Debugging & Bug Fixes
-
-Completed
-
-- Fixed Port Already In Use
-- Fixed Hibernate Mapping
-- Fixed JSON Parsing Issue
-- Fixed Primitive vs Wrapper Issue
-- Fixed Product Rendering
-- Fixed MySQL Mapping
-- Fixed REST Endpoint Issues
-- Successfully Inserted Product using Postman
-
-Status
-
-✔ Completed
-
----
-
-# Current APIs
-
-| Method | Endpoint | Status |
-|---------|----------|--------|
-| GET | /products | ✅ |
-| GET | /products/{id} | ✅ |
-| POST | /products | ✅ |
-| PUT | /products/{id} | ⏳ |
-| DELETE | /products/{id} | ⏳ |
-
----
-
-# Current Features
-
-✔ Product Listing
-
-✔ Product Search
-
-✔ Shopping Cart
-
-✔ Quantity Update
-
-✔ Dynamic Products
-
-✔ REST API Integration
-
-✔ MySQL Integration
-
-✔ Product Ratings
-
-✔ Product Images
-
-✔ Toast Notifications
-
----
-
-# Current Database
-
-Total Products
-
-54 Products
-
-(53 Original + 1 Testing Product)
-
----
-
-# Current Development Stage
-
-Backend CRUD APIs
-
-Progress
-
-✔ READ
-
-✔ CREATE
-
-⬜ UPDATE
-
-⬜ DELETE
-
----
-
-# Next Module
-
-## Module 9 : Update Product API
+Return proper HTTP responses instead of plain objects.
 
 Tasks
 
-- PUT /products/{id}
-- Update Name
-- Update Price
-- Update Stock
-- Update Category
-- Update Brand
-- Test in Postman
-- Test in MySQL
+- Convert all Controller methods to ResponseEntity
+- Return HTTP 200 OK
+- Return HTTP 201 Created
+- Return HTTP 204 No Content (where applicable)
+- Return HTTP 404 Not Found
+- Return HTTP 400 Bad Request
+- Test all endpoints in Postman
+
+Expected Result
+
+Professional REST APIs following HTTP standards.
 
 ---
 
-## Module 10 : Delete Product API
+## 🔄 Module 11 : Validation
+
+Goal
+
+Prevent invalid data from entering the database.
 
 Tasks
 
-- DELETE /products/{id}
-- Delete by ID
-- Test in Postman
-- Verify Database
+- Add Validation Dependency
+- Apply @Valid
+- Use @NotBlank
+- Use @Positive
+- Use @Min
+- Use @Max
+- Create Custom Validation Messages
+- Test invalid requests in Postman
+
+Expected Result
+
+Invalid requests should never reach the database.
 
 ---
 
-## Module 11 : Product Details
+## 🔄 Module 12 : DTO Layer
 
-- Product Details Page
-- Similar Products
-- Product Specifications
+Goal
+
+Separate Entity from API Request/Response.
+
+Tasks
+
+- Create ProductRequestDTO
+- Create ProductResponseDTO
+- Convert DTO to Entity
+- Convert Entity to DTO
+- Remove direct Entity exposure
+
+Expected Result
+
+Frontend communicates only with DTOs.
 
 ---
 
-## Module 12 : Authentication
+## 🔄 Module 13 : Custom Exceptions
 
-- Register
-- Login
-- Spring Security
-- JWT
+Goal
+
+Handle different business errors separately.
+
+Tasks
+
+- ResourceAlreadyExistsException
+- BadRequestException
+- InvalidDataException
+- Improve Exception Messages
+- Improve Error Responses
+
+Expected Result
+
+Readable and maintainable exception handling.
+
+---
+
+## 🔄 Module 14 : Standard API Response
+
+Goal
+
+Every API should return the same response format.
+
+Tasks
+
+- Create ApiResponse class
+- Success Response
+- Error Response
+- Common Response Structure
+
+Example
+
+{
+    success,
+    message,
+    data,
+    timestamp
+}
+
+Expected Result
+
+Frontend receives a consistent response structure.
+
+---
+
+# 🚀 Phase 3 : Authentication & Authorization
+
+Goal
+
+Secure the application.
+
+---
+
+## 🔄 Module 15 : User Management
+
+Tasks
+
+- User Entity
+- User Repository
+- User Service
+- User Controller
+- Register API
+- Login API
+- BCrypt Password Encoder
+
+Expected Result
+
+Users can register and login securely.
+
+---
+
+## 🔄 Module 16 : Spring Security + JWT
+
+Tasks
+
+- Configure Spring Security
+- JWT Generation
+- JWT Validation
+- JWT Filter
+- Secure APIs
 - Logout
 
----
+Expected Result
 
-## Module 13 : Orders
-
-- Checkout
-- Shipping Address
-- Order History
-- Order Details
+Only authenticated users can access protected APIs.
 
 ---
 
-## Module 14 : Admin Panel
+## 🔄 Module 17 : Role Based Authorization
 
-- Admin Login
-- Dashboard
+Roles
+
+ADMIN
+
+USER
+
+Tasks
+
+ADMIN
+
 - Add Product
 - Update Product
 - Delete Product
-- Manage Users
-- Manage Orders
+
+USER
+
+- View Products
+- Add to Cart
+- Place Orders
+
+Expected Result
+
+Only ADMIN can manage products.
 
 ---
 
-## Module 15 : Payment Gateway
+# 🚀 Phase 4 : E-Commerce Features
 
-- Razorpay
+---
+
+## 🔄 Module 18 : Product Details
+
+Tasks
+
+- Product Details API
+- Product Description
+- Product Specifications
+- Similar Products
+
+---
+
+## 🔄 Module 19 : Shopping Cart Backend
+
+Tasks
+
+- Cart Entity
+- Add to Cart API
+- Update Quantity
+- Remove Item
+- View Cart
+- Calculate Total
+
+Expected Result
+
+Persistent shopping cart.
+
+---
+
+## 🔄 Module 20 : Wishlist
+
+Tasks
+
+- Wishlist Entity
+- Add Wishlist
+- Remove Wishlist
+- View Wishlist
+
+---
+
+## 🔄 Module 21 : Orders
+
+Tasks
+
+- Checkout
+- Shipping Address
+- Order Entity
+- Order Items
+- Order History
+- Order Details
+- Order Status
+
+Expected Result
+
+Complete order management.
+
+---
+
+## 🔄 Module 22 : Payment Gateway
+
+Tasks
+
+- Razorpay Integration
+- Create Order
 - Payment Success
 - Payment Failure
+- Payment Verification
+
+Expected Result
+
+Complete payment flow.
 
 ---
 
-## Module 16 : Deployment
+# 🚀 Phase 5 : Admin Dashboard
+
+---
+
+## 🔄 Module 23 : Admin Dashboard
+
+Tasks
+
+- Admin Login
+- Dashboard Statistics
+- Manage Products
+- Manage Users
+- Manage Orders
+- Order Status Update
+
+Expected Result
+
+Complete admin panel.
+
+---
+
+# 🚀 Phase 6 : Production Ready
+
+---
+
+## 🔄 Module 24 : Logging
+
+Tasks
+
+- SLF4J
+- Logback
+- Error Logs
+- Request Logs
+
+---
+
+## 🔄 Module 25 : Pagination & Sorting
+
+Tasks
+
+- Pagination
+- Sorting
+- Page Size
+- Search Optimization
+
+---
+
+## 🔄 Module 26 : Search & Filtering
+
+Tasks
+
+- Search by Name
+- Search by Category
+- Search by Brand
+- Price Range Filter
+- Rating Filter
+
+---
+
+## 🔄 Module 27 : Image Upload
+
+Tasks
+
+- MultipartFile
+- Upload Images
+- Store Images
+- Display Images
+
+---
+
+## 🔄 Module 28 : Docker
+
+Tasks
+
+- Dockerfile
+- Docker Compose
+- MySQL Container
+- Spring Boot Container
+
+---
+
+## 🔄 Module 29 : Deployment
+
+Tasks
 
 - Deploy Backend
 - Deploy Frontend
-- Production Database
-- Custom Domain
+- Deploy Database
+- Environment Variables
+- Production Configuration
+- Final Testing
+
+Expected Result
+
+Live production-ready application.
 
 ---
 
-# Git Workflow
+# 🎯 Final Deliverables
 
-For every completed feature
+At project completion, ShopEase will include:
 
-1. Implement Feature
-2. Test
-3. Git Add
-4. Git Commit
-5. Git Push
-6. Update PROJECT_STATUS.md
-7. Start Next Module
+✅ Responsive Frontend
 
----
+✅ Spring Boot Backend
 
-# Long Term Goal
+✅ REST APIs
 
-Become a Java Backend Developer by building a real production-level E-Commerce application using
+✅ MySQL Database
 
-Frontend
+✅ Hibernate & JPA
 
-↓
+✅ Professional Exception Handling
 
-Spring Boot
+✅ Validation
 
-↓
+✅ DTO Architecture
 
-REST APIs
+✅ ResponseEntity
 
-↓
+✅ Standard API Responses
 
-Spring Data JPA
+✅ Spring Security
 
-↓
+✅ JWT Authentication
 
-Hibernate
+✅ Role Based Authorization
 
-↓
+✅ Shopping Cart
 
-MySQL
+✅ Wishlist
 
-↓
+✅ Orders
 
-Spring Security
+✅ Payment Gateway
 
-↓
+✅ Admin Dashboard
 
-JWT
+✅ Image Upload
 
-↓
+✅ Pagination
 
-Payment Gateway
+✅ Search & Filtering
 
-↓
+✅ Docker
 
-Deployment
+✅ Deployment
 
-↓
-
-Production Ready Application
-
----
-
-# Current Progress
-
-🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜
-
-**Project Completion : ~80%**
-
-Current Focus
-
-➡ CRUD APIs
-➡ Spring Boot Mastery
-➡ Clean Backend Architecture
-➡ GitHub Portfolio Ready
+✅ Production Ready Documentation
