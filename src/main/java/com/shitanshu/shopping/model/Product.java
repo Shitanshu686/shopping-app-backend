@@ -13,34 +13,34 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String name;
 	private String description;
 	private String brand;
-	private double price;
+	private Double price;
 	@Column(name = "old_price")
 	private Double oldPrice;
 
-	private double rating;
+	private Double rating;
 
 	private String image;
 	private String category;
 
-	private int stock;
+	private Integer stock;
 
     public Product() {
     }
 
-    public Product(int id,
+    public Product(Integer id,
             String name,
             String brand,
             String description,
-            double price,
-            double oldPrice,
-            double rating,
+            Double price,
+            Double oldPrice,
+            Double rating,
             String image,
             String category,
-            int stock) {
+            Integer stock) {
 
  this.id = id;
  this.name = name;
@@ -53,11 +53,11 @@ public class Product {
  this.category = category;
  this.stock = stock;
 }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -84,7 +84,7 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
     public Double getOldPrice() {
@@ -95,15 +95,15 @@ public class Product {
         this.oldPrice = oldPrice;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -123,11 +123,11 @@ public class Product {
         this.category = category;
     }
 
-    public int getStock() {
+    public Integer getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(Integer stock) {
         this.stock = stock;
     }
 }

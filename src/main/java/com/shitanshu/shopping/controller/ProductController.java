@@ -2,6 +2,9 @@ package com.shitanshu.shopping.controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,29 +26,41 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+
+        return ResponseEntity.ok(productService.getAllProducts());
+
     }
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable int id) {
-        return productService.getProductById(id);
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
+
+        return ResponseEntity.ok(productService.getProductById(id));
+
     }
     
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        return productService.addProduct(product);
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+
+        Product savedProduct = productService.addProduct(product);
+
+        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+
     }
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable int id,
-                                 @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable int id,
+                                                 @RequestBody Product product) {
 
-        return productService.updateProduct(id, product);
+        Product updatedProduct = productService.updateProduct(id, product);
+
+        return ResponseEntity.ok(updatedProduct);
+
     }
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable int id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable int id) {
 
         productService.deleteProduct(id);
 
-        return "Product deleted successfully.";
+        return ResponseEntity.ok("Product deleted successfully.");
+
     }
 }
