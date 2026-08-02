@@ -2,6 +2,7 @@ package com.shitanshu.shopping.controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -39,7 +40,7 @@ public class ProductController {
     }
     
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
 
         Product savedProduct = productService.addProduct(product);
 
@@ -48,7 +49,7 @@ public class ProductController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable int id,
-                                                 @RequestBody Product product) {
+    		@Valid @RequestBody Product product) {
 
         Product updatedProduct = productService.updateProduct(id, product);
 
