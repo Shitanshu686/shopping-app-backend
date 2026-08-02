@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.shitanshu.shopping.dto.ProductResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import com.shitanshu.shopping.dto.ProductRequestDTO;
+
 
 import com.shitanshu.shopping.model.Product;
 import com.shitanshu.shopping.service.ProductService;
@@ -27,33 +30,33 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() {
+    public ResponseEntity<List<ProductResponseDTO>> getProducts() {
 
         return ResponseEntity.ok(productService.getAllProducts());
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id) {
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable int id) {
 
         return ResponseEntity.ok(productService.getProductById(id));
 
     }
     
     @PostMapping
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
+    public ResponseEntity<ProductResponseDTO> addProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO) {
 
-        Product savedProduct = productService.addProduct(product);
+    	ProductResponseDTO response = productService.addProduct(productRequestDTO);
 
-        return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+    	return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable int id,
-    		@Valid @RequestBody Product product) {
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable int id,
+    		@Valid @RequestBody  ProductRequestDTO productRequestDTO) {
 
-        Product updatedProduct = productService.updateProduct(id, product);
+    	ProductResponseDTO response = productService.updateProduct(id, productRequestDTO);
 
-        return ResponseEntity.ok(updatedProduct);
+    	return ResponseEntity.ok(response);
 
     }
     @DeleteMapping("/{id}")

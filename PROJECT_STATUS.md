@@ -158,7 +158,25 @@ Completed
 - Professional REST Responses
 
 ---
+## 🔄 Module 11 : Validation
 
+Status
+
+Completed
+
+Topics
+
+- Validation Dependency
+- @Valid
+- @NotBlank
+- @NotNull
+- @Positive
+- @Min
+- @Max
+- Custom Validation Messages
+- Postman Testing
+
+---
 # Current Features
 
 - ✅ Dynamic Product Listing

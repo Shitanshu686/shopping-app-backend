@@ -33,6 +33,8 @@
 - ✅ @PathVariable
 - ✅ @RequestBody
 - ✅ JSON Request & Response
+- ✅ @RequestMapping
+- ✅ @CrossOrigin
 
 ---
 
@@ -58,6 +60,7 @@
 - ✅ PUT API
 - ✅ DELETE API
 - ✅ CRUD Operations using REST APIs
+- ✅ REST API Design Basics
 - ✅ Postman Testing
 
 ---
@@ -72,29 +75,64 @@
 
 ---
 
+## ✅ Exception Handling
+
+- ✅ Custom Exception
+- ✅ ProductNotFoundException
+- ✅ @ControllerAdvice
+- ✅ @ExceptionHandler
+- ✅ Global Exception Handling
+- ✅ Validation Exception Handling
+- ✅ MethodArgumentNotValidException
+
+---
+
+## ✅ Validation
+
+- ✅ spring-boot-starter-validation
+- ✅ @Valid
+- ✅ @NotBlank
+- ✅ @NotNull
+- ✅ @Positive
+- ✅ @Min
+- ✅ @DecimalMin
+- ✅ @DecimalMax
+- ✅ Custom Validation Messages
+- ✅ Validation Response
+- ✅ Postman Validation Testing
+
+---
+
+## ✅ HTTP Response Handling
+
+- ✅ ResponseEntity
+- ✅ HTTP 200 OK
+- ✅ HTTP 201 CREATED
+- ✅ HTTP 404 NOT FOUND
+- ✅ HTTP 400 BAD REQUEST
+
+---
+
 ## ✅ Development Tools
 
 - ✅ Eclipse IDE
 - ✅ Postman
 - ✅ Git
 - ✅ GitHub
-- ✅ XAMPP
 - ✅ Maven
+- ✅ XAMPP
 
-
-✅ Exception Handling (@ControllerAdvice)
 ---
 
 # 🚀 Next Concepts
 
 ## Professional Backend
 
-- ⬜ Exception Handling (@ControllerAdvice)
-- ⬜ ResponseEntity
-- ⬜ Validation (@Valid)
 - ⬜ DTO (Request / Response)
-- ⬜ Custom Exceptions
+- ⬜ DTO Mapping
 - ⬜ Standard API Response
+- ⬜ API Response Wrapper
+- ⬜ ModelMapper / Manual Mapping
 
 ---
 
@@ -121,21 +159,23 @@
 ## Production Ready
 
 - ⬜ Docker
+- ⬜ Docker Compose
 - ⬜ Deployment
 - ⬜ Production Database
 - ⬜ Environment Variables
+- ⬜ CI/CD
 
 ---
 
 # 📊 Learning Progress
 
-🟩🟩🟩🟩🟩⬜⬜⬜⬜⬜
+🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜
 
-**Overall Spring Boot Progress : ~50%**
+**Overall Spring Boot Progress : ~70%**
 
 ### 🎯 Current Focus
 
-- Professional Backend Development
+- DTO Layer
 - Clean Architecture
 - REST API Best Practices
 - Production Ready Backend Development

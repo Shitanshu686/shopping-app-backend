@@ -1,4 +1,6 @@
 package com.shitanshu.shopping.service;
+import com.shitanshu.shopping.dto.ProductRequestDTO;
+import com.shitanshu.shopping.dto.ProductResponseDTO;
 import com.shitanshu.shopping.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
@@ -17,42 +19,107 @@ public class ProductService {
 	
 	
 	
-    public List<Product> getAllProducts() {
+	public List<ProductResponseDTO> getAllProducts() {
 
 
 
         
-        return productRepository.findAll();
+		List<Product> products = productRepository.findAll();
+		List<ProductResponseDTO> responseList = new ArrayList<>();
+		for (Product product : products) {
+			ProductResponseDTO response = new ProductResponseDTO();
+			response.setId(product.getId());
+			response.setName(product.getName());
+			response.setBrand(product.getBrand());
+			response.setDescription(product.getDescription());
+			response.setPrice(product.getPrice());
+			response.setOldPrice(product.getOldPrice());
+			response.setRating(product.getRating());
+			response.setImage(product.getImage());
+			response.setCategory(product.getCategory());
+			response.setStock(product.getStock());
+			
+			responseList.add(response);
+		}
+		return responseList;
     }
-    public Product getProductById(int id) {
+    public ProductResponseDTO  getProductById(int id) {
 
-        return productRepository.findById(id)
-                .orElseThrow(() ->
-                        new ProductNotFoundException("Product with ID " + id + " not found"));
+    	Product product = productRepository.findById(id)
+    	        .orElseThrow(() ->
+    	                new ProductNotFoundException("Product with ID " + id + " not found"));
+
+    	ProductResponseDTO response = new ProductResponseDTO();
+    	response.setId(product.getId());
+    	response.setName(product.getName());
+    	response.setBrand(product.getBrand());
+    	response.setDescription(product.getDescription());
+    	response.setPrice(product.getPrice());
+    	response.setOldPrice(product.getOldPrice());
+    	response.setRating(product.getRating());
+    	response.setImage(product.getImage());
+    	response.setCategory(product.getCategory());
+    	response.setStock(product.getStock());
+    	
+    	return response;
 
     }
     
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
+    public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO){
+    	Product product = new Product();
+    	product.setName(productRequestDTO.getName());
+    	product.setBrand(productRequestDTO.getBrand());
+    	product.setDescription(productRequestDTO.getDescription());
+    	product.setPrice(productRequestDTO.getPrice());
+    	product.setOldPrice(productRequestDTO.getOldPrice());
+    	product.setRating(productRequestDTO.getRating());
+    	product.setImage(productRequestDTO.getImage());
+    	product.setCategory(productRequestDTO.getCategory());
+    	product.setStock(productRequestDTO.getStock());
+    	Product savedProduct = productRepository.save(product);
+    	ProductResponseDTO response = new ProductResponseDTO();
+    	response.setId(savedProduct.getId());
+    	response.setName(savedProduct.getName());
+    	response.setBrand(savedProduct.getBrand());
+    	response.setDescription(savedProduct.getDescription());
+    	response.setPrice(savedProduct.getPrice());
+    	response.setOldPrice(savedProduct.getOldPrice());
+    	response.setRating(savedProduct.getRating());
+    	response.setImage(savedProduct.getImage());
+    	response.setCategory(savedProduct.getCategory());
+    	response.setStock(savedProduct.getStock());
+    	return response;
     }
     
-    public Product updateProduct(int id, Product updatedProduct) {
+    public ProductResponseDTO updateProduct(int id, ProductRequestDTO productRequestDTO) {
 
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() ->
                         new ProductNotFoundException("Product with ID " + id + " not found"));
 
-        existingProduct.setName(updatedProduct.getName());
-        existingProduct.setBrand(updatedProduct.getBrand());
-        existingProduct.setDescription(updatedProduct.getDescription());
-        existingProduct.setPrice(updatedProduct.getPrice());
-        existingProduct.setOldPrice(updatedProduct.getOldPrice());
-        existingProduct.setRating(updatedProduct.getRating());
-        existingProduct.setImage(updatedProduct.getImage());
-        existingProduct.setCategory(updatedProduct.getCategory());
-        existingProduct.setStock(updatedProduct.getStock());
+        existingProduct.setName(productRequestDTO.getName());
+        existingProduct.setBrand(productRequestDTO.getBrand());
+        existingProduct.setDescription(productRequestDTO.getDescription());
+        existingProduct.setPrice(productRequestDTO.getPrice());
+        existingProduct.setOldPrice(productRequestDTO.getOldPrice());
+        existingProduct.setRating(productRequestDTO.getRating());
+        existingProduct.setImage(productRequestDTO.getImage());
+        existingProduct.setCategory(productRequestDTO.getCategory());
+        existingProduct.setStock(productRequestDTO.getStock());
 
-        return productRepository.save(existingProduct);
+        Product savedProduct = productRepository.save(existingProduct);
+        ProductResponseDTO response = new ProductResponseDTO();
+        response.setId(savedProduct.getId());
+        response.setName(savedProduct.getName());
+        response.setBrand(savedProduct.getBrand());
+        response.setDescription(savedProduct.getDescription());
+        response.setPrice(savedProduct.getPrice());
+        response.setOldPrice(savedProduct.getOldPrice());
+        response.setRating(savedProduct.getRating());
+        response.setImage(savedProduct.getImage());
+        response.setCategory(savedProduct.getCategory());
+        response.setStock(savedProduct.getStock());
+        return response;
     }
     public void deleteProduct(int id) {
 
