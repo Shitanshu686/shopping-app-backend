@@ -7,5 +7,5 @@ import com.shitanshu.shopping.model.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-
+	boolean existsByName(String name);
 }

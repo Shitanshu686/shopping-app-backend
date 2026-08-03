@@ -24,31 +24,13 @@ Status
 
 ---
 
-## 🔄 Module 11 : Validation
 
-Status
-
-⬜ Pending
-
-Topics
-
-- Validation Dependency
-- @Valid
-- @NotBlank
-- @NotNull
-- @Positive
-- @Min
-- @Max
-- Custom Validation Messages
-- Postman Testing
-
----
 
 ## 🔄 Module 12 : DTO Layer
 
 Status
 
-⬜ Pending
+Completed
 
 Topics
 

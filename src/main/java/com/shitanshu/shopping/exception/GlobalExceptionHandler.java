@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.validation.FieldError;
+import com.shitanshu.shopping.exception.ResourceAlreadyExistsException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -26,6 +27,21 @@ public class GlobalExceptionHandler {
         error.put("message", ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleResourceAlreadyExists(
+            ResourceAlreadyExistsException ex) {
+
+        Map<String, Object> error = new LinkedHashMap<>();
+
+        error.put("timestamp", LocalDateTime.now());
+        error.put("status", HttpStatus.CONFLICT.value());
+        error.put("success", false);
+        error.put("error", "Conflict");
+        error.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)

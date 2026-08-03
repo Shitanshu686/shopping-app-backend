@@ -1,4 +1,5 @@
 package com.shitanshu.shopping.service;
+import com.shitanshu.shopping.exception.ResourceAlreadyExistsException;
 import com.shitanshu.shopping.dto.ProductRequestDTO;
 import com.shitanshu.shopping.dto.ProductResponseDTO;
 import com.shitanshu.shopping.repository.ProductRepository;
@@ -66,6 +67,12 @@ public class ProductService {
     }
     
     public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO){
+    	if (productRepository.existsByName(productRequestDTO.getName())) {
+
+    	    throw new ResourceAlreadyExistsException(
+    	            "Product with name '" + productRequestDTO.getName() + "' already exists");
+
+    	}
     	Product product = new Product();
     	product.setName(productRequestDTO.getName());
     	product.setBrand(productRequestDTO.getBrand());
