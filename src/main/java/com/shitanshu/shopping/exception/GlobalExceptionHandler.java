@@ -1,5 +1,5 @@
 package com.shitanshu.shopping.exception;
-
+import com.shitanshu.shopping.response.ApiResponse;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,55 +16,54 @@ import com.shitanshu.shopping.exception.ResourceAlreadyExistsException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleProductNotFound(ProductNotFoundException ex) {
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ResponseEntity<ApiResponse<String>> handleProductNotFound(ProductNotFoundException ex) {
 
-        Map<String, Object> error = new LinkedHashMap<>();
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
 
-        error.put("timestamp", LocalDateTime.now());
-        error.put("status", HttpStatus.NOT_FOUND.value());
-        error.put("error", "Not Found");
-        error.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
     
-    @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ResponseEntity<Map<String, Object>> handleResourceAlreadyExists(
-            ResourceAlreadyExistsException ex) {
+	@ExceptionHandler(ResourceAlreadyExistsException.class)
+	public ResponseEntity<ApiResponse<String>> handleResourceAlreadyExists(
+	        ResourceAlreadyExistsException ex) {
 
-        Map<String, Object> error = new LinkedHashMap<>();
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
 
-        error.put("timestamp", LocalDateTime.now());
-        error.put("status", HttpStatus.CONFLICT.value());
-        error.put("success", false);
-        error.put("error", "Conflict");
-        error.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-    }
+	    return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+	}
     
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidationException(
-            MethodArgumentNotValidException ex) {
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationException(
+	        MethodArgumentNotValidException ex) {
 
-        Map<String, String> errors = new HashMap<>();
+	    Map<String, String> errors = new HashMap<>();
 
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+	    for (FieldError error : ex.getBindingResult().getFieldErrors()) {
 
-            errors.put(error.getField(), error.getDefaultMessage());
+	        errors.put(error.getField(), error.getDefaultMessage());
 
-        }
+	    }
 
-        Map<String, Object> response = new LinkedHashMap<>();
+	    ApiResponse<Map<String, String>> response =
+	            new ApiResponse<>(
+	                    false,
+	                    "Validation Failed",
+	                    errors,
+	                    LocalDateTime.now());
 
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("success", false);
-        response.put("message", "Validation Failed");
-        response.put("errors", errors);
+	    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+	}
 
 }

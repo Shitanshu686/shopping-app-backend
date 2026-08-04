@@ -79,11 +79,13 @@
 
 - ✅ Custom Exception
 - ✅ ProductNotFoundException
+- ✅ ResourceAlreadyExistsException
 - ✅ @ControllerAdvice
 - ✅ @ExceptionHandler
 - ✅ Global Exception Handling
 - ✅ Validation Exception Handling
 - ✅ MethodArgumentNotValidException
+- ✅ Standard Error Response
 
 ---
 
@@ -98,6 +100,7 @@
 - ✅ @DecimalMin
 - ✅ @DecimalMax
 - ✅ Custom Validation Messages
+- ✅ DTO Validation
 - ✅ Validation Response
 - ✅ Postman Validation Testing
 
@@ -106,33 +109,77 @@
 ## ✅ HTTP Response Handling
 
 - ✅ ResponseEntity
+- ✅ Generic ApiResponse<T>
+- ✅ Standard Success Response
+- ✅ Standard Error Response
 - ✅ HTTP 200 OK
 - ✅ HTTP 201 CREATED
-- ✅ HTTP 404 NOT FOUND
 - ✅ HTTP 400 BAD REQUEST
+- ✅ HTTP 404 NOT FOUND
+- ✅ HTTP 409 CONFLICT
+
+---
+
+## ✅ Professional Backend
+
+- ✅ ProductRequestDTO
+- ✅ ProductResponseDTO
+- ✅ DTO Pattern
+- ✅ DTO Mapping (Manual)
+- ✅ Entity to DTO Conversion
+- ✅ DTO to Entity Conversion
+- ✅ Generic API Response
+- ✅ ApiResponse<T>
+- ✅ Response Wrapper
+- ✅ Clean REST Response Structure
+
+---
+
+## ✅ Backend Architecture
+
+- ✅ Layered Architecture
+- ✅ Controller Layer
+- ✅ Service Layer
+- ✅ Repository Layer
+- ✅ DTO Layer
+- ✅ Exception Handling Layer
+- ✅ Generic Response Pattern
 
 ---
 
 ## ✅ Development Tools
 
 - ✅ Eclipse IDE
+- ✅ Maven
 - ✅ Postman
 - ✅ Git
 - ✅ GitHub
-- ✅ Maven
 - ✅ XAMPP
 
 ---
 
 # 🚀 Next Concepts
 
-## Professional Backend
+## Authentication & Authorization
 
-- ⬜ DTO (Request / Response)
-- ⬜ DTO Mapping
-- ⬜ Standard API Response
-- ⬜ API Response Wrapper
-- ⬜ ModelMapper / Manual Mapping
+- ⬜ User Entity
+- ⬜ User Repository
+- ⬜ User Service
+- ⬜ User Controller
+- ⬜ Register API
+- ⬜ Login API
+- ⬜ BCrypt Password Encoder
+
+---
+
+## Spring Security
+
+- ⬜ Spring Security
+- ⬜ JWT Authentication
+- ⬜ JWT Authorization
+- ⬜ JWT Filter
+- ⬜ Protected APIs
+- ⬜ Role Based Authorization
 
 ---
 
@@ -147,35 +194,50 @@
 
 ---
 
-## Security
+## Microservices
 
-- ⬜ Spring Security
-- ⬜ BCrypt Password Encoder
-- ⬜ JWT Authentication
-- ⬜ Role Based Authorization (ADMIN / USER)
+- ⬜ API Gateway
+- ⬜ Product Service
+- ⬜ User Service
+- ⬜ Cart Service
+- ⬜ Order Service
+- ⬜ Payment Service
+- ⬜ Service Communication
+
+---
+
+## DevOps
+
+- ⬜ Docker
+- ⬜ Docker Compose
+- ⬜ GitHub Actions
+- ⬜ CI/CD Pipeline
 
 ---
 
 ## Production Ready
 
-- ⬜ Docker
-- ⬜ Docker Compose
 - ⬜ Deployment
 - ⬜ Production Database
 - ⬜ Environment Variables
-- ⬜ CI/CD
+- ⬜ Cloud Hosting
+- ⬜ Production Configuration
 
 ---
 
 # 📊 Learning Progress
 
-🟩🟩🟩🟩🟩🟩🟩⬜⬜⬜
+🟩🟩🟩🟩🟩🟩⬜⬜⬜⬜
 
-**Overall Spring Boot Progress : ~70%**
+**Overall Spring Boot Progress : ~60%**
 
-### 🎯 Current Focus
+---
 
-- DTO Layer
-- Clean Architecture
-- REST API Best Practices
+## 🎯 Current Focus
+
+- User Management
+- Authentication
+- Spring Security
+- JWT
+- Role Based Authorization
 - Production Ready Backend Development

@@ -45,29 +45,35 @@ Topics
 
 Status
 
-⬜ Pending
+✔ Completed
 
 Topics
 
-- ResourceAlreadyExistsException
-- BadRequestException
-- InvalidDataException
-- Better Error Messages
+- ResourceAlreadyExistsException✔ Completed
+- BadRequestException⬜ Pending
+- InvalidDataException⬜ Pending
+- Better Error Messages⬜ Pending
 
 ---
-
-## 🔄 Module 14 : Standard API Response
+## ✅ Module 14 : Standard API Response
 
 Status
 
-⬜ Pending
+✔ Completed
 
 Topics
 
-- ApiResponse
-- Success Response
-- Error Response
-- Common Response Structure
+- ApiResponse<T>
+- Standard Success Response
+- Standard Error Response
+- GET Response
+- POST Response
+- PUT Response
+- DELETE Response
+- Validation Error Response
+- ProductNotFoundException Response
+- ResourceAlreadyExistsException Response
+- DTO Validation
 
 ---
 

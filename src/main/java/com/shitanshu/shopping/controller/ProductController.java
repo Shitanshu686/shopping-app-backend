@@ -1,4 +1,6 @@
 package com.shitanshu.shopping.controller;
+import java.time.LocalDateTime;
+import com.shitanshu.shopping.response.ApiResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
@@ -30,41 +32,82 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getProducts() {
+    public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> getProducts() {
 
-        return ResponseEntity.ok(productService.getAllProducts());
+        List<ProductResponseDTO> products = productService.getAllProducts();
+
+        ApiResponse<List<ProductResponseDTO>> response =
+                new ApiResponse<>(
+                        true,
+                        "Products fetched successfully",
+                        products,
+                        LocalDateTime.now());
+
+        return ResponseEntity.ok(response);
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable int id) {
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> getProductById(@PathVariable int id) {
 
-        return ResponseEntity.ok(productService.getProductById(id));
+        ProductResponseDTO product = productService.getProductById(id);
+
+        ApiResponse<ProductResponseDTO> response =
+                new ApiResponse<>(
+                        true,
+                        "Product fetched successfully",
+                        product,
+                        LocalDateTime.now());
+
+        return ResponseEntity.ok(response);
 
     }
     
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> addProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO) {
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> addProduct(
+            @Valid @RequestBody ProductRequestDTO productRequestDTO) {
 
-    	ProductResponseDTO response = productService.addProduct(productRequestDTO);
+        ProductResponseDTO product = productService.addProduct(productRequestDTO);
 
-    	return new ResponseEntity<>(response, HttpStatus.CREATED);
+        ApiResponse<ProductResponseDTO> response =
+                new ApiResponse<>(
+                        true,
+                        "Product created successfully",
+                        product,
+                        LocalDateTime.now());
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable int id,
-    		@Valid @RequestBody  ProductRequestDTO productRequestDTO) {
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> updateProduct(
+            @PathVariable int id,
+            @Valid @RequestBody ProductRequestDTO productRequestDTO) {
 
-    	ProductResponseDTO response = productService.updateProduct(id, productRequestDTO);
+        ProductResponseDTO product = productService.updateProduct(id, productRequestDTO);
 
-    	return ResponseEntity.ok(response);
+        ApiResponse<ProductResponseDTO> response =
+                new ApiResponse<>(
+                        true,
+                        "Product updated successfully",
+                        product,
+                        LocalDateTime.now());
+
+        return ResponseEntity.ok(response);
 
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable int id) {
+    public ResponseEntity<ApiResponse<String>> deleteProduct(@PathVariable int id) {
 
         productService.deleteProduct(id);
 
-        return ResponseEntity.ok("Product deleted successfully.");
+        ApiResponse<String> response =
+                new ApiResponse<>(
+                        true,
+                        "Product deleted successfully",
+                        null,
+                        LocalDateTime.now());
+
+        return ResponseEntity.ok(response);
 
     }
 }
