@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.validation.FieldError;
 import com.shitanshu.shopping.exception.ResourceAlreadyExistsException;
-
+import com.shitanshu.shopping.exception.InvalidCredentialsException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -63,6 +63,20 @@ public class GlobalExceptionHandler {
 	                    LocalDateTime.now());
 
 	    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+	}
+	@ExceptionHandler(InvalidCredentialsException.class)
+	public ResponseEntity<ApiResponse<String>> handleInvalidCredentials(
+	        InvalidCredentialsException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 
 	}
 
