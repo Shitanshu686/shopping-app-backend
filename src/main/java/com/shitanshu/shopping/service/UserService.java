@@ -10,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.shitanshu.shopping.dto.LoginRequestDTO;
 import java.util.Optional;
 import com.shitanshu.shopping.exception.InvalidCredentialsException;
+import com.shitanshu.shopping.security.JwtUtil;
+import com.shitanshu.shopping.dto.LoginResponseDTO;
+
 @Service
 public class UserService {
 	@Autowired
@@ -18,6 +21,8 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	@Autowired
+    private JwtUtil jwtUtil;
 	public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
 		if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
 
@@ -43,7 +48,7 @@ public class UserService {
 
 		    return response;
 	}
-	public UserResponseDTO loginUser(LoginRequestDTO loginRequestDTO) {
+	public LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO) {
 		Optional<User> optionalUser =
 		        userRepository.findByEmail(loginRequestDTO.getEmail());
 		if (optionalUser.isEmpty()) {
@@ -65,7 +70,7 @@ public class UserService {
 		response.setName(user.getName());
 		response.setEmail(user.getEmail());
 		response.setRole(user.getRole());
-
-		return response;
+		String token = jwtUtil.generateToken(user.getEmail());
+		return new LoginResponseDTO(token, response);
 	}
 }

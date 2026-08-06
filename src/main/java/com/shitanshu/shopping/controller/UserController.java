@@ -11,7 +11,7 @@ import com.shitanshu.shopping.dto.LoginRequestDTO;
 import java.time.LocalDateTime;
 import com.shitanshu.shopping.dto.UserRequestDTO;
 import com.shitanshu.shopping.dto.UserResponseDTO;
-
+import com.shitanshu.shopping.dto.LoginResponseDTO;
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -34,13 +34,13 @@ public class UserController {
 	    return ResponseEntity.ok(apiResponse);
 	}
 	@PostMapping("/login")
-	public ResponseEntity<ApiResponse<UserResponseDTO>> loginUser(
+	public ResponseEntity<ApiResponse<LoginResponseDTO>> loginUser(
 	        @RequestBody LoginRequestDTO loginRequestDTO) {
 
-	    UserResponseDTO response =
+	    LoginResponseDTO response =
 	            userService.loginUser(loginRequestDTO);
 
-	    ApiResponse<UserResponseDTO> apiResponse =
+	    ApiResponse<LoginResponseDTO> apiResponse =
 	            new ApiResponse<>(
 	                    true,
 	                    "Login Successful",
