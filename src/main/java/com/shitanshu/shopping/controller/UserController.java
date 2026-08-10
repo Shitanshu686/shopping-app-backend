@@ -12,8 +12,11 @@ import java.time.LocalDateTime;
 import com.shitanshu.shopping.dto.UserRequestDTO;
 import com.shitanshu.shopping.dto.UserResponseDTO;
 import com.shitanshu.shopping.dto.LoginResponseDTO;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "*")
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -49,5 +52,17 @@ public class UserController {
 
 	    return ResponseEntity.ok(apiResponse);
 
+	}
+	@GetMapping("/profile")
+	public ResponseEntity<ApiResponse<String>> profile() {
+
+	    ApiResponse<String> apiResponse =
+	            new ApiResponse<>(
+	                    true,
+	                    "JWT Authentication Working",
+	                    "User is authenticated",
+	                    LocalDateTime.now());
+
+	    return ResponseEntity.ok(apiResponse);
 	}
 }
