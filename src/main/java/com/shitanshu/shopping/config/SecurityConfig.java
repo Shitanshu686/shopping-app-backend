@@ -68,13 +68,49 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                	    .requestMatchers(
-                	        "/users/login",
-                	        "/users/register",
-                	        "/products",
-                	        "/products/**"
-                	    ).permitAll()
-                	    .anyRequest().authenticated())
+
+                        // ======================
+                        // PUBLIC APIs
+                        // ======================
+
+                        .requestMatchers(
+                            "/users/login",
+                            "/users/register"
+                        ).permitAll()
+
+                        .requestMatchers(
+                            org.springframework.http.HttpMethod.GET,
+                            "/products",
+                            "/products/**"
+                        ).permitAll()
+
+
+                        // ======================
+                        // ADMIN ONLY APIs
+                        // ======================
+
+                        .requestMatchers(
+                            org.springframework.http.HttpMethod.POST,
+                            "/products"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                            org.springframework.http.HttpMethod.PUT,
+                            "/products/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                            org.springframework.http.HttpMethod.DELETE,
+                            "/products/**"
+                        ).hasRole("ADMIN")
+
+
+                        // ======================
+                        // EVERYTHING ELSE
+                        // ======================
+
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(
                 	    jwtAuthenticationFilter,
                 	    UsernamePasswordAuthenticationFilter.class

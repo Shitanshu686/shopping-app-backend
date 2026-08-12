@@ -70,7 +70,11 @@ public class UserService {
 		response.setName(user.getName());
 		response.setEmail(user.getEmail());
 		response.setRole(user.getRole());
-		String token = jwtUtil.generateToken(user.getEmail());
+		String token =
+			    jwtUtil.generateToken(
+			        user.getEmail(),
+			        user.getRole()
+			    );
 		return new LoginResponseDTO(token, response);
 	}
 }
