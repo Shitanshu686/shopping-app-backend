@@ -65,6 +65,46 @@ public class ProductService {
     	return response;
 
     }
+    public List<ProductResponseDTO> getSimilarProducts(int id) {
+
+        Product currentProduct =
+                productRepository.findById(id)
+                .orElseThrow(() ->
+                    new ProductNotFoundException(
+                        "Product with ID " + id + " not found"
+                    )
+                );
+
+        List<Product> similarProducts =
+                productRepository.findTop4ByCategoryAndIdNot(
+                        currentProduct.getCategory(),
+                        id
+                );
+
+        List<ProductResponseDTO> responseList =
+                new ArrayList<>();
+
+        for (Product product : similarProducts) {
+
+            ProductResponseDTO response =
+                    new ProductResponseDTO();
+
+            response.setId(product.getId());
+            response.setName(product.getName());
+            response.setBrand(product.getBrand());
+            response.setDescription(product.getDescription());
+            response.setPrice(product.getPrice());
+            response.setOldPrice(product.getOldPrice());
+            response.setRating(product.getRating());
+            response.setImage(product.getImage());
+            response.setCategory(product.getCategory());
+            response.setStock(product.getStock());
+
+            responseList.add(response);
+        }
+
+        return responseList;
+    }
     
     public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO){
     	if (productRepository.existsByName(productRequestDTO.getName())) {

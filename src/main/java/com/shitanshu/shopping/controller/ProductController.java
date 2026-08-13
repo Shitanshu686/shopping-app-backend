@@ -61,7 +61,23 @@ public class ProductController {
         return ResponseEntity.ok(response);
 
     }
-    
+    @GetMapping("/{id}/similar")
+    public ResponseEntity<ApiResponse<List<ProductResponseDTO>>>
+    getSimilarProducts(@PathVariable int id) {
+
+        List<ProductResponseDTO> products =
+                productService.getSimilarProducts(id);
+
+        ApiResponse<List<ProductResponseDTO>> response =
+                new ApiResponse<>(
+                        true,
+                        "Similar products fetched successfully",
+                        products,
+                        LocalDateTime.now()
+                );
+
+        return ResponseEntity.ok(response);
+    }
     @PostMapping
     public ResponseEntity<ApiResponse<ProductResponseDTO>> addProduct(
             @Valid @RequestBody ProductRequestDTO productRequestDTO) {

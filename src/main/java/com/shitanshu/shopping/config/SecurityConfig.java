@@ -93,6 +93,11 @@ public class SecurityConfig {
                             org.springframework.http.HttpMethod.POST,
                             "/products"
                         ).hasRole("ADMIN")
+                        
+                        .requestMatchers(
+                        	    org.springframework.http.HttpMethod.POST,
+                        	    "/products/*/specifications"
+                        	).hasRole("ADMIN")
 
                         .requestMatchers(
                             org.springframework.http.HttpMethod.PUT,
