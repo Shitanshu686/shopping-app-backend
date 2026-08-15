@@ -13,6 +13,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.validation.FieldError;
 import com.shitanshu.shopping.exception.ResourceAlreadyExistsException;
 import com.shitanshu.shopping.exception.InvalidCredentialsException;
+import com.shitanshu.shopping.exception.UserNotFoundException;
+import com.shitanshu.shopping.exception.CartItemNotBelongToUserException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -79,5 +81,56 @@ public class GlobalExceptionHandler {
 	    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 
 	}
+	@ExceptionHandler(InsufficientStockException.class)
+	public ResponseEntity<ApiResponse<String>> handleInsufficientStock(
+	        InsufficientStockException ex) {
 
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ApiResponse<String>> handleUserNotFound(
+	        UserNotFoundException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(CartItemNotFoundException.class)
+	public ResponseEntity<ApiResponse<String>> handleCartItemNotFound(
+	        CartItemNotFoundException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(CartItemNotBelongToUserException.class)
+	public ResponseEntity<ApiResponse<String>> handleCartItemNotBelongToUser(
+	        CartItemNotBelongToUserException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+	}
 }

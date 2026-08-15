@@ -2,7 +2,7 @@
 
 Current Module
 
-➡ Module 11 : Validation
+➡ Module 18 : Product Details
 
 ---
 
@@ -24,13 +24,30 @@ Status
 
 ---
 
-
-
-## 🔄 Module 12 : DTO Layer
+## ✅ Module 11 : Validation
 
 Status
 
-Completed
+✔ Completed
+
+Topics
+
+- Validation Dependency
+- @Valid
+- @NotBlank
+- @NotNull
+- @Positive
+- @Min
+- @Max
+- Custom Validation Messages
+
+---
+
+## ✅ Module 12 : DTO Layer
+
+Status
+
+✔ Completed
 
 Topics
 
@@ -45,16 +62,17 @@ Topics
 
 Status
 
-✔ Completed
+🔄 Partially Completed
 
 Topics
 
-- ResourceAlreadyExistsException✔ Completed
-- BadRequestException⬜ Pending
-- InvalidDataException⬜ Pending
-- Better Error Messages⬜ Pending
+- ResourceAlreadyExistsException ✔ Completed
+- BadRequestException ⬜ Pending
+- InvalidDataException ⬜ Pending
+- Better Error Messages ✔ Completed
 
 ---
+
 ## ✅ Module 14 : Standard API Response
 
 Status
@@ -79,7 +97,7 @@ Topics
 
 # 🚀 Phase 3 : Authentication
 
-## 🔄 Module 15 : User Management
+## ✅ Module 15 : User Management
 
 Status
 
@@ -94,7 +112,7 @@ Topics
 
 ---
 
-## 🔄 Module 16 : Spring Security + JWT
+## ✅ Module 16 : Spring Security + JWT
 
 Status
 
@@ -110,11 +128,11 @@ Topics
 
 ---
 
-## 🔄 Module 17 : Role Based Authorization
+## ✅ Module 17 : Role Based Authorization
 
 Status
-✔ Completed
 
+✔ Completed
 
 Topics
 
@@ -126,17 +144,28 @@ Topics
 
 # 🚀 Phase 4 : E-Commerce Features
 
-## 🔄 Module 18 : Product Details
+## ✅ Module 18 : Product Details
 
 Status
 
-⬜ Pending
+✔ Completed
 
 Topics
 
-- Product Details
-- Specifications
+- Product Details API
+- Product Specifications
+- Specification Validation
+- Duplicate Specification Prevention
 - Similar Products
+- Similar Products Limited to 4
+- ADMIN Authorization for Specification Creation
+
+APIs
+
+- GET /products/{id}
+- POST /products/{id}/specifications
+- GET /products/{id}/specifications
+- GET /products/{id}/similar
 
 ---
 
@@ -144,7 +173,7 @@ Topics
 
 Status
 
-⬜ Pending
+✔ Completed
 
 Topics
 
