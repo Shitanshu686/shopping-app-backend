@@ -15,6 +15,9 @@ import com.shitanshu.shopping.exception.ResourceAlreadyExistsException;
 import com.shitanshu.shopping.exception.InvalidCredentialsException;
 import com.shitanshu.shopping.exception.UserNotFoundException;
 import com.shitanshu.shopping.exception.CartItemNotBelongToUserException;
+import com.shitanshu.shopping.exception.WishlistItemNotFoundException;
+import com.shitanshu.shopping.exception.WishlistItemNotBelongToUserException;
+import com.shitanshu.shopping.exception.WishlistAlreadyExistsException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -133,4 +136,64 @@ public class GlobalExceptionHandler {
 
 	    return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
 	}
+	// =========================
+	// WISHLIST ITEM NOT FOUND
+	// =========================
+
+	@ExceptionHandler(WishlistItemNotFoundException.class)
+	public ResponseEntity<ApiResponse<String>> handleWishlistItemNotFound(
+	        WishlistItemNotFoundException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(
+	            response,
+	            HttpStatus.NOT_FOUND);
+	}
+
+
+	// =========================
+	// WISHLIST ITEM NOT BELONG TO USER
+	// =========================
+
+	@ExceptionHandler(WishlistItemNotBelongToUserException.class)
+	public ResponseEntity<ApiResponse<String>> handleWishlistItemNotBelongToUser(
+	        WishlistItemNotBelongToUserException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(
+	            response,
+	            HttpStatus.FORBIDDEN);
+	}
+	// =========================
+	// WISHLIST ALREADY EXISTS
+	// =========================
+
+	@ExceptionHandler(WishlistAlreadyExistsException.class)
+	public ResponseEntity<ApiResponse<String>> handleWishlistAlreadyExists(
+	        WishlistAlreadyExistsException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(
+	            response,
+	            HttpStatus.CONFLICT);
+	}
+	
 }
