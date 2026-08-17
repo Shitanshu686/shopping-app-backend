@@ -195,5 +195,42 @@ public class GlobalExceptionHandler {
 	            response,
 	            HttpStatus.CONFLICT);
 	}
-	
+	// =========================
+	// ORDER NOT FOUND
+	// =========================
+
+	@ExceptionHandler(OrderNotFoundException.class)
+	public ResponseEntity<ApiResponse<String>> handleOrderNotFound(
+	        OrderNotFoundException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(
+	            response,
+	            HttpStatus.NOT_FOUND);
+	}
+	// =========================
+	// ORDER DOES NOT BELONG TO USER
+	// =========================
+
+	@ExceptionHandler(OrderNotBelongToUserException.class)
+	public ResponseEntity<ApiResponse<String>> handleOrderNotBelongToUser(
+	        OrderNotBelongToUserException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(
+	            response,
+	            HttpStatus.FORBIDDEN);
+	}
 }

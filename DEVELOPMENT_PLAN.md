@@ -190,7 +190,7 @@ Topics
 
 Status
 
-⬜ Pending
+✔ Completed
 
 Topics
 
