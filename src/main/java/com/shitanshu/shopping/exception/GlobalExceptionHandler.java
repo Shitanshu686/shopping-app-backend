@@ -233,4 +233,23 @@ public class GlobalExceptionHandler {
 	            response,
 	            HttpStatus.FORBIDDEN);
 	}
+	// =========================
+	// INVALID ORDER STATUS
+	// =========================
+
+	@ExceptionHandler(InvalidOrderStatusException.class)
+	public ResponseEntity<ApiResponse<String>> handleInvalidOrderStatus(
+	        InvalidOrderStatusException ex) {
+
+	    ApiResponse<String> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now());
+
+	    return new ResponseEntity<>(
+	            response,
+	            HttpStatus.BAD_REQUEST);
+	}
 }

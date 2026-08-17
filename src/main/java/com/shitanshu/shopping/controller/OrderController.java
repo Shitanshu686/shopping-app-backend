@@ -14,7 +14,7 @@ import com.shitanshu.shopping.dto.CreateOrderRequestDTO;
 import com.shitanshu.shopping.dto.OrderResponseDTO;
 import com.shitanshu.shopping.response.ApiResponse;
 import com.shitanshu.shopping.service.OrderService;
-
+import com.shitanshu.shopping.dto.UpdateOrderStatusDTO;
 @RestController
 @RequestMapping("/orders")
 @CrossOrigin(origins = "*")
@@ -110,5 +110,30 @@ public class OrderController {
 
         return ResponseEntity.ok(response);
     }
+ // =========================
+ // UPDATE ORDER STATUS
+ // ADMIN ONLY
+ // =========================
 
+ @PutMapping("/{orderId}/status")
+ public ResponseEntity<ApiResponse<OrderResponseDTO>> updateOrderStatus(
+         @PathVariable Integer orderId,
+         @Valid @RequestBody UpdateOrderStatusDTO request) {
+
+     OrderResponseDTO order =
+             orderService.updateOrderStatus(
+                     orderId,
+                     request
+             );
+
+     ApiResponse<OrderResponseDTO> response =
+             new ApiResponse<>(
+                     true,
+                     "Order status updated successfully",
+                     order,
+                     LocalDateTime.now()
+             );
+
+     return ResponseEntity.ok(response);
+ }
 }

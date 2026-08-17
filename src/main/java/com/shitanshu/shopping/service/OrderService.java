@@ -11,12 +11,14 @@ import com.shitanshu.shopping.dto.CreateOrderRequestDTO;
 import com.shitanshu.shopping.dto.OrderItemResponseDTO;
 import com.shitanshu.shopping.dto.OrderResponseDTO;
 import com.shitanshu.shopping.dto.ShippingAddressDTO;
+import com.shitanshu.shopping.dto.UpdateOrderStatusDTO;
 
 import com.shitanshu.shopping.exception.CartItemNotFoundException;
 import com.shitanshu.shopping.exception.InsufficientStockException;
 import com.shitanshu.shopping.exception.UserNotFoundException;
 import com.shitanshu.shopping.exception.OrderNotFoundException;
 import com.shitanshu.shopping.exception.OrderNotBelongToUserException;
+import com.shitanshu.shopping.exception.InvalidOrderStatusException;
 
 import com.shitanshu.shopping.model.Cart;
 import com.shitanshu.shopping.model.CartItem;
@@ -109,7 +111,6 @@ public class OrderService {
             throw new CartItemNotFoundException(
                     "Cannot place order with an empty cart"
             );
-
         }
 
 
@@ -185,9 +186,7 @@ public class OrderService {
                                 + product.getName()
                                 + "'"
                 );
-
             }
-
         }
     }
 
@@ -256,7 +255,6 @@ public class OrderService {
 
 
             total += subtotal;
-
         }
 
 
@@ -340,7 +338,6 @@ public class OrderService {
 
 
             orderItems.add(orderItem);
-
         }
 
 
@@ -383,7 +380,6 @@ public class OrderService {
             responses.add(
                     buildOrderResponse(order)
             );
-
         }
 
 
@@ -413,10 +409,11 @@ public class OrderService {
                 orderRepository
                         .findById(orderId)
                         .orElseThrow(() ->
-                        new OrderNotFoundException(
-                                "Order with ID " + orderId + " not found"
-                        )
-                );
+                                new OrderNotFoundException(
+                                        "Order with ID "
+                                        + orderId
+                                        + " not found"
+                                ));
 
 
         // =========================
@@ -427,10 +424,9 @@ public class OrderService {
                 .getId()
                 .equals(user.getId())) {
 
-        	throw new OrderNotBelongToUserException(
-        	        "Order does not belong to this user"
-        	);
-
+            throw new OrderNotBelongToUserException(
+                    "Order does not belong to this user"
+            );
         }
 
 
@@ -542,6 +538,160 @@ public class OrderService {
 
 
         return response;
+    }
+
+
+    // =====================================================
+    // UPDATE ORDER STATUS
+    // =====================================================
+
+    public OrderResponseDTO updateOrderStatus(
+            Integer orderId,
+            UpdateOrderStatusDTO request) {
+
+
+        // =========================
+        // FIND ORDER
+        // =========================
+
+        Order order =
+                orderRepository
+                        .findById(orderId)
+                        .orElseThrow(() ->
+                                new OrderNotFoundException(
+                                        "Order with ID "
+                                        + orderId
+                                        + " not found"
+                                ));
+
+
+        // =========================
+        // CURRENT STATUS
+        // =========================
+
+        OrderStatus currentStatus =
+                order.getStatus();
+
+
+        // =========================
+        // NEW STATUS
+        // =========================
+
+        OrderStatus newStatus =
+                request.getStatus();
+
+
+        // =========================
+        // VALIDATE STATUS TRANSITION
+        // =========================
+
+        validateStatusTransition(
+                currentStatus,
+                newStatus
+        );
+
+
+        // =========================
+        // UPDATE STATUS
+        // =========================
+
+        order.setStatus(
+                newStatus
+        );
+
+
+        // =========================
+        // SAVE ORDER
+        // =========================
+
+        Order updatedOrder =
+                orderRepository.save(order);
+
+
+        // =========================
+        // RETURN UPDATED ORDER
+        // =========================
+
+        return buildOrderResponse(
+                updatedOrder
+        );
+    }
+
+
+    // =====================================================
+    // VALIDATE ORDER STATUS TRANSITION
+    // =====================================================
+
+    private void validateStatusTransition(
+            OrderStatus currentStatus,
+            OrderStatus newStatus) {
+
+
+        // =========================
+        // SAME STATUS
+        // =========================
+
+        if (currentStatus == newStatus) {
+
+            throw new InvalidOrderStatusException(
+                    "Order is already in "
+                    + currentStatus
+                    + " status"
+            );
+        }
+
+
+        // =========================
+        // PENDING
+        // =========================
+
+        if (currentStatus == OrderStatus.PENDING) {
+
+            if (newStatus == OrderStatus.CONFIRMED ||
+                newStatus == OrderStatus.CANCELLED) {
+
+                return;
+            }
+        }
+
+
+        // =========================
+        // CONFIRMED
+        // =========================
+
+        if (currentStatus == OrderStatus.CONFIRMED) {
+
+            if (newStatus == OrderStatus.SHIPPED ||
+                newStatus == OrderStatus.CANCELLED) {
+
+                return;
+            }
+        }
+
+
+        // =========================
+        // SHIPPED
+        // =========================
+
+        if (currentStatus == OrderStatus.SHIPPED) {
+
+            if (newStatus == OrderStatus.DELIVERED) {
+
+                return;
+            }
+        }
+
+
+        // =========================
+        // INVALID TRANSITION
+        // =========================
+
+        throw new InvalidOrderStatusException(
+                "Invalid order status transition from "
+                + currentStatus
+                + " to "
+                + newStatus
+        );
     }
 
 }

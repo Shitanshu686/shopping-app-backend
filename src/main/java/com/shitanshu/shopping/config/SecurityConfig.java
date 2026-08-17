@@ -103,6 +103,10 @@ public class SecurityConfig {
                             org.springframework.http.HttpMethod.PUT,
                             "/products/**"
                         ).hasRole("ADMIN")
+                        .requestMatchers(
+                        	    org.springframework.http.HttpMethod.PUT,
+                        	    "/orders/*/status"
+                        	).hasRole("ADMIN")
 
                         .requestMatchers(
                             org.springframework.http.HttpMethod.DELETE,
