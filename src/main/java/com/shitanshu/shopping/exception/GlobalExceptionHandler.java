@@ -252,4 +252,20 @@ public class GlobalExceptionHandler {
 	            response,
 	            HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<ApiResponse<Object>> handleBadRequest(
+	        BadRequestException ex) {
+
+	    ApiResponse<Object> response =
+	            new ApiResponse<>(
+	                    false,
+	                    ex.getMessage(),
+	                    null,
+	                    LocalDateTime.now()
+	            );
+
+	    return ResponseEntity
+	            .badRequest()
+	            .body(response);
+	}
 }

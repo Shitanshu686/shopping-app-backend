@@ -14,6 +14,10 @@ import com.shitanshu.shopping.dto.UserResponseDTO;
 import com.shitanshu.shopping.dto.LoginResponseDTO;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.shitanshu.shopping.dto.ChangePasswordRequestDTO;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PutMapping;
+import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "*")
@@ -62,6 +66,29 @@ public class UserController {
 	                    "JWT Authentication Working",
 	                    "User is authenticated",
 	                    LocalDateTime.now());
+
+	    return ResponseEntity.ok(apiResponse);
+	}
+	@PutMapping("/change-password")
+	public ResponseEntity<ApiResponse<String>> changePassword(
+			@Valid @RequestBody ChangePasswordRequestDTO request,
+	        Authentication authentication) {
+
+	    String email =
+	            authentication.getName();
+
+	    userService.changePassword(
+	            email,
+	            request
+	    );
+
+	    ApiResponse<String> apiResponse =
+	            new ApiResponse<>(
+	                    true,
+	                    "Password changed successfully",
+	                    null,
+	                    LocalDateTime.now()
+	            );
 
 	    return ResponseEntity.ok(apiResponse);
 	}

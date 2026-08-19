@@ -12,7 +12,8 @@ import java.util.Optional;
 import com.shitanshu.shopping.exception.InvalidCredentialsException;
 import com.shitanshu.shopping.security.JwtUtil;
 import com.shitanshu.shopping.dto.LoginResponseDTO;
-
+import com.shitanshu.shopping.dto.ChangePasswordRequestDTO;
+import com.shitanshu.shopping.exception.BadRequestException;
 @Service
 public class UserService {
 	@Autowired
@@ -76,5 +77,93 @@ public class UserService {
 			        user.getRole()
 			    );
 		return new LoginResponseDTO(token, response);
+	}
+	public void changePassword(
+	        String email,
+	        ChangePasswordRequestDTO request) {
+
+	    // ======================
+	    // FIND USER
+	    // ======================
+
+	    Optional<User> optionalUser =
+	            userRepository.findByEmail(email);
+
+	    if (optionalUser.isEmpty()) {
+
+	        throw new InvalidCredentialsException(
+	                "User not found"
+	        );
+
+	    }
+
+	    User user =
+	            optionalUser.get();
+
+
+	    // ======================
+	    // VERIFY CURRENT PASSWORD
+	    // ======================
+
+	    if (!passwordEncoder.matches(
+	            request.getCurrentPassword(),
+	            user.getPassword())) {
+
+	        throw new InvalidCredentialsException(
+	                "Current password is incorrect"
+	        );
+
+	    }
+
+
+	    // ======================
+	    // CONFIRM NEW PASSWORD
+	    // ======================
+
+	    if (!request.getNewPassword().equals(
+	            request.getConfirmPassword())) {
+
+	    	throw new BadRequestException(
+	    	        "New password and confirm password do not match"
+	    	);
+
+	    }
+
+
+	    // ======================
+	    // PREVENT SAME PASSWORD
+	    // ======================
+
+	    if (passwordEncoder.matches(
+	            request.getNewPassword(),
+	            user.getPassword())) {
+
+	    	throw new BadRequestException(
+	    	        "New password must be different from current password"
+	    	);
+
+	    }
+
+
+	    // ======================
+	    // HASH NEW PASSWORD
+	    // ======================
+
+	    String encodedPassword =
+	            passwordEncoder.encode(
+	                    request.getNewPassword()
+	            );
+
+
+	    // ======================
+	    // UPDATE PASSWORD
+	    // ======================
+
+	    user.setPassword(
+	            encodedPassword
+	    );
+
+	    userRepository.save(user);
+
 	}
 }

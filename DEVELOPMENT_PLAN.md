@@ -1,9 +1,5 @@
 # 📋 ShopEase Development Plan
 
-Current Module
-
-➡ Module 18 : Product Details
-
 ---
 
 # 🚀 Phase 2 : Professional Backend
@@ -169,7 +165,7 @@ APIs
 
 ---
 
-## 🔄 Module 19 : Shopping Cart Backend
+## ✅ Module 19 : Shopping Cart Backend
 
 Status
 
@@ -183,10 +179,12 @@ Topics
 - Remove Item
 - View Cart
 - Persistent Cart
+- Cart ↔ User Association
+- JWT Protected Cart APIs
 
 ---
 
-## 🔄 Module 20 : Wishlist
+## ✅ Module 20 : Wishlist
 
 Status
 
@@ -198,14 +196,16 @@ Topics
 - Add Wishlist
 - Remove Wishlist
 - View Wishlist
+- User-specific Wishlist
+- Wishlist UI Integration
 
 ---
 
-## 🔄 Module 21 : Orders
+## ✅ Module 21 : Orders
 
 Status
 
-⬜ Pending
+✔ Completed
 
 Topics
 
@@ -213,10 +213,129 @@ Topics
 - Shipping Address
 - Order Entity
 - Order Items
+- Order Creation
+- Order ID Generation
 - Order History
+- User-specific Order History
 - Order Status
+- Order Status Validation
+- Invalid Order Status Transition Handling
+- Order Details
+- Order Success Page
+- My Orders
+- View Order
+- Continue Shopping
+- Cart → Checkout Integration
+- Checkout → OrderSuccess Integration
+- OrderSuccess → OrderDetails Integration
+- My Orders → Order History Integration
+
+Testing
+
+- Multiple Orders for Same User ✔
+- User-specific Orders ✔
+- New User Order Isolation ✔
+- Order ID Propagation ✔
+- Order History ✔
+- Order Details ✔
+- Order Status Update ✔
+- Invalid Order Status Transition ✔
+- Checkout Flow ✔
+- Order Success Flow ✔
+
+Status
+
+✔ Fully Integrated and Tested
 
 ---
+
+# 🔐 Security Enhancement : Change Password
+
+Status
+
+🔄 In Progress
+
+Purpose
+
+Add a secure password-change mechanism so authenticated users can safely update their account password without directly modifying the database.
+
+Topics
+
+- Change Password API
+- Current Password Verification
+- BCrypt Password Verification
+- New Password Validation
+- Confirm New Password
+- Prevent Same Old Password
+- BCrypt Password Hashing
+- Secure Password Update
+- Authentication Required
+- Frontend Change Password Page
+- Profile Integration
+- Change Password Form
+- Success / Error Messages
+- Password Change Testing
+
+Expected Flow
+
+User Login
+
+↓
+
+Profile
+
+↓
+
+Change Password
+
+↓
+
+Enter Current Password
+
+↓
+
+Enter New Password
+
+↓
+
+Confirm New Password
+
+↓
+
+Backend Verification
+
+↓
+
+BCrypt Hash New Password
+
+↓
+
+Update Database
+
+↓
+
+Password Changed Successfully
+
+Testing
+
+- Correct Current Password
+- Incorrect Current Password
+- Valid New Password
+- Invalid New Password
+- Confirm Password Mismatch
+- Same Old and New Password
+- Database Password Hash Update
+- Login Using New Password
+- Old Password Rejection
+- Unauthorized Change Password Request
+
+Status
+
+🔄 In Progress
+
+---
+
+# 🚀 Phase 4 : Payment
 
 ## 🔄 Module 22 : Payment Gateway
 
@@ -227,7 +346,14 @@ Status
 Topics
 
 - Razorpay Integration
+- Payment Order Creation
 - Payment Verification
+- Payment Status
+- Order-Payment Integration
+- Successful Payment Handling
+- Failed Payment Handling
+- Payment Security
+- Payment Testing
 
 ---
 
@@ -245,6 +371,8 @@ Topics
 - Product Management
 - User Management
 - Order Management
+- Order Status Management
+- Inventory Management
 
 ---
 
@@ -260,6 +388,9 @@ Topics
 
 - SLF4J
 - Logback
+- Application Logging
+- Error Logging
+- Debug Logging
 
 ---
 
@@ -273,6 +404,8 @@ Topics
 
 - Pagination
 - Sorting
+- Pageable
+- Page<T>
 
 ---
 
@@ -289,6 +422,7 @@ Topics
 - Brand
 - Price
 - Rating
+- Multiple Filters
 
 ---
 
@@ -303,6 +437,8 @@ Topics
 - MultipartFile
 - Upload Images
 - Store Images
+- Image URL Handling
+- Product Image Management
 
 ---
 
@@ -318,6 +454,8 @@ Topics
 - Docker Compose
 - Spring Boot Container
 - MySQL Container
+- Container Networking
+- Environment Variables
 
 ---
 
@@ -332,6 +470,8 @@ Topics
 - GitHub Actions
 - Automated Build
 - Automated Testing
+- CI Pipeline
+- Deployment Pipeline
 
 ---
 
@@ -349,6 +489,9 @@ Topics
 - Cart Service
 - Order Service
 - Payment Service
+- Service Communication
+- Event-Driven Architecture
+- Kafka / RabbitMQ
 
 ---
 
@@ -364,24 +507,48 @@ Topics
 - Deploy Frontend
 - Production Database
 - Environment Variables
+- Backend Deployment
+- Frontend Deployment
+- Production Configuration
 
 ---
 
 # 🎯 Current Target
 
-Today
+## 🔐 Security Enhancement : Change Password
 
-- Validation Dependency
-- @Valid
-- @NotBlank
+Status
+
+🔄 In Progress
+
+Today's Focus
+
+- Change Password Backend API
+- Current Password Verification
+- BCrypt Verification
+- New Password Hashing
+- Password Validation
+- Secure Database Update
 
 Next
 
-- @NotNull
-- @Positive
-- @Min
-- @Max
-- Custom Validation Messages
+- Change Password Frontend
+- Profile Integration
+- Full Testing
+
+---
+
+# 🎯 After Current Security Enhancement
+
+## Module 22 : Payment Gateway
+
+Status
+
+⬜ Pending
+
+First Target
+
+- Razorpay Integration
 
 ---
 
@@ -399,9 +566,15 @@ Next
 - Spring Security
 - JWT Authentication
 - Role Based Authorization
+- BCrypt Password Security
+- Change Password
 - Shopping Cart
 - Wishlist
+- Checkout
+- Shipping Address
 - Orders
+- Order History
+- Order Details
 - Payment Gateway
 - Admin Panel
 - Logging
