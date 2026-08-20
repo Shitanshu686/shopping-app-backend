@@ -18,6 +18,7 @@ import com.shitanshu.shopping.dto.ChangePasswordRequestDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PutMapping;
 import jakarta.validation.Valid;
+import com.shitanshu.shopping.dto.DarkModeRequestDTO;
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "*")
@@ -87,6 +88,31 @@ public class UserController {
 	                    true,
 	                    "Password changed successfully",
 	                    null,
+	                    LocalDateTime.now()
+	            );
+
+	    return ResponseEntity.ok(apiResponse);
+	}
+	@PutMapping("/preferences/dark-mode")
+	public ResponseEntity<ApiResponse<Boolean>> updateDarkMode(
+
+	        @Valid @RequestBody DarkModeRequestDTO request,
+
+	        Authentication authentication) {
+
+	    String email =
+	            authentication.getName();
+
+	    userService.updateDarkMode(
+	            email,
+	            request.getDarkMode()
+	    );
+
+	    ApiResponse<Boolean> apiResponse =
+	            new ApiResponse<>(
+	                    true,
+	                    "Dark mode preference updated successfully",
+	                    request.getDarkMode(),
 	                    LocalDateTime.now()
 	            );
 

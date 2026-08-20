@@ -6,15 +6,17 @@ public class UserResponseDTO {
     private String name;
     private String email;
     private String role;
+    private Boolean darkMode;
 
     public UserResponseDTO() {
     }
 
-    public UserResponseDTO(Integer id, String name, String email, String role) {
+    public UserResponseDTO(Integer id, String name, String email, String role, Boolean darkMode) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.darkMode = darkMode;
     }
 
     public Integer getId() {
@@ -47,5 +49,12 @@ public class UserResponseDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    public Boolean getDarkMode() {
+        return darkMode;
+    }
+
+    public void setDarkMode(Boolean darkMode) {
+        this.darkMode = darkMode;
     }
 }

@@ -19,6 +19,7 @@ public class User {
     private String password;
 
     private String role;
+    private Boolean darkMode = false;
 
     public Integer getId() {
 		return id;
@@ -49,6 +50,13 @@ public class User {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public Boolean getDarkMode() {
+	    return darkMode;
+	}
+
+	public void setDarkMode(Boolean darkMode) {
+	    this.darkMode = darkMode;
 	}
 	
     

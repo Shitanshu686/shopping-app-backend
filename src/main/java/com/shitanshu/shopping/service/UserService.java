@@ -46,7 +46,7 @@ public class UserService {
 		    response.setName(user.getName());
 		    response.setEmail(user.getEmail());
 		    response.setRole(user.getRole());
-
+		    response.setDarkMode(user.getDarkMode());
 		    return response;
 	}
 	public LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO) {
@@ -71,6 +71,7 @@ public class UserService {
 		response.setName(user.getName());
 		response.setEmail(user.getEmail());
 		response.setRole(user.getRole());
+		response.setDarkMode(user.getDarkMode());
 		String token =
 			    jwtUtil.generateToken(
 			        user.getEmail(),
@@ -165,5 +166,27 @@ public class UserService {
 
 	    userRepository.save(user);
 
+	}
+	public void updateDarkMode(
+	        String email,
+	        Boolean darkMode) {
+
+	    Optional<User> optionalUser =
+	            userRepository.findByEmail(email);
+
+	    if (optionalUser.isEmpty()) {
+
+	        throw new InvalidCredentialsException(
+	                "User not found"
+	        );
+
+	    }
+
+	    User user =
+	            optionalUser.get();
+
+	    user.setDarkMode(darkMode);
+
+	    userRepository.save(user);
 	}
 }
