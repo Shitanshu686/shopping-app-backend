@@ -117,6 +117,7 @@ public class SecurityConfig {
                             org.springframework.http.HttpMethod.DELETE,
                             "/products/**"
                         ).hasRole("ADMIN")
+                        
 
 
                         // ======================

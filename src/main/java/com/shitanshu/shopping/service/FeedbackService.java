@@ -31,9 +31,9 @@ public class FeedbackService {
     private ProductRepository productRepository;
 
 
-    // ======================
+    // =========================================================
     // GET PRODUCT FEEDBACK
-    // ======================
+    // =========================================================
 
     public List<FeedbackResponseDTO> getProductFeedback(
             Integer productId) {
@@ -56,9 +56,9 @@ public class FeedbackService {
     }
 
 
-    // ======================
+    // =========================================================
     // ADD FEEDBACK
-    // ======================
+    // =========================================================
 
     public FeedbackResponseDTO addFeedback(
             Integer productId,
@@ -142,9 +142,9 @@ public class FeedbackService {
     }
 
 
-    // ======================
+    // =========================================================
     // UPDATE FEEDBACK
-    // ======================
+    // =========================================================
 
     public FeedbackResponseDTO updateFeedback(
             Integer feedbackId,
@@ -178,7 +178,7 @@ public class FeedbackService {
 
 
         // ======================
-        // OWNERSHIP CHECK
+        // OWNER CHECK
         // ======================
 
         if (!feedback.getUser().getId()
@@ -217,9 +217,9 @@ public class FeedbackService {
     }
 
 
-    // ======================
+    // =========================================================
     // DELETE FEEDBACK
-    // ======================
+    // =========================================================
 
     public void deleteFeedback(
             Integer feedbackId,
@@ -252,11 +252,20 @@ public class FeedbackService {
 
 
         // ======================
-        // OWNERSHIP CHECK
+        // ADMIN / OWNER CHECK
         // ======================
 
-        if (!feedback.getUser().getId()
-                .equals(user.getId())) {
+        boolean isAdmin =
+                "ADMIN".equalsIgnoreCase(
+                    user.getRole()
+                );
+
+        boolean isOwner =
+                feedback.getUser().getId()
+                        .equals(user.getId());
+
+
+        if (!isAdmin && !isOwner) {
 
             throw new BadRequestException(
                 "You can only delete your own feedback"
@@ -272,9 +281,9 @@ public class FeedbackService {
     }
 
 
-    // ======================
+    // =========================================================
     // DTO MAPPING
-    // ======================
+    // =========================================================
 
     private FeedbackResponseDTO convertToResponseDTO(
             Feedback feedback) {
@@ -282,6 +291,8 @@ public class FeedbackService {
         return new FeedbackResponseDTO(
 
                 feedback.getId(),
+
+                feedback.getUser().getId(),
 
                 feedback.getUser().getName(),
 
