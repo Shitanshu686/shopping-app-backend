@@ -1,597 +1,322 @@
-# 📋 ShopEase Development Plan
+📋 ShopEase Development Plan
+🚀 Phase 2 — Professional Backend
+✅ Module 9 — Exception Handling
 
----
+Status: ✔ Completed
 
-# 🚀 Phase 2 : Professional Backend
+✅ Module 10 — ResponseEntity
 
-## ✅ Module 9 : Exception Handling
+Status: ✔ Completed
 
-Status
+✅ Module 11 — Validation
 
-✔ Completed
+Status: ✔ Completed
 
----
+Topics:
 
-## ✅ Module 10 : ResponseEntity
+Validation Dependency
+@Valid
+@NotBlank, @NotNull
+@Positive, @Min, @Max
+Custom Validation Messages
+✅ Module 12 — DTO Layer
 
-Status
+Status: ✔ Completed
 
-✔ Completed
+Topics:
 
----
+Product Request/Response DTO
+DTO Mapping
+Entity Exposure Removal
+🔄 Module 13 — Custom Exceptions
 
-## ✅ Module 11 : Validation
+Status: 🔄 Partially Completed
 
-Status
+ResourceAlreadyExistsException ✔
+BadRequestException ✔
+InvalidDataException ⬜
+Better Error Messages ✔
+✅ Module 14 — Standard API Response
 
-✔ Completed
+Status: ✔ Completed
 
-Topics
+Topics:
 
-- Validation Dependency
-- @Valid
-- @NotBlank
-- @NotNull
-- @Positive
-- @Min
-- @Max
-- Custom Validation Messages
+ApiResponse<T>
+Success/Error Responses
+GET/POST/PUT/DELETE Responses
+Validation Errors
+Product/Resource/BadRequest Exceptions
+DTO Validation
+🚀 Phase 3 — Authentication
+✅ Module 15 — User Management
 
----
+Status: ✔ Completed
+
+User Entity
+Register/Login APIs
+BCrypt Password Encoding
+✅ Module 16 — Spring Security + JWT
 
-## ✅ Module 12 : DTO Layer
+Status: ✔ Completed
 
-Status
+Spring Security
+JWT
+Authentication & Authorization
+JWT Filter
+✅ Module 17 — Role-Based Authorization
+
+Status: ✔ Completed
+
+ADMIN / USER Roles
+Role-Based APIs
+🚀 Phase 4 — E-Commerce Features
+✅ Module 18 — Product Details
 
-✔ Completed
+Status: ✔ Completed
 
-Topics
+Features:
 
-- ProductRequestDTO
-- ProductResponseDTO
-- DTO Mapping
-- Remove Entity Exposure
+Product Details API
+Specifications + Validation
+Duplicate Prevention
+Similar Products
+Maximum 4 Similar Products
+ADMIN Specification Authorization
 
----
+APIs:
 
-## 🔄 Module 13 : Custom Exceptions
+GET /products/{id}
+POST /products/{id}/specifications
+GET /products/{id}/specifications
+GET /products/{id}/similar
+✅ Module 19 — Shopping Cart
+
+Status: ✔ Completed
 
-Status
-
-🔄 Partially Completed
-
-Topics
-
-- ResourceAlreadyExistsException ✔ Completed
-- BadRequestException ✔ Completed
-- InvalidDataException ⬜ Pending
-- Better Error Messages ✔ Completed
-
----
-
-## ✅ Module 14 : Standard API Response
-
-Status
-
-✔ Completed
-
-Topics
-
-- ApiResponse<T>
-- Standard Success Response
-- Standard Error Response
-- GET Response
-- POST Response
-- PUT Response
-- DELETE Response
-- Validation Error Response
-- ProductNotFoundException Response
-- ResourceAlreadyExistsException Response
-- BadRequestException Response
-- DTO Validation
-
----
-
-# 🚀 Phase 3 : Authentication
-
-## ✅ Module 15 : User Management
-
-Status
-
-✔ Completed
-
-Topics
-
-- User Entity
-- Register API
-- Login API
-- BCrypt Password Encoder
-
----
-
-## ✅ Module 16 : Spring Security + JWT
-
-Status
-
-✔ Completed
-
-Topics
-
-- Spring Security
-- JWT
-- Authentication
-- Authorization
-- JWT Filter
-
----
-
-## ✅ Module 17 : Role Based Authorization
-
-Status
-
-✔ Completed
-
-Topics
-
-- ADMIN Role
-- USER Role
-- Role Based APIs
-
----
-
-# 🚀 Phase 4 : E-Commerce Features
-
-## ✅ Module 18 : Product Details
-
-Status
-
-✔ Completed
-
-Topics
-
-- Product Details API
-- Product Specifications
-- Specification Validation
-- Duplicate Specification Prevention
-- Similar Products
-- Similar Products Limited to 4
-- ADMIN Authorization for Specification Creation
-
-APIs
-
-- GET /products/{id}
-- POST /products/{id}/specifications
-- GET /products/{id}/specifications
-- GET /products/{id}/similar
-
----
-
-## ✅ Module 19 : Shopping Cart Backend
-
-Status
-
-✔ Completed
-
-Topics
-
-- Cart Entity
-- Add To Cart API
-- Update Quantity
-- Remove Item
-- View Cart
-- Persistent Cart
-- Cart ↔ User Association
-- JWT Protected Cart APIs
-
----
-
-## ✅ Module 20 : Wishlist
-
-Status
-
-✔ Completed
-
-Topics
-
-- Wishlist
-- Add Wishlist
-- Remove Wishlist
-- View Wishlist
-- User-specific Wishlist
-- Wishlist UI Integration
-
----
-
-## ✅ Module 21 : Orders
-
-Status
-
-✔ Completed
-
-Topics
-
-- Checkout
-- Shipping Address
-- Order Entity
-- Order Items
-- Order Creation
-- Order ID Generation
-- Order History
-- User-specific Order History
-- Order Status
-- Order Status Validation
-- Invalid Order Status Transition Handling
-- Order Details
-- Order Success Page
-- My Orders
-- View Order
-- Continue Shopping
-- Cart → Checkout Integration
-- Checkout → OrderSuccess Integration
-- OrderSuccess → OrderDetails Integration
-- My Orders → Order History Integration
-
-Testing
-
-- Multiple Orders for Same User ✔
-- User-specific Orders ✔
-- New User Order Isolation ✔
-- Order ID Propagation ✔
-- Order History ✔
-- Order Details ✔
-- Order Status Update ✔
-- Invalid Order Status Transition ✔
-- Checkout Flow ✔
-- Order Success Flow ✔
-
-Status
-
-✔ Fully Integrated and Tested
-
----
-
-# 🔐 Security Enhancement : Change Password
-
-Status
-
-✔ Completed
-
-Purpose
-
-Add a secure password-change mechanism so authenticated users can safely update their account password without directly modifying the database.
-
-Topics
-
-- Change Password API ✔
-- Current Password Verification ✔
-- BCrypt Password Verification ✔
-- New Password Validation ✔
-- Confirm New Password ✔
-- Prevent Same Old Password ✔
-- BCrypt Password Hashing ✔
-- Secure Password Update ✔
-- Authentication Required ✔
-- Standard API Response ✔
-- BadRequestException Handling ✔
-- Validation Error Handling ✔
-
-Expected Flow
-
-User Login
-
-↓
-
-JWT Authentication
-
-↓
-
+Cart Entity
+Add/Update/Remove/View Cart
+Persistent Cart
+User Association
+JWT Protection
+✅ Module 20 — Wishlist
+
+Status: ✔ Completed
+
+Add/Remove/View Wishlist
+User-Specific Wishlist
+Wishlist UI Integration
+✅ Module 21 — Orders
+
+Status: ✔ Fully Integrated & Tested
+
+Features:
+
+Checkout & Shipping Address
+Order/Order Items
+Order Creation & ID
+Order History & Details
+User-Specific Orders
+Order Status & Validation
+Invalid Status Transition Handling
+Cart → Checkout → Order Success → Order Details
+My Orders / Continue Shopping
+
+Testing:
+
+Multiple/User-Isolated Orders ✔
+Order ID Propagation ✔
+Order History/Details ✔
+Status Updates & Validation ✔
+Complete Checkout Flow ✔
+🔐 Security Enhancements
+✅ Change Password
+
+Status: ✔ Completed & Tested
+
+Features:
+
+Change Password API
+Current Password Verification
+BCrypt Verification & Hashing
+New Password Validation
+Confirm Password
+Prevent Same Password
+Authentication Required
+Standard Responses
+BadRequestException
+Validation Errors
+Database Update
+Frontend Page
+Profile Integration
+Login with New Password
+Old Password Rejection
+✅ Dark Mode Preference
+
+Status: ✔ Completed & Tested
+
+Features:
+
+Dark/Light Mode Toggle
+Modular dark-mode.js
+Modular dark-mode.css
+User-Specific Preference
+Backend Preference API
+MySQL Persistence
+Login Preference Restoration
+Logout/Login Persistence
+Default Light Mode
+JWT-Protected Preference Update
+
+Flow:
+
+Toggle → API → User Preference → MySQL → Login → Restore Theme
+
+🚀 Phase 4 — Payment
+🔄 Module 22 — Payment Gateway
+
+Status: ⬜ Pending
+
+Topics:
+
+Razorpay Integration
+Payment Order Creation
+Payment Verification
+Payment Status
+Order ↔ Payment Integration
+Success/Failure Handling
+Payment Security
+Payment Testing
+🚀 Phase 5 — Admin Panel
+🔄 Module 23 — Admin Dashboard
+
+Status: ⬜ Pending
+
+Dashboard
+Product Management
+User Management
+Order Management
+Order Status
+Inventory Management
+🚀 Phase 6 — Production Ready
+🔄 Module 24 — Logging
+
+Status: ⬜ Pending
+
+SLF4J
+Logback
+Application/Error/Debug Logging
+🔄 Module 25 — Pagination & Sorting
+
+Status: ⬜ Pending
+
+Pagination
+Sorting
+Pageable
+Page<T>
+🔄 Module 26 — Search & Filtering
+
+Status: ⬜ Pending
+
+Name
+Category
+Brand
+Price
+Rating
+Multiple Filters
+🔄 Module 27 — Image Upload
+
+Status: ⬜ Pending
+
+MultipartFile
+Image Upload/Storage
+Image URLs
+Product Image Management
+🔄 Module 28 — Docker
+
+Status: ⬜ Pending
+
+Dockerfile
+Docker Compose
+Spring Boot + MySQL Containers
+Networking
+Environment Variables
+🔄 Module 29 — CI/CD
+
+Status: ⬜ Pending
+
+GitHub Actions
+Automated Build/Test
+CI/CD Pipeline
+🔄 Module 30 — Microservices
+
+Status: ⬜ Pending
+
+API Gateway
+Product/User/Cart/Order/Payment Services
+Service Communication
+Event-Driven Architecture
+Kafka / RabbitMQ
+🔄 Module 31 — Deployment
+
+Status: ⬜ Pending
+
+Backend/Frontend Deployment
+Production Database
+Environment Variables
+Production Configuration
+Cloud Deployment
+🎯 Current Target
+🚀 Module 22 — Payment Gateway
+
+Status: ⬜ Pending
+
+Today's Target:
+
+Payment Gateway Architecture
+Razorpay Integration
+Payment Order Creation
+Order-Payment Connection
+Payment Verification
+Payment Status
+Success/Failure Flow
+Payment Testing
+🎯 Next Target
+Module 23 — Admin Dashboard
+
+First Targets:
+
+Dashboard
+Product Management
+User Management
+Order Management
+🏁 Final Deliverables
+Spring Boot + MySQL + Hibernate
+CRUD APIs
+Validation + DTOs
+Exception Handling
+Standard API Responses
+Spring Security + JWT
+Role-Based Authorization
+BCrypt Security
 Change Password
-
-↓
-
-Enter Current Password
-
-↓
-
-Enter New Password
-
-↓
-
-Confirm New Password
-
-↓
-
-Backend Verification
-
-↓
-
-BCrypt Hash New Password
-
-↓
-
-Update Database
-
-↓
-
-Password Changed Successfully
-
-Testing
-
-- Correct Current Password ✔
-- Incorrect Current Password ✔
-- Valid New Password ✔
-- Invalid New Password ✔
-- Empty Password Validation ✔
-- Minimum Password Length Validation ✔
-- Confirm Password Mismatch ✔
-- Same Old and New Password ✔
-- Database Password Hash Update ✔
-- Login Using New Password ✔
-- Old Password Rejection ✔
-- JWT Authentication ✔
-- Standard Error Response ✔
-
-Status
-
-✔ Backend Fully Implemented and Tested
-
-Next
-
-- Change Password Frontend
-- Profile Integration
-- Frontend API Integration
-- End-to-End Testing
-
----
-
-# 🚀 Phase 4 : Payment
-
-## 🔄 Module 22 : Payment Gateway
-
-Status
-
-⬜ Pending
-
-Topics
-
-- Razorpay Integration
-- Payment Order Creation
-- Payment Verification
-- Payment Status
-- Order-Payment Integration
-- Successful Payment Handling
-- Failed Payment Handling
-- Payment Security
-- Payment Testing
-
----
-
-# 🚀 Phase 5 : Admin Panel
-
-## 🔄 Module 23 : Admin Dashboard
-
-Status
-
-⬜ Pending
-
-Topics
-
-- Dashboard
-- Product Management
-- User Management
-- Order Management
-- Order Status Management
-- Inventory Management
-
----
-
-# 🚀 Phase 6 : Production Ready
-
-## 🔄 Module 24 : Logging
-
-Status
-
-⬜ Pending
-
-Topics
-
-- SLF4J
-- Logback
-- Application Logging
-- Error Logging
-- Debug Logging
-
----
-
-## 🔄 Module 25 : Pagination & Sorting
-
-Status
-
-⬜ Pending
-
-Topics
-
-- Pagination
-- Sorting
-- Pageable
-- Page<T>
-
----
-
-## 🔄 Module 26 : Search & Filtering
-
-Status
-
-⬜ Pending
-
-Topics
-
-- Search by Name
-- Category
-- Brand
-- Price
-- Rating
-- Multiple Filters
-
----
-
-## 🔄 Module 27 : Image Upload
-
-Status
-
-⬜ Pending
-
-Topics
-
-- MultipartFile
-- Upload Images
-- Store Images
-- Image URL Handling
-- Product Image Management
-
----
-
-## 🔄 Module 28 : Docker
-
-Status
-
-⬜ Pending
-
-Topics
-
-- Dockerfile
-- Docker Compose
-- Spring Boot Container
-- MySQL Container
-- Container Networking
-- Environment Variables
-
----
-
-## 🔄 Module 29 : CI/CD
-
-Status
-
-⬜ Pending
-
-Topics
-
-- GitHub Actions
-- Automated Build
-- Automated Testing
-- CI Pipeline
-- Deployment Pipeline
-
----
-
-## 🔄 Module 30 : Microservices
-
-Status
-
-⬜ Pending
-
-Topics
-
-- API Gateway
-- Product Service
-- User Service
-- Cart Service
-- Order Service
-- Payment Service
-- Service Communication
-- Event-Driven Architecture
-- Kafka / RabbitMQ
-
----
-
-## 🔄 Module 31 : Deployment
-
-Status
-
-⬜ Pending
-
-Topics
-
-- Deploy Backend
-- Deploy Frontend
-- Production Database
-- Environment Variables
-- Backend Deployment
-- Frontend Deployment
-- Production Configuration
-
----
-
-# 🎯 Current Target
-
-## 🚀 Module 22 : Payment Gateway
-
-Status
-
-⬜ Pending
-
-Today's Target
-
-- Understand Payment Gateway Architecture
-- Razorpay Integration
-- Payment Order Creation
-- Connect Payment with Existing Order
-- Payment Verification
-- Payment Status Handling
-- Successful Payment Flow
-- Failed Payment Flow
-- Payment Testing
-
----
-
-# 🎯 After Module 22
-
-## Module 23 : Admin Dashboard
-
-Status
-
-⬜ Pending
-
-First Target
-
-- Admin Dashboard
-- Product Management
-- User Management
-- Order Management
-
----
-
-# 🎯 Final Deliverables
-
-- Spring Boot Backend
-- MySQL Database
-- Hibernate
-- CRUD APIs
-- Validation
-- DTO
-- Exception Handling
-- ResponseEntity
-- Standard API Responses
-- Spring Security
-- JWT Authentication
-- Role Based Authorization
-- BCrypt Password Security
-- Change Password
-- Shopping Cart
-- Wishlist
-- Checkout
-- Shipping Address
-- Orders
-- Order History
-- Order Details
-- Payment Gateway
-- Admin Panel
-- Logging
-- Pagination
-- Search & Filtering
-- Image Upload
-- Docker
-- CI/CD
-- Microservices
-- Cloud Deployment
-- Production Ready Documentation
+Dark Mode Persistence
+Cart + Wishlist
+Checkout + Shipping
+Orders + Order History + Details
+Payment Gateway
+Admin Panel
+Logging
+Pagination & Sorting
+Search & Filtering
+Image Upload
+Docker
+CI/CD
+Microservices
+Cloud Deployment
+Production Documentation
+Current Progress
+
+Modules 9–21: ✅ Completed
+Security Enhancements: ✅ Completed
+Module 22: 🔜 Payment Gateway — Razorpay
