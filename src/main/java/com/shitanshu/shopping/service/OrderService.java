@@ -151,7 +151,7 @@ public class OrderService {
         // CLEAR CART
         // =========================
 
-        cartItemRepository.deleteAll(cartItems);
+        //cartItemRepository.deleteAll(cartItems);
 
 
         // =========================
