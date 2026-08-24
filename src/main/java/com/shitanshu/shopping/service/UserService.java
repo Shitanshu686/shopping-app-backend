@@ -14,6 +14,9 @@ import com.shitanshu.shopping.security.JwtUtil;
 import com.shitanshu.shopping.dto.LoginResponseDTO;
 import com.shitanshu.shopping.dto.ChangePasswordRequestDTO;
 import com.shitanshu.shopping.exception.BadRequestException;
+import java.util.List;
+import com.shitanshu.shopping.exception.UserNotFoundException;
+import org.springframework.security.core.Authentication;
 @Service
 public class UserService {
 	@Autowired
@@ -188,5 +191,169 @@ public class UserService {
 	    user.setDarkMode(darkMode);
 
 	    userRepository.save(user);
+	}
+	// =========================================================
+	// ADMIN USER MANAGEMENT
+	// =========================================================
+
+	// =========================
+	// GET ALL USERS
+	// =========================
+
+	public List<UserResponseDTO> getAllUsers() {
+
+	    List<User> users =
+	            userRepository.findAll();
+
+	    return users.stream()
+	            .map(this::convertToResponseDTO)
+	            .toList();
+	}
+
+
+	// =========================
+	// GET USER BY ID
+	// =========================
+
+	public UserResponseDTO getUserById(
+	        Integer userId) {
+
+	    User user =
+	            userRepository.findById(userId)
+	            .orElseThrow(() ->
+	                    new UserNotFoundException(
+	                            "User not found"
+	                    )
+	            );
+
+	    return convertToResponseDTO(user);
+	}
+
+
+	// =========================
+	// UPDATE USER ROLE
+	// =========================
+
+	public UserResponseDTO updateUserRole(
+	        Integer userId,
+	        String role,
+	        Authentication authentication) {
+
+	    User user =
+	            userRepository.findById(userId)
+	            .orElseThrow(() ->
+	                    new UserNotFoundException(
+	                            "User not found"
+	                    )
+	            );
+
+
+	    // =========================
+	    // VALIDATE ROLE
+	    // =========================
+
+	    if (!role.equals("USER") &&
+	        !role.equals("ADMIN")) {
+
+	        throw new BadRequestException(
+	                "Role must be USER or ADMIN"
+	        );
+	    }
+
+
+	    // =========================
+	    // PREVENT SELF ROLE CHANGE
+	    // =========================
+
+	    if (user.getEmail().equals(
+	            authentication.getName())) {
+
+	        throw new BadRequestException(
+	                "You cannot change your own role"
+	        );
+	    }
+
+
+	    // =========================
+	    // UPDATE ROLE
+	    // =========================
+
+	    user.setRole(role);
+
+	    userRepository.save(user);
+
+
+	    return convertToResponseDTO(user);
+	}
+
+	// =========================
+	// DELETE USER
+	// =========================
+
+	public void deleteUser(
+	        Integer userId) {
+
+	    User user =
+	            userRepository.findById(userId)
+	            .orElseThrow(() ->
+	                    new UserNotFoundException(
+	                            "User not found"
+	                    )
+	            );
+
+	    userRepository.delete(user);
+	}
+
+
+	// =========================
+	// CONVERT USER → DTO
+	// =========================
+
+	private UserResponseDTO convertToResponseDTO(
+	        User user) {
+
+	    UserResponseDTO response =
+	            new UserResponseDTO();
+
+	    response.setId(user.getId());
+
+	    response.setName(user.getName());
+
+	    response.setEmail(user.getEmail());
+
+	    response.setRole(user.getRole());
+
+	    response.setDarkMode(
+	            user.getDarkMode()
+	    );
+
+	    return response;
+	}
+	// =========================
+	// DELETE USER
+	// =========================
+
+	public void deleteUser(
+	        Integer userId,
+	        Authentication authentication) {
+
+	    User user =
+	            userRepository.findById(userId)
+	            .orElseThrow(() ->
+	                    new UserNotFoundException(
+	                            "User not found"
+	                    )
+	            );
+
+	    // Prevent admin from deleting himself
+	    if (user.getEmail().equals(
+	            authentication.getName())) {
+
+	        throw new BadRequestException(
+	                "You cannot delete your own account"
+	        );
+	    }
+
+	    userRepository.delete(user);
 	}
 }

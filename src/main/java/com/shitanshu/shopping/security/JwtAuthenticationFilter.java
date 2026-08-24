@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         jwtUtil.extractEmail(token);
                 String role =
                         jwtUtil.extractRole(token);
-
+                
 
                 if (email != null &&
                         SecurityContextHolder
@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     	                )
                     	        );
 
-
+                    	
                         SecurityContextHolder
                                 .getContext()
                                 .setAuthentication(authentication);

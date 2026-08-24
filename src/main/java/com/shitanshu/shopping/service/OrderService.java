@@ -693,5 +693,18 @@ public class OrderService {
                 + newStatus
         );
     }
+ // =========================
+ // ADMIN - GET ALL ORDERS
+ // =========================
+
+ public List<OrderResponseDTO> getAllOrders() {
+
+     List<Order> orders =
+             orderRepository.findAll();
+
+     return orders.stream()
+             .map(this::buildOrderResponse)
+             .toList();
+ }
 
 }

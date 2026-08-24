@@ -17,4 +17,13 @@ public interface ProductRepository
             String category,
             Integer id
     );
+
+    long countByStockBetween(
+            Integer minStock,
+            Integer maxStock
+    );
+
+    long countByStock(
+            Integer stock
+    );
 }

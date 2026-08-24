@@ -1,5 +1,5 @@
 package com.shitanshu.shopping.config;
-
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.shitanshu.shopping.security.JwtAuthenticationFilter;
 import org.springframework.http.HttpMethod;
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
 	@Autowired
@@ -93,7 +94,10 @@ public class SecurityConfig {
                         // ======================
                         // ADMIN ONLY APIs
                         // ======================
-
+                        .requestMatchers(
+                        	    HttpMethod.GET,
+                        	    "/admin/dashboard"
+                        	).hasRole("ADMIN")
                         .requestMatchers(
                             org.springframework.http.HttpMethod.POST,
                             "/products"
@@ -117,7 +121,16 @@ public class SecurityConfig {
                             org.springframework.http.HttpMethod.DELETE,
                             "/products/**"
                         ).hasRole("ADMIN")
-                        
+                        .requestMatchers(
+                        	    HttpMethod.GET,
+                        	    "/users/admin",
+                        	    "/users/admin/**"
+                        	).authenticated()
+
+                        	.requestMatchers(
+                        	    HttpMethod.PUT,
+                        	    "/users/admin/**"
+                        	).authenticated()
 
 
                         // ======================

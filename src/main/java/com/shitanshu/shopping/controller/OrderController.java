@@ -1,5 +1,5 @@
 package com.shitanshu.shopping.controller;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -136,4 +136,28 @@ public class OrderController {
 
      return ResponseEntity.ok(response);
  }
-}
+//=========================
+//ADMIN - GET ALL ORDERS
+//=========================
+
+//=========================
+//ADMIN - GET ALL ORDERS
+//=========================
+
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@GetMapping("/admin")
+public ResponseEntity<ApiResponse<List<OrderResponseDTO>>> getAllOrders() {
+
+  List<OrderResponseDTO> orders =
+          orderService.getAllOrders();
+
+  ApiResponse<List<OrderResponseDTO>> response =
+          new ApiResponse<>(
+                  true,
+                  "All orders fetched successfully",
+                  orders,
+                  LocalDateTime.now()
+          );
+
+  return ResponseEntity.ok(response);
+}}
