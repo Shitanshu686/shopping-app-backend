@@ -1,0 +1,95 @@
+2026-08-26T11:23:10.021+05:30  INFO 19276 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : Starting ShoppingAppBackendApplication using Java 25.0.2 with PID 19276 (C:\Users\Dell\eclipse-workspace\shopping-app-backend\target\classes started by Dell in C:\Users\Dell\eclipse-workspace\shopping-app-backend)
+2026-08-26T11:23:10.025+05:30 DEBUG 19276 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-08-26T11:23:10.026+05:30  INFO 19276 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-08-26T11:23:11.156+05:30  INFO 19276 --- [shopping-app-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-08-26T11:23:11.277+05:30  INFO 19276 --- [shopping-app-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 11 JPA repository interfaces.
+2026-08-26T11:23:11.981+05:30  INFO 19276 --- [shopping-app-backend] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-08-26T11:23:12.005+05:30  INFO 19276 --- [shopping-app-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-26T11:23:12.006+05:30  INFO 19276 --- [shopping-app-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-08-26T11:23:12.095+05:30  INFO 19276 --- [shopping-app-backend] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1980 ms
+2026-08-26T11:23:12.184+05:30 DEBUG 19276 --- [shopping-app-backend] [main] c.s.s.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2026-08-26T11:23:12.388+05:30  INFO 19276 --- [shopping-app-backend] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-08-26T11:23:12.491+05:30  INFO 19276 --- [shopping-app-backend] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-08-26T11:23:13.131+05:30  INFO 19276 --- [shopping-app-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-08-26T11:23:13.195+05:30  INFO 19276 --- [shopping-app-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-26T11:23:13.382+05:30  INFO 19276 --- [shopping-app-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@56f84c9b
+2026-08-26T11:23:13.385+05:30  INFO 19276 --- [shopping-app-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-26T11:23:13.502+05:30  WARN 19276 --- [shopping-app-backend] [main] org.hibernate.orm.core                   : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-08-26T11:23:13.549+05:30  INFO 19276 --- [shopping-app-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/shopping_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 5.5.5
+	Default catalog/schema: shopping_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-08-26T11:23:15.181+05:30  INFO 19276 --- [shopping-app-backend] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-08-26T11:23:15.406+05:30  INFO 19276 --- [shopping-app-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-08-26T11:23:15.521+05:30  INFO 19276 --- [shopping-app-backend] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-08-26T11:23:17.425+05:30  WARN 19276 --- [shopping-app-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-08-26T11:23:17.586+05:30  WARN 19276 --- [shopping-app-backend] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 94727655-ad6a-417e-9331-0fefa115c11a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-08-26T11:23:17.605+05:30  INFO 19276 --- [shopping-app-backend] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-08-26T11:23:18.338+05:30  INFO 19276 --- [shopping-app-backend] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-08-26T11:23:18.348+05:30  INFO 19276 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : Started ShoppingAppBackendApplication in 8.869 seconds (process running for 9.866)
+2026-08-26T11:24:52.389+05:30  INFO 19276 --- [shopping-app-backend] [RMI TCP Connection(10)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2026-08-26T11:24:52.399+05:30  INFO 19276 --- [shopping-app-backend] [RMI TCP Connection(10)-127.0.0.1] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-26T11:24:52.415+05:30  INFO 19276 --- [shopping-app-backend] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-08-26T11:24:52.421+05:30  INFO 19276 --- [shopping-app-backend] [RMI TCP Connection(10)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-08-26T11:24:52.423+05:30  INFO 19276 --- [shopping-app-backend] [RMI TCP Connection(10)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-08-26T11:24:52.431+05:30  INFO 19276 --- [shopping-app-backend] [RMI TCP Connection(10)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-08-26T11:25:03.456+05:30  INFO 8032 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : Starting ShoppingAppBackendApplication using Java 25.0.2 with PID 8032 (C:\Users\Dell\eclipse-workspace\shopping-app-backend\target\classes started by Dell in C:\Users\Dell\eclipse-workspace\shopping-app-backend)
+2026-08-26T11:25:03.460+05:30 DEBUG 8032 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-08-26T11:25:03.464+05:30  INFO 8032 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-08-26T11:25:04.514+05:30  INFO 8032 --- [shopping-app-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-08-26T11:25:04.637+05:30  INFO 8032 --- [shopping-app-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 11 JPA repository interfaces.
+2026-08-26T11:25:05.298+05:30  INFO 8032 --- [shopping-app-backend] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-08-26T11:25:05.320+05:30  INFO 8032 --- [shopping-app-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-08-26T11:25:05.321+05:30  INFO 8032 --- [shopping-app-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-08-26T11:25:05.410+05:30  INFO 8032 --- [shopping-app-backend] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1856 ms
+2026-08-26T11:25:05.486+05:30 DEBUG 8032 --- [shopping-app-backend] [main] c.s.s.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2026-08-26T11:25:05.669+05:30  INFO 8032 --- [shopping-app-backend] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-08-26T11:25:05.754+05:30  INFO 8032 --- [shopping-app-backend] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-08-26T11:25:06.271+05:30  INFO 8032 --- [shopping-app-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-08-26T11:25:06.320+05:30  INFO 8032 --- [shopping-app-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-08-26T11:25:06.502+05:30  INFO 8032 --- [shopping-app-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@41ec4271
+2026-08-26T11:25:06.505+05:30  INFO 8032 --- [shopping-app-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-08-26T11:25:06.582+05:30  WARN 8032 --- [shopping-app-backend] [main] org.hibernate.orm.core                   : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-08-26T11:25:06.610+05:30  INFO 8032 --- [shopping-app-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/shopping_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 5.5.5
+	Default catalog/schema: shopping_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-08-26T11:25:08.089+05:30  INFO 8032 --- [shopping-app-backend] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-08-26T11:25:08.327+05:30  INFO 8032 --- [shopping-app-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-08-26T11:25:08.459+05:30  INFO 8032 --- [shopping-app-backend] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-08-26T11:25:10.055+05:30  WARN 8032 --- [shopping-app-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-08-26T11:25:10.197+05:30  WARN 8032 --- [shopping-app-backend] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 3c94aa3d-83ce-4b10-98f2-4acfe9bfb077
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-08-26T11:25:10.217+05:30  INFO 8032 --- [shopping-app-backend] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-08-26T11:25:10.874+05:30  INFO 8032 --- [shopping-app-backend] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-08-26T11:25:10.882+05:30  INFO 8032 --- [shopping-app-backend] [main] c.s.s.ShoppingAppBackendApplication      : Started ShoppingAppBackendApplication in 7.939 seconds (process running for 8.959)
+2026-08-26T11:27:19.770+05:30  INFO 8032 --- [shopping-app-backend] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-26T11:27:19.770+05:30  INFO 8032 --- [shopping-app-backend] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-08-26T11:27:19.773+05:30  INFO 8032 --- [shopping-app-backend] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-08-26T11:27:20.036+05:30  INFO 8032 --- [shopping-app-backend] [http-nio-8080-exec-1] c.s.s.service.AdminDashboardService      : Loading admin dashboard data
+2026-08-26T11:27:20.189+05:30 DEBUG 8032 --- [shopping-app-backend] [http-nio-8080-exec-1] c.s.s.service.AdminDashboardService      : Total orders: 21

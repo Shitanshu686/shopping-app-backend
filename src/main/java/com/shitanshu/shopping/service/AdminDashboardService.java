@@ -1,5 +1,6 @@
 package com.shitanshu.shopping.service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import com.shitanshu.shopping.repository.UserRepository;
 @Service
 public class AdminDashboardService {
 
+	private static final Logger log =
+	        LoggerFactory.getLogger(AdminDashboardService.class);
     @Autowired
     private ProductRepository productRepository;
 
@@ -30,12 +33,14 @@ public class AdminDashboardService {
     // =========================
 
     public AdminDashboardResponseDTO getDashboardData() {
-
+    	log.info("Loading admin dashboard data");
+    	
         // =========================
         // BASIC DASHBOARD DATA
         // =========================
-
-        long totalProducts =
+    	try {
+    		
+    		long totalProducts =
                 productRepository.count();
 
         long totalUsers =
@@ -43,6 +48,7 @@ public class AdminDashboardService {
 
         long totalOrders =
                 orderRepository.count();
+        log.debug("Total orders: {}", totalOrders);
 
         double totalRevenue =
                 orderRepository.getTotalRevenue();
@@ -62,7 +68,14 @@ public class AdminDashboardService {
                 productRepository.countByStock(
                         0
                 );
+        if (outOfStockProducts > 0) {
 
+            log.warn(
+                "There are {} out-of-stock products",
+                outOfStockProducts
+            );
+
+        }
 
         // =========================
         // RECENT ORDERS
@@ -102,5 +115,15 @@ public class AdminDashboardService {
                 outOfStockProducts,
                 recentOrderDTOs
         );
+    	}
+    	catch (Exception e) {
+
+            log.error(
+                    "Failed to load admin dashboard data",
+                    e
+            );
+
+            throw e;
+        }
     }
 }
