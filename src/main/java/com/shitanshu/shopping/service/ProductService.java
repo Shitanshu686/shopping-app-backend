@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import com.shitanshu.shopping.exception.ProductNotFoundException;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.shitanshu.shopping.model.Product;
@@ -20,30 +21,32 @@ public class ProductService {
 	
 	
 	
-	public List<ProductResponseDTO> getAllProducts() {
+	public Page<ProductResponseDTO> getAllProducts(Pageable pageable) {
 
+	    Page<Product> products =
+	            productRepository.findAll(pageable);
 
+	    return products.map(product -> {
 
-        
-		List<Product> products = productRepository.findAll();
-		List<ProductResponseDTO> responseList = new ArrayList<>();
-		for (Product product : products) {
-			ProductResponseDTO response = new ProductResponseDTO();
-			response.setId(product.getId());
-			response.setName(product.getName());
-			response.setBrand(product.getBrand());
-			response.setDescription(product.getDescription());
-			response.setPrice(product.getPrice());
-			response.setOldPrice(product.getOldPrice());
-			response.setRating(product.getRating());
-			response.setImage(product.getImage());
-			response.setCategory(product.getCategory());
-			response.setStock(product.getStock());
-			
-			responseList.add(response);
-		}
-		return responseList;
-    }
+	        ProductResponseDTO response =
+	                new ProductResponseDTO();
+
+	        response.setId(product.getId());
+	        response.setName(product.getName());
+	        response.setBrand(product.getBrand());
+	        response.setDescription(product.getDescription());
+	        response.setPrice(product.getPrice());
+	        response.setOldPrice(product.getOldPrice());
+	        response.setRating(product.getRating());
+	        response.setImage(product.getImage());
+	        response.setCategory(product.getCategory());
+	        response.setStock(product.getStock());
+
+	        return response;
+
+	    });
+
+	}
     public ProductResponseDTO  getProductById(int id) {
 
     	Product product = productRepository.findById(id)

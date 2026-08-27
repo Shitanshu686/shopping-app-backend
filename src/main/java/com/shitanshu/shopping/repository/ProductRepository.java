@@ -1,5 +1,6 @@
 package com.shitanshu.shopping.repository;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,5 @@ public interface ProductRepository
     long countByStock(
             Integer stock
     );
+    Page<Product> findAll(Pageable pageable);
 }

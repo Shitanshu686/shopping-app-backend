@@ -23,6 +23,8 @@ import com.shitanshu.shopping.dto.ProductRequestDTO;
 import com.shitanshu.shopping.model.Product;
 import com.shitanshu.shopping.service.ProductService;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 @RestController
 @RequestMapping("/products")
 @CrossOrigin(origins = "*")
@@ -32,16 +34,20 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> getProducts() {
+    public ResponseEntity<ApiResponse<Page<ProductResponseDTO>>> getProducts(
+            Pageable pageable
+    ) {
 
-        List<ProductResponseDTO> products = productService.getAllProducts();
+        Page<ProductResponseDTO> products =
+                productService.getAllProducts(pageable);
 
-        ApiResponse<List<ProductResponseDTO>> response =
+        ApiResponse<Page<ProductResponseDTO>> response =
                 new ApiResponse<>(
                         true,
                         "Products fetched successfully",
                         products,
-                        LocalDateTime.now());
+                        LocalDateTime.now()
+                );
 
         return ResponseEntity.ok(response);
 
