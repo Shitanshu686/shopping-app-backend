@@ -10,7 +10,8 @@ import com.shitanshu.shopping.exception.ProductNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import com.shitanshu.shopping.specification.ProductSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import com.shitanshu.shopping.model.Product;
 
 @Service
@@ -46,6 +47,246 @@ public class ProductService {
 
 	    });
 
+	}
+	public Page<ProductResponseDTO> searchProducts(
+	        String name,
+	        Pageable pageable
+	) {
+
+	    Page<Product> products =
+	            productRepository.findByNameContainingIgnoreCase(
+	                    name,
+	                    pageable
+	            );
+
+	    return products.map(product -> {
+
+	        ProductResponseDTO response =
+	                new ProductResponseDTO();
+
+	        response.setId(product.getId());
+	        response.setName(product.getName());
+	        response.setBrand(product.getBrand());
+	        response.setDescription(product.getDescription());
+	        response.setPrice(product.getPrice());
+	        response.setOldPrice(product.getOldPrice());
+	        response.setRating(product.getRating());
+	        response.setImage(product.getImage());
+	        response.setCategory(product.getCategory());
+	        response.setStock(product.getStock());
+
+	        return response;
+
+	    });
+	}
+	public Page<ProductResponseDTO> filterByCategory(
+	        String category,
+	        Pageable pageable
+	) {
+
+	    Page<Product> products =
+	            productRepository.findByCategoryIgnoreCase(
+	                    category,
+	                    pageable
+	            );
+
+	    return products.map(product -> {
+
+	        ProductResponseDTO response =
+	                new ProductResponseDTO();
+
+	        response.setId(product.getId());
+	        response.setName(product.getName());
+	        response.setBrand(product.getBrand());
+	        response.setDescription(product.getDescription());
+	        response.setPrice(product.getPrice());
+	        response.setOldPrice(product.getOldPrice());
+	        response.setRating(product.getRating());
+	        response.setImage(product.getImage());
+	        response.setCategory(product.getCategory());
+	        response.setStock(product.getStock());
+
+	        return response;
+
+	    });
+	}
+	public Page<ProductResponseDTO> filterByBrand(
+	        String brand,
+	        Pageable pageable
+	) {
+
+	    Page<Product> products =
+	            productRepository.findByBrandIgnoreCase(
+	                    brand,
+	                    pageable
+	            );
+
+	    return products.map(product -> {
+
+	        ProductResponseDTO response =
+	                new ProductResponseDTO();
+
+	        response.setId(product.getId());
+	        response.setName(product.getName());
+	        response.setBrand(product.getBrand());
+	        response.setDescription(product.getDescription());
+	        response.setPrice(product.getPrice());
+	        response.setOldPrice(product.getOldPrice());
+	        response.setRating(product.getRating());
+	        response.setImage(product.getImage());
+	        response.setCategory(product.getCategory());
+	        response.setStock(product.getStock());
+
+	        return response;
+
+	    });
+	}
+	public Page<ProductResponseDTO> filterByPrice(
+	        Double minPrice,
+	        Double maxPrice,
+	        Pageable pageable
+	) {
+
+	    Page<Product> products =
+	            productRepository.findByPriceBetween(
+	                    minPrice,
+	                    maxPrice,
+	                    pageable
+	            );
+
+	    return products.map(product -> {
+
+	        ProductResponseDTO response =
+	                new ProductResponseDTO();
+
+	        response.setId(product.getId());
+	        response.setName(product.getName());
+	        response.setBrand(product.getBrand());
+	        response.setDescription(product.getDescription());
+	        response.setPrice(product.getPrice());
+	        response.setOldPrice(product.getOldPrice());
+	        response.setRating(product.getRating());
+	        response.setImage(product.getImage());
+	        response.setCategory(product.getCategory());
+	        response.setStock(product.getStock());
+
+	        return response;
+
+	    });
+	}
+	public Page<ProductResponseDTO> filterByRating(
+	        Double minRating,
+	        Pageable pageable
+	) {
+
+	    Page<Product> products =
+	            productRepository.findByRatingGreaterThanEqual(
+	                    minRating,
+	                    pageable
+	            );
+
+	    return products.map(product -> {
+
+	        ProductResponseDTO response =
+	                new ProductResponseDTO();
+
+	        response.setId(product.getId());
+	        response.setName(product.getName());
+	        response.setBrand(product.getBrand());
+	        response.setDescription(product.getDescription());
+	        response.setPrice(product.getPrice());
+	        response.setOldPrice(product.getOldPrice());
+	        response.setRating(product.getRating());
+	        response.setImage(product.getImage());
+	        response.setCategory(product.getCategory());
+	        response.setStock(product.getStock());
+
+	        return response;
+
+	    });
+	}
+	public Page<ProductResponseDTO> filterProducts(
+	        String name,
+	        String category,
+	        String brand,
+	        Double minPrice,
+	        Double maxPrice,
+	        Double minRating,
+	        Pageable pageable
+	) {
+
+		Specification<Product> specification =
+		        (root, query, criteriaBuilder) -> null;
+
+	    if (name != null && !name.isBlank()) {
+
+	        specification =
+	                specification.and(
+	                        ProductSpecification.hasName(name)
+	                );
+	    }
+
+	    if (category != null && !category.isBlank()) {
+
+	        specification =
+	                specification.and(
+	                        ProductSpecification.hasCategory(category)
+	                );
+	    }
+
+	    if (brand != null && !brand.isBlank()) {
+
+	        specification =
+	                specification.and(
+	                        ProductSpecification.hasBrand(brand)
+	                );
+	    }
+
+	    if (minPrice != null && maxPrice != null) {
+
+	        specification =
+	                specification.and(
+	                        ProductSpecification.priceBetween(
+	                                minPrice,
+	                                maxPrice
+	                        )
+	                );
+	    }
+
+	    if (minRating != null) {
+
+	        specification =
+	                specification.and(
+	                        ProductSpecification.ratingGreaterThanEqual(
+	                                minRating
+	                        )
+	                );
+	    }
+
+	    Page<Product> products =
+	            productRepository.findAll(
+	                    specification,
+	                    pageable
+	            );
+
+	    return products.map(product -> {
+
+	        ProductResponseDTO response =
+	                new ProductResponseDTO();
+
+	        response.setId(product.getId());
+	        response.setName(product.getName());
+	        response.setBrand(product.getBrand());
+	        response.setDescription(product.getDescription());
+	        response.setPrice(product.getPrice());
+	        response.setOldPrice(product.getOldPrice());
+	        response.setRating(product.getRating());
+	        response.setImage(product.getImage());
+	        response.setCategory(product.getCategory());
+	        response.setStock(product.getStock());
+
+	        return response;
+	    });
 	}
     public ProductResponseDTO  getProductById(int id) {
 
