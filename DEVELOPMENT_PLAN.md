@@ -208,7 +208,7 @@ Logback
 Application/Error/Debug Logging
 🔄 Module 25 — Pagination & Sorting
 
-Status: ⬜ Pending
+Status: ⬜ ✔ Completed & Tested
 
 Pagination
 Sorting
@@ -216,7 +216,7 @@ Pageable
 Page<T>
 🔄 Module 26 — Search & Filtering
 
-Status: ⬜ Pending
+Status: ⬜ ✔ Completed & Tested
 
 Name
 Category
@@ -226,7 +226,7 @@ Rating
 Multiple Filters
 🔄 Module 27 — Image Upload
 
-Status: ⬜ Pending
+Status: ⬜ ✔ Completed & Tested
 
 MultipartFile
 Image Upload/Storage

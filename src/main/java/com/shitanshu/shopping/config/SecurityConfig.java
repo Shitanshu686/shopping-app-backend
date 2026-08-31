@@ -87,6 +87,10 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers(
                         	    HttpMethod.GET,
+                        	    "/uploads/**"
+                        	).permitAll()
+                        .requestMatchers(
+                        	    HttpMethod.GET,
                         	    "/feedback/products/**"
                         	).permitAll()
 
@@ -97,6 +101,10 @@ public class SecurityConfig {
                         .requestMatchers(
                         	    HttpMethod.GET,
                         	    "/admin/dashboard"
+                        	).hasRole("ADMIN")
+                        .requestMatchers(
+                        	    HttpMethod.POST,
+                        	    "/images/upload"
                         	).hasRole("ADMIN")
                         .requestMatchers(
                             org.springframework.http.HttpMethod.POST,
@@ -121,6 +129,7 @@ public class SecurityConfig {
                             org.springframework.http.HttpMethod.DELETE,
                             "/products/**"
                         ).hasRole("ADMIN")
+                        
                         .requestMatchers(
                         	    HttpMethod.GET,
                         	    "/users/admin",
