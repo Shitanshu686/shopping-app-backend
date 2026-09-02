@@ -93,6 +93,11 @@ public class SecurityConfig {
                         	    HttpMethod.GET,
                         	    "/feedback/products/**"
                         	).permitAll()
+                        .requestMatchers("/ratings/product/**").permitAll()
+                        .requestMatchers(
+                        	    HttpMethod.POST,
+                        	    "/ratings"
+                        	).authenticated()
 
 
                         // ======================
