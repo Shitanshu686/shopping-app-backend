@@ -232,9 +232,18 @@ MultipartFile
 Image Upload/Storage
 Image URLs
 Product Image Management
+
+🔄 Module 27.1
+Status: ⬜ ✔ Completed & Tested
+Product rating system implemented.
+Only users who purchased and received (DELIVERED) the product can rate.
+Users can add or update their rating.
+Added POST /ratings API with JWT-based user verification.
+
+
 🔄 Module 28 — Docker
 
-Status: ⬜ Pending
+Status: ⬜ ✔ Completed & Tested
 
 Dockerfile
 Docker Compose
