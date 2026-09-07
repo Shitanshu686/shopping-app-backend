@@ -215,8 +215,7 @@ public class ProductService {
 	        Pageable pageable
 	) {
 
-		Specification<Product> specification =
-		        (root, query, criteriaBuilder) -> null;
+		Specification<Product> specification = Specification.allOf();
 
 	    if (name != null && !name.isBlank()) {
 

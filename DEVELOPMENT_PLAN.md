@@ -257,7 +257,9 @@ Automated Build/Test    ✅
 Continuous Integration  ✅
 Continuous Deployment   ⬜ Pending
 🔄 Module 30 — Microservices
-
+30.1 Microservices Architecture       ✅
+30.2 Product Service                  ✅
+30.3 User Service                     ⏳ NEXT
 Status: ⬜ Pending
 
 API Gateway
