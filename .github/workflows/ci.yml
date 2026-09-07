@@ -18,11 +18,11 @@ jobs:
         image: mysql:8.4
         env:
           MYSQL_DATABASE: shopping_db
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ci_test_password
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -uroot -p${{ secrets.MYSQL_ROOT_PASSWORD }}"
+          --health-cmd="mysqladmin ping -h localhost -uroot -pci_test_password"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
@@ -43,5 +43,5 @@ jobs:
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/shopping_db
           SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          SPRING_DATASOURCE_PASSWORD: ci_test_password
         run: ./mvnw clean verify
