@@ -10,7 +10,6 @@ on:
 
 jobs:
   build-and-test:
-
     runs-on: ubuntu-latest
 
     services:
@@ -28,7 +27,6 @@ jobs:
           --health-retries=10
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -44,4 +42,6 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/shopping_db
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: ci_test_password
+          RAZORPAY_KEY_ID: test_key_id
+          RAZORPAY_KEY_SECRET: test_key_secret
         run: ./mvnw clean verify
