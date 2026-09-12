@@ -1,5 +1,7 @@
 package com.shitanshu.orderservice.service;
-
+import com.shitanshu.orderservice.event.OrderCreatedEvent;
+import com.shitanshu.orderservice.event.OrderEventPublisher;
+import com.shitanshu.orderservice.client.ProductClient;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,10 @@ public class OrderService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
-
+    @Autowired
+    private ProductClient productClient;
+    @Autowired
+    private OrderEventPublisher orderEventPublisher;
 
     // =====================================================
     // CREATE ORDER / CHECKOUT
@@ -135,6 +140,13 @@ public class OrderService {
 
         Order savedOrder =
                 orderRepository.save(order);
+        orderEventPublisher.publishOrderCreated(
+                new OrderCreatedEvent(
+                        savedOrder.getId(),
+                        email,
+                        savedOrder.getTotalAmount()
+                )
+        );
 
 
         // =========================
@@ -160,6 +172,7 @@ public class OrderService {
 
         return buildOrderResponse(
                 savedOrder
+         
         );
     }
 
@@ -174,9 +187,9 @@ public class OrderService {
 
         for (CartItem cartItem : cartItems) {
 
-            Product product =
-                    cartItem.getProduct();
-
+        	Product product = productClient.getProductById(
+        	        cartItem.getProduct().getId()
+        	);
 
             if (cartItem.getQuantity()
                     > product.getStock()) {
@@ -589,6 +602,8 @@ public class OrderService {
                 currentStatus,
                 newStatus
         );
+        Order updatedOrder =
+                orderRepository.save(order);
 
 
         // =========================
@@ -600,12 +615,7 @@ public class OrderService {
         );
 
 
-        // =========================
-        // SAVE ORDER
-        // =========================
-
-        Order updatedOrder =
-                orderRepository.save(order);
+       
 
 
         // =========================
