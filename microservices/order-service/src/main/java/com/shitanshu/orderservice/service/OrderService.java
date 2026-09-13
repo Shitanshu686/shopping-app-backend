@@ -5,7 +5,7 @@ import com.shitanshu.orderservice.client.ProductClient;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.shitanshu.orderservice.event.OrderKafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +63,8 @@ public class OrderService {
     private ProductClient productClient;
     @Autowired
     private OrderEventPublisher orderEventPublisher;
+    @Autowired
+    private OrderKafkaProducer orderKafkaProducer;
 
     // =====================================================
     // CREATE ORDER / CHECKOUT
@@ -140,13 +142,15 @@ public class OrderService {
 
         Order savedOrder =
                 orderRepository.save(order);
-        orderEventPublisher.publishOrderCreated(
-                new OrderCreatedEvent(
-                        savedOrder.getId(),
-                        email,
-                        savedOrder.getTotalAmount()
-                )
+        OrderCreatedEvent event = new OrderCreatedEvent(
+                savedOrder.getId(),
+                email,
+                savedOrder.getTotalAmount()
         );
+
+        orderEventPublisher.publishOrderCreated(event);
+
+        orderKafkaProducer.publishOrderCreated(event);
 
 
         // =========================
