@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String authHeader =
                 request.getHeader("Authorization");
+        System.out.println("AUTH HEADER = " + authHeader);
 
 
         if (authHeader != null &&
@@ -58,6 +59,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
                     if (jwtUtil.validateToken(token)) {
+                    	System.out.println("JWT VALID");
+                    	System.out.println("EMAIL = " + email);
+                    	System.out.println("ROLE = " + role);
 
                     	UsernamePasswordAuthenticationToken authentication =
                     	        new UsernamePasswordAuthenticationToken(
@@ -85,7 +89,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println(
                         "Invalid JWT Token"
                 );
-
+                System.out.println("JWT ERROR = " + e.getMessage());
             }
 
         }
