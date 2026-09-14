@@ -1,5 +1,11 @@
 package com.shitanshu.userservice.service;
+import java.util.Optional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.shitanshu.userservice.dto.LoginRequestDTO;
+import com.shitanshu.userservice.dto.LoginResponseDTO;
+import com.shitanshu.userservice.exception.InvalidCredentialsException;
+import com.shitanshu.userservice.security.JwtUtil;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,11 +21,44 @@ import com.shitanshu.userservice.repository.UserRepository;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    public UserService(
+            UserRepository userRepository,
+            BCryptPasswordEncoder passwordEncoder,
+            JwtUtil jwtUtil) {
 
-    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
+    public LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO) {
 
+        Optional<User> optionalUser =
+                userRepository.findByEmail(loginRequestDTO.getEmail());
+
+        if (optionalUser.isEmpty()) {
+            throw new InvalidCredentialsException("Invalid Email or Password");
+        }
+
+        User user = optionalUser.get();
+
+        if (!passwordEncoder.matches(
+                loginRequestDTO.getPassword(),
+                user.getPassword())) {
+
+            throw new InvalidCredentialsException("Invalid Email or Password");
+        }
+
+        UserResponseDTO response = mapToResponse(user);
+
+        String token = jwtUtil.generateToken(
+                user.getEmail(),
+                user.getRole()
+        );
+
+        return new LoginResponseDTO(token, response);
+    }
     public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
@@ -94,4 +133,5 @@ public class UserService {
                 user.getDarkMode()
         );
     }
+    
 }

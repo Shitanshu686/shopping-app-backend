@@ -1,7 +1,9 @@
 package com.shitanshu.userservice.controller;
-
+import com.shitanshu.userservice.dto.LoginRequestDTO;
+import com.shitanshu.userservice.dto.LoginResponseDTO;
 import java.util.List;
-
+import com.shitanshu.userservice.dto.LoginRequestDTO;
+import com.shitanshu.userservice.dto.LoginResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,14 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> loginUser(
+            @RequestBody LoginRequestDTO loginRequestDTO) {
+
+        return ResponseEntity.ok(
+                userService.loginUser(loginRequestDTO)
+        );
     }
 
     @GetMapping
@@ -61,4 +71,6 @@ public class UserController {
 
         return ResponseEntity.ok("User deleted successfully");
     }
+    
+    
 }

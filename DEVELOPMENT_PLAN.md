@@ -267,6 +267,72 @@ Product/User/Cart/Order/Payment Services
 Service Communication
 Event-Driven Architecture
 Kafka / RabbitMQ
+30.11  Microservices Integration & Testing        🔜
+
+30.12  Payment Webhooks                           🔜
+       ├── Razorpay Webhook
+       ├── Payment Success/Failure Events
+       ├── Webhook Signature Verification
+       └── Idempotent Webhook Handling
+
+30.13  GraphQL Integration                        🔜
+       ├── GraphQL Basics
+       ├── Queries
+       ├── Mutations
+       ├── Schema
+       ├── Resolvers
+       └── GraphQL + Existing REST APIs
+
+30.14  gRPC Communication                         🔜
+       ├── Protocol Buffers
+       ├── gRPC Server
+       ├── gRPC Client
+       ├── Unary RPC
+       └── Microservice-to-Microservice gRPC
+
+30.15  Load Balancing                             🔜
+       ├── Load Balancer
+       ├── Client-side / Server-side concepts
+       ├── Multiple Service Instances
+       └── Request Distribution
+
+30.16  Proxy Architecture                         🔜
+       ├── Forward Proxy
+       ├── Reverse Proxy
+       ├── API Gateway vs Proxy
+       └── Proxy with Microservices
+
+30.17  Service Discovery & Configuration          🔜
+       ├── Service Registry
+       ├── Service Discovery
+       └── Centralized Configuration
+
+30.18  Distributed Systems & Resilience           🔜
+       ├── Timeout
+       ├── Retry
+       ├── Circuit Breaker
+       ├── Bulkhead
+       ├── Fallback
+       ├── Idempotency
+       └── Saga Pattern
+
+                    ┌── GraphQL
+                    │
+Frontend ──→ API Gateway ──→ Microservices
+                    │              │
+                    │              ├── REST
+                    │              ├── gRPC
+                    │              └── Events
+                    │
+                    └── Proxy / Load Balancer
+
+Order
+  │
+  ├── Payment ──→ Razorpay
+  │                 │
+  │                 └── Webhook
+  │
+  └── Kafka ──→ Events
 🔄 Module 31 — Deployment
 
 Status: ⬜ Pending
