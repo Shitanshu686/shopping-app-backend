@@ -1,5 +1,6 @@
 package com.shitanshu.paymentservice.controller;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -253,5 +254,92 @@ public class PaymentController {
                  .body(response);
      }
  }
+//=========================================================
+//RAZORPAY WEBHOOK
+//=========================================================
+
+@PostMapping("/webhook")
+public ResponseEntity<?> handleWebhook(
+      @RequestBody String payload,
+      @RequestHeader("X-Razorpay-Signature") String signature,
+      @RequestHeader(
+              value = "x-razorpay-event-id",
+              required = false
+      ) String eventId) {
+
+  try {
+
+	  boolean verified =
+		        paymentService.verifyWebhookSignature(
+		                payload,
+		                signature
+		        );
+
+		if (!verified) {
+		    throw new SecurityException(
+		            "Invalid webhook signature"
+		    );
+		}
+
+		String eventType =
+	            paymentService.getWebhookEventType(payload);
+		if (eventId != null &&
+		        paymentService.isWebhookAlreadyProcessed(eventId)) {
+
+		    return ResponseEntity.ok(
+		            Map.of(
+		                    "success", true,
+		                    "message", "Webhook already processed",
+		                    "event", eventType
+		            )
+		    );
+		}
+		if (eventType.equals("payment.captured")) {
+
+		    paymentService.handlePaymentCaptured(payload);
+
+		} else if (eventType.equals("payment.failed")) {
+
+		    paymentService.handlePaymentFailed(payload);
+		}
+		if (eventId != null) {
+
+		    paymentService.saveWebhookEvent(
+		            eventId,
+		            eventType
+		    );
+		}
+
+	    return ResponseEntity.ok(
+	            Map.of(
+	                    "success", true,
+	                    "message", "Webhook signature verified",
+	                    "event", eventType
+	            )
+	    );
+
+  } catch (SecurityException e) {
+
+      return ResponseEntity
+              .status(401)
+              .body(
+                      Map.of(
+                              "success", false,
+                              "message", "Invalid webhook signature"
+                      )
+              );
+
+  } catch (Exception e) {
+
+      return ResponseEntity
+              .badRequest()
+              .body(
+                      Map.of(
+                              "success", false,
+                              "message", e.getMessage()
+                      )
+              );
+  }
+}
 
 }

@@ -1,5 +1,5 @@
 package com.shitanshu.paymentservice.service;
-
+import org.springframework.beans.factory.annotation.Value;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,8 +22,9 @@ import com.shitanshu.paymentservice.repository.CartItemRepository;
 import com.shitanshu.paymentservice.repository.CartRepository;
 import com.shitanshu.paymentservice.repository.OrderRepository;
 import com.shitanshu.paymentservice.repository.PaymentRepository;
-
-
+import com.shitanshu.paymentservice.repository.WebhookEventRepository;
+import com.shitanshu.paymentservice.repository.WebhookEventRepository;
+import com.shitanshu.paymentservice.model.WebhookEvent;
 @Service
 public class PaymentService {
 
@@ -46,6 +47,12 @@ public class PaymentService {
 
     @Autowired
     private CartRepository cartRepository;
+    
+    @Autowired
+    private WebhookEventRepository webhookEventRepository;
+    
+    @Value("${razorpay.webhook.secret}")
+    private String webhookSecret;
 
 
     // =========================================================
@@ -369,5 +376,137 @@ public class PaymentService {
                 payment
         );
     }
+ // =========================================================
+ // RAZORPAY WEBHOOK - SIGNATURE VERIFICATION
+ // =========================================================
+
+ public boolean verifyWebhookSignature(
+         String payload,
+         String signature) {
+
+     try {
+
+         return Utils.verifyWebhookSignature(
+                 payload,
+                 signature,
+                 webhookSecret
+         );
+
+     } catch (RazorpayException e) {
+
+         throw new RuntimeException(
+                 "Webhook signature verification failed",
+                 e
+         );
+     }
+ }
+ public String getWebhookEventType(String payload) {
+
+	    JSONObject webhook =
+	            new JSONObject(payload);
+
+	    return webhook.getString("event");
+	}
+ public void handlePaymentCaptured(String payload) {
+
+	    JSONObject webhook =
+	            new JSONObject(payload);
+
+	    JSONObject paymentEntity =
+	            webhook
+	                    .getJSONObject("payload")
+	                    .getJSONObject("payment")
+	                    .getJSONObject("entity");
+
+	    String razorpayPaymentId =
+	            paymentEntity.getString("id");
+
+	    String razorpayOrderId =
+	            paymentEntity.getString("order_id");
+
+	    Payment payment =
+	            paymentRepository
+	                    .findByRazorpayOrderId(
+	                            razorpayOrderId
+	                    )
+	                    .orElseThrow(() ->
+	                            new RuntimeException(
+	                                    "Payment record not found"
+	                            )
+	                    );
+
+	    payment.setRazorpayPaymentId(
+	            razorpayPaymentId
+	    );
+
+	    payment.setStatus(
+	            PaymentStatus.SUCCESS
+	    );
+
+	    paymentRepository.save(payment);
+	}
+ public void handlePaymentFailed(String payload) {
+
+	    JSONObject webhook =
+	            new JSONObject(payload);
+
+	    JSONObject paymentEntity =
+	            webhook
+	                    .getJSONObject("payload")
+	                    .getJSONObject("payment")
+	                    .getJSONObject("entity");
+
+	    String razorpayPaymentId =
+	            paymentEntity.getString("id");
+
+	    String razorpayOrderId =
+	            paymentEntity.getString("order_id");
+
+	    Payment payment =
+	            paymentRepository
+	                    .findByRazorpayOrderId(
+	                            razorpayOrderId
+	                    )
+	                    .orElseThrow(() ->
+	                            new RuntimeException(
+	                                    "Payment record not found"
+	                            )
+	                    );
+
+	    payment.setRazorpayPaymentId(
+	            razorpayPaymentId
+	    );
+
+	    payment.setStatus(
+	            PaymentStatus.FAILED
+	    );
+
+	    paymentRepository.save(payment);
+	}
+ public boolean isWebhookAlreadyProcessed(String eventId) {
+
+	    return webhookEventRepository
+	            .findByEventId(eventId)
+	            .isPresent();
+	}
+ public void saveWebhookEvent(
+	        String eventId,
+	        String eventType) {
+
+	    WebhookEvent webhookEvent =
+	            new WebhookEvent();
+
+	    webhookEvent.setEventId(eventId);
+
+	    webhookEvent.setEventType(eventType);
+
+	    webhookEvent.setProcessedAt(
+	            LocalDateTime.now()
+	    );
+
+	    webhookEventRepository.save(
+	            webhookEvent
+	    );
+	}
 
 }
