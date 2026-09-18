@@ -12,9 +12,10 @@ import com.shitanshu.cartservice.model.Product;
 public interface CartItemRepository
         extends JpaRepository<CartItem, Integer> {
 
-    Optional<CartItem> findByCartAndProduct(
+    Optional<CartItem> findByCartAndProductAndFlashSale(
             Cart cart,
-            Product product
+            Product product,
+            boolean flashSale
     );
 
     List<CartItem> findByCart(

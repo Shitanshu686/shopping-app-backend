@@ -21,14 +21,43 @@ public class CartItem {
     @Column(nullable = false)
     private Integer quantity;
 
+    // =========================
+    // FLASH SALE DETAILS
+    // =========================
+
+    @Column(name = "original_price")
+    private Double originalPrice;
+
+    @Column(name = "sale_price")
+    private Double salePrice;
+
+    @Column(name = "discount_percent")
+    private Integer discountPercent;
+
+    @Column(name = "flash_sale")
+    private boolean flashSale;
+
     public CartItem() {
     }
 
-    public CartItem(Integer id, Cart cart, Product product, Integer quantity) {
+    public CartItem(
+            Integer id,
+            Cart cart,
+            Product product,
+            Integer quantity,
+            Double originalPrice,
+            Double salePrice,
+            Integer discountPercent,
+            boolean flashSale) {
+
         this.id = id;
         this.cart = cart;
         this.product = product;
         this.quantity = quantity;
+        this.originalPrice = originalPrice;
+        this.salePrice = salePrice;
+        this.discountPercent = discountPercent;
+        this.flashSale = flashSale;
     }
 
     public Integer getId() {
@@ -61,5 +90,37 @@ public class CartItem {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Double getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(Double originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+    public Double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public Integer getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(Integer discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public boolean isFlashSale() {
+        return flashSale;
+    }
+
+    public void setFlashSale(boolean flashSale) {
+        this.flashSale = flashSale;
     }
 }

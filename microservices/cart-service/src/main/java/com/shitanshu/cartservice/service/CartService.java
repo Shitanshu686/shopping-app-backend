@@ -70,6 +70,7 @@ public class CartService {
     public CartResponseDTO addToCart(
             String email,
             AddToCartRequestDTO request) {
+        System.out.println(">>> FLASH SALE REQUEST = " + request.isFlashSale());
 
         Cart cart = getOrCreateCart(email);
 
@@ -91,7 +92,7 @@ public class CartService {
 
         CartItem cartItem =
                 cartItemRepository
-                        .findByCartAndProduct(cart, product)
+                        .findByCartAndProductAndFlashSale(cart, product, request.isFlashSale())
                         .orElse(null);
 
         if (cartItem != null) {
@@ -117,6 +118,30 @@ public class CartService {
             cartItem.setCart(cart);
             cartItem.setProduct(product);
             cartItem.setQuantity(request.getQuantity());
+
+        }
+
+        // =========================
+        // FLASH SALE PRICE
+        // =========================
+
+        if (request.isFlashSale()) {
+
+            double originalPrice = product.getPrice();
+
+            double salePrice = originalPrice * 0.90;
+
+            cartItem.setOriginalPrice(originalPrice);
+            cartItem.setSalePrice(salePrice);
+            cartItem.setDiscountPercent(10);
+            cartItem.setFlashSale(true);
+
+        } else {
+
+            cartItem.setOriginalPrice(null);
+            cartItem.setSalePrice(null);
+            cartItem.setDiscountPercent(null);
+            cartItem.setFlashSale(false);
 
         }
 
@@ -173,6 +198,30 @@ public class CartService {
         }
 
         cartItem.setQuantity(request.getQuantity());
+
+        // =========================
+        // FLASH SALE PRICE
+        // =========================
+
+        if (cartItem.isFlashSale()) {
+
+            double originalPrice = product.getPrice();
+
+            double salePrice = originalPrice * 0.90;
+
+            cartItem.setOriginalPrice(originalPrice);
+            cartItem.setSalePrice(salePrice);
+            cartItem.setDiscountPercent(10);
+            cartItem.setFlashSale(true);
+
+        } else {
+
+            cartItem.setOriginalPrice(null);
+            cartItem.setSalePrice(null);
+            cartItem.setDiscountPercent(null);
+            cartItem.setFlashSale(false);
+
+        }
 
         cartItemRepository.save(cartItem);
 
@@ -236,8 +285,12 @@ public class CartService {
 
             Product product = item.getProduct();
 
+            double effectivePrice = item.isFlashSale()
+                    ? item.getSalePrice()
+                    : product.getPrice();
+
             double subtotal =
-                    product.getPrice()
+                    effectivePrice
                     * item.getQuantity();
 
             CartItemResponseDTO response =
@@ -247,9 +300,12 @@ public class CartService {
             response.setProductId(product.getId());
             response.setProductName(product.getName());
             response.setImage(product.getImage());
-            response.setPrice(product.getPrice());
+            response.setPrice(effectivePrice);
             response.setQuantity(item.getQuantity());
             response.setSubtotal(subtotal);
+            response.setOriginalPrice(item.getOriginalPrice());
+            response.setDiscountPercent(item.getDiscountPercent());
+            response.setFlashSale(item.isFlashSale());
 
             responseItems.add(response);
 
