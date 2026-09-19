@@ -94,6 +94,10 @@ public class CartService {
                         .findByCartAndProduct(cart, product)
                         .orElse(null);
 
+        boolean isFlash = Boolean.TRUE.equals(request.getFlashSale());
+        double origPrice = product.getPrice() != null ? product.getPrice() : 0.0;
+        double sPrice = isFlash ? Math.round(origPrice * 0.90 * 100.0) / 100.0 : origPrice;
+
         if (cartItem != null) {
 
             int newQuantity =
@@ -109,6 +113,12 @@ public class CartService {
             }
 
             cartItem.setQuantity(newQuantity);
+            if (isFlash) {
+                cartItem.setFlashSale(true);
+                cartItem.setOriginalPrice(origPrice);
+                cartItem.setSalePrice(sPrice);
+                cartItem.setDiscountPercent(10);
+            }
 
         } else {
 
@@ -117,6 +127,10 @@ public class CartService {
             cartItem.setCart(cart);
             cartItem.setProduct(product);
             cartItem.setQuantity(request.getQuantity());
+            cartItem.setFlashSale(isFlash);
+            cartItem.setOriginalPrice(isFlash ? origPrice : null);
+            cartItem.setSalePrice(isFlash ? sPrice : null);
+            cartItem.setDiscountPercent(isFlash ? 10 : null);
 
         }
 
@@ -236,9 +250,12 @@ public class CartService {
 
             Product product = item.getProduct();
 
-            double subtotal =
-                    product.getPrice()
-                    * item.getQuantity();
+            boolean isFlash = Boolean.TRUE.equals(item.getFlashSale());
+            double unitPrice = (isFlash && item.getSalePrice() != null)
+                    ? item.getSalePrice()
+                    : (product.getPrice() != null ? product.getPrice() : 0.0);
+
+            double subtotal = unitPrice * item.getQuantity();
 
             CartItemResponseDTO response =
                     new CartItemResponseDTO();
@@ -247,7 +264,10 @@ public class CartService {
             response.setProductId(product.getId());
             response.setProductName(product.getName());
             response.setImage(product.getImage());
-            response.setPrice(product.getPrice());
+            response.setPrice(unitPrice);
+            response.setOriginalPrice(isFlash ? item.getOriginalPrice() : null);
+            response.setFlashSale(isFlash);
+            response.setDiscountPercent(item.getDiscountPercent());
             response.setQuantity(item.getQuantity());
             response.setSubtotal(subtotal);
 

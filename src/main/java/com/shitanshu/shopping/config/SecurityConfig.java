@@ -1,165 +1,74 @@
 package com.shitanshu.shopping.config;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import com.shitanshu.shopping.security.JwtAuthenticationFilter;
-import org.springframework.http.HttpMethod;
+
 @Configuration
-@EnableMethodSecurity
+@EnableWebSecurity
 public class SecurityConfig {
 
-	@Autowired
-	private JwtAuthenticationFilter jwtAuthenticationFilter;
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
+    private final JwtAuthenticationFilter filter;
 
-	    CorsConfiguration configuration =
-	            new CorsConfiguration();
-
-	    configuration.setAllowedOrigins(
-	            Arrays.asList("*")
-	    );
-
-	    configuration.setAllowedMethods(
-	            Arrays.asList(
-	                    "GET",
-	                    "POST",
-	                    "PUT",
-	                    "DELETE",
-	                    "OPTIONS"
-	            )
-	    );
-
-	    configuration.setAllowedHeaders(
-	            Arrays.asList("*")
-	    );
-
-	    UrlBasedCorsConfigurationSource source =
-	            new UrlBasedCorsConfigurationSource();
-
-	    source.registerCorsConfiguration(
-	            "/**",
-	            configuration
-	    );
-
-	    return source;
-	}
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-
-        return new BCryptPasswordEncoder();
-
+    public SecurityConfig(JwtAuthenticationFilter filter) {
+        this.filter = filter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(auth -> auth
+            .csrf(csrf -> csrf.disable())
+            .cors(Customizer.withDefaults())
+            .authorizeHttpRequests(auth -> auth
 
-                        // ======================
-                        // PUBLIC APIs
-                        // ======================
+                // PUBLIC APIs
+                .requestMatchers(
+                    "/flash-sale",
+                    "/flash-sale/**",
+                    "/users/login",
+                    "/users/register"
+                ).permitAll()
 
-                        .requestMatchers(
-                            "/users/login",
-                            "/users/register"
-                        ).permitAll()
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/products",
+                    "/products/**",
+                    "/uploads/**",
+                    "/feedback/products/**"
+                ).permitAll()
 
-                        .requestMatchers(
-                            org.springframework.http.HttpMethod.GET,
-                            "/products",
-                            "/products/**"
-                        ).permitAll()
-                        .requestMatchers(
-                        	    HttpMethod.GET,
-                        	    "/uploads/**"
-                        	).permitAll()
-                        .requestMatchers(
-                        	    HttpMethod.GET,
-                        	    "/feedback/products/**"
-                        	).permitAll()
-                        .requestMatchers("/ratings/product/**").permitAll()
-                        .requestMatchers(
-                        	    HttpMethod.POST,
-                        	    "/ratings"
-                        	).authenticated()
+                // SECURED APIs
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            );
 
-
-                        // ======================
-                        // ADMIN ONLY APIs
-                        // ======================
-                        .requestMatchers(
-                        	    HttpMethod.GET,
-                        	    "/admin/dashboard"
-                        	).hasRole("ADMIN")
-                        .requestMatchers(
-                        	    HttpMethod.POST,
-                        	    "/images/upload"
-                        	).hasRole("ADMIN")
-                        .requestMatchers(
-                            org.springframework.http.HttpMethod.POST,
-                            "/products"
-                        ).hasRole("ADMIN")
-                        
-                        .requestMatchers(
-                        	    org.springframework.http.HttpMethod.POST,
-                        	    "/products/*/specifications"
-                        	).hasRole("ADMIN")
-
-                        .requestMatchers(
-                            org.springframework.http.HttpMethod.PUT,
-                            "/products/**"
-                        ).hasRole("ADMIN")
-                        .requestMatchers(
-                        	    org.springframework.http.HttpMethod.PUT,
-                        	    "/orders/*/status"
-                        	).hasRole("ADMIN")
-
-                        .requestMatchers(
-                            org.springframework.http.HttpMethod.DELETE,
-                            "/products/**"
-                        ).hasRole("ADMIN")
-                        
-                        .requestMatchers(
-                        	    HttpMethod.GET,
-                        	    "/users/admin",
-                        	    "/users/admin/**"
-                        	).authenticated()
-
-                        	.requestMatchers(
-                        	    HttpMethod.PUT,
-                        	    "/users/admin/**"
-                        	).authenticated()
-
-
-                        // ======================
-                        // EVERYTHING ELSE
-                        // ======================
-
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(
-                	    jwtAuthenticationFilter,
-                	    UsernamePasswordAuthenticationFilter.class
-                	);
+        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-
     }
 
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 }

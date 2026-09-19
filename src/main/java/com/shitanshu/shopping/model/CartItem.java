@@ -10,25 +10,30 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
 
-    public CartItem() {
-    }
+    @Column(name = "flash_sale")
+    private Boolean flashSale = false;
 
-    public CartItem(Integer id, Cart cart, Product product, Integer quantity) {
-        this.id = id;
-        this.cart = cart;
-        this.product = product;
-        this.quantity = quantity;
+    @Column(name = "original_price")
+    private Double originalPrice;
+
+    @Column(name = "sale_price")
+    private Double salePrice;
+
+    @Column(name = "discount_percent")
+    private Integer discountPercent;
+
+    public CartItem() {
     }
 
     public Integer getId() {
@@ -61,5 +66,37 @@ public class CartItem {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Boolean getFlashSale() {
+        return flashSale != null ? flashSale : false;
+    }
+
+    public void setFlashSale(Boolean flashSale) {
+        this.flashSale = flashSale != null ? flashSale : false;
+    }
+
+    public Double getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(Double originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+    public Double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public Integer getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(Integer discountPercent) {
+        this.discountPercent = discountPercent;
     }
 }

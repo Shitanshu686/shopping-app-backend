@@ -7,28 +7,13 @@ public class CartItemResponseDTO {
     private String productName;
     private String image;
     private Double price;
+    private Double originalPrice;
     private Integer quantity;
     private Double subtotal;
+    private Boolean flashSale = false;
+    private Integer discountPercent;
 
     public CartItemResponseDTO() {
-    }
-
-    public CartItemResponseDTO(
-            Integer id,
-            Integer productId,
-            String productName,
-            String image,
-            Double price,
-            Integer quantity,
-            Double subtotal) {
-
-        this.id = id;
-        this.productId = productId;
-        this.productName = productName;
-        this.image = image;
-        this.price = price;
-        this.quantity = quantity;
-        this.subtotal = subtotal;
     }
 
     public Integer getId() {
@@ -71,6 +56,14 @@ public class CartItemResponseDTO {
         this.price = price;
     }
 
+    public Double getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(Double originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -85,5 +78,21 @@ public class CartItemResponseDTO {
 
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public Boolean getFlashSale() {
+        return flashSale != null ? flashSale : false;
+    }
+
+    public void setFlashSale(Boolean flashSale) {
+        this.flashSale = flashSale != null ? flashSale : false;
+    }
+
+    public Integer getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(Integer discountPercent) {
+        this.discountPercent = discountPercent;
     }
 }
