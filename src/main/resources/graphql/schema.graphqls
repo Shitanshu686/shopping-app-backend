@@ -1,0 +1,41 @@
+type Product {
+    id: ID
+    name: String
+    description: String
+    price: Float
+    oldPrice: Float
+    rating: Float
+    image: String
+    category: String
+    brand: String
+    stock: Int
+}
+
+type FlashSaleStatus {
+    active: Boolean
+    endTime: String
+}
+
+input AddProductInput {
+    name: String!
+    description: String
+    price: Float!
+    oldPrice: Float
+    rating: Float
+    category: String
+    brand: String
+    stock: Int
+    image: String
+}
+
+type Query {
+    allProducts: [Product]
+    productById(id: ID!): Product
+    productsByCategory(category: String!): [Product]
+    flashSaleStatus: FlashSaleStatus
+}
+
+type Mutation {
+    addProduct(input: AddProductInput!): Product
+    deleteProduct(id: ID!): Boolean
+}

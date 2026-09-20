@@ -35,6 +35,9 @@ public class SecurityConfig {
 
                 // PUBLIC APIs
                 .requestMatchers(
+                    "/graphql",
+                    "/graphiql",
+                    "/graphiql/**",
                     "/flash-sale",
                     "/flash-sale/**",
                     "/users/login",
