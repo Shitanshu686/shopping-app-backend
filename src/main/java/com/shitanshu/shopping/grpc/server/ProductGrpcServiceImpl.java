@@ -19,6 +19,7 @@ public class ProductGrpcServiceImpl extends ProductGrpcServiceGrpc.ProductGrpcSe
 
     @Override
     public void getProductById(ProductGrpcRequest request, StreamObserver<ProductGrpcResponse> responseObserver) {
+        System.out.println("===> [gRPC-Server] Handled request for ID: " + request.getId() + " on instance!");
         try {
             long productId = request.getId();
             Optional<Product> productOpt = productRepository.findById((int) productId);
