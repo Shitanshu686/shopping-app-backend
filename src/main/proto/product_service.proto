@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package com.shitanshu.shopping.grpc;
+
+option java_multiple_files = true;
+option java_package = "com.shitanshu.shopping.grpc";
+option java_outer_classname = "ProductServiceProto";
+
+// Message Definition: Client request
+message ProductGrpcRequest {
+  int64 id = 1;
+}
+
+// Message Definition: Server response
+message ProductGrpcResponse {
+  int64 id = 1;
+  string name = 2;
+  double price = 3;
+  int32 stock = 4;
+  string category = 5;
+  bool is_available = 6;
+}
+
+// Service Definition: Unary RPC
+service ProductGrpcService {
+  rpc GetProductById (ProductGrpcRequest) returns (ProductGrpcResponse);
+}
