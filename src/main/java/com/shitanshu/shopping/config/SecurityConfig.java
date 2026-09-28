@@ -34,7 +34,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
 
                 // PUBLIC APIs
-                .requestMatchers("/api/grpc/**", 
+                .requestMatchers("/proxy/**", "/api/grpc/**", 
                     "/graphql",
                     "/graphiql",
                     "/graphiql/**",

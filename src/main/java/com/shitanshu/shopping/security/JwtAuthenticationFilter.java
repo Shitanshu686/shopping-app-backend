@@ -101,7 +101,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.startsWith("/api/grpc") || path.startsWith("/graphql") || path.startsWith("/graphiql");
+        return path.startsWith("/proxy") || path.startsWith("/api/grpc") || path.startsWith("/graphql") || path.startsWith("/graphiql");
     }
 
 }
