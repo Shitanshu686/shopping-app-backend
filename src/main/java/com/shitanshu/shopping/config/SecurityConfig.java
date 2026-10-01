@@ -1,10 +1,10 @@
 package com.shitanshu.shopping.config;
 
+import com.shitanshu.shopping.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,57 +12,60 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.shitanshu.shopping.security.JwtAuthenticationFilter;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter filter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter filter) {
-        this.filter = filter;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             .csrf(csrf -> csrf.disable())
-            .cors(Customizer.withDefaults())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-
-                // PUBLIC APIs
-                .requestMatchers("/resilience/**",
-                    "/proxy/**", "/api/grpc/**", 
-                    "/graphql",
-                    "/graphiql",
-                    "/graphiql/**",
-                    "/flash-sale",
-                    "/flash-sale/**",
-                    "/users/login",
-                    "/users/register"
-                ).permitAll()
-
-                .requestMatchers(
-                    HttpMethod.GET,
-                    "/products",
-                    "/products/**",
-                    "/uploads/**",
-                    "/feedback/products/**"
-                ).permitAll()
-
-                // SECURED APIs
-                .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/products", "/products/**").permitAll()
+                .requestMatchers("/uploads/**", "/feedback/**").permitAll()
+                .requestMatchers("/concurrency", "/concurrency/**").permitAll()
+                .requestMatchers("/resilience", "/resilience/**").permitAll()
+                .requestMatchers("/proxy/**", "/api/grpc/**", "/graphql", "/graphiql", "/graphiql/**").permitAll()
+                .requestMatchers("/flash-sale", "/flash-sale/**").permitAll()
+                .requestMatchers("/users/**").permitAll()
+                .requestMatchers("/wishlist", "/wishlist/**").permitAll()
+                .requestMatchers("/cart", "/cart/**").permitAll()
+                .anyRequest().permitAll()
             )
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            );
-
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOriginPatterns(List.of("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setExposedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(false);
+        config.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Bean
@@ -71,8 +74,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 }
