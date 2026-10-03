@@ -67,7 +67,7 @@ public class ConcurrencyController {
                     if (success) successCount.incrementAndGet();
                 } catch (ObjectOptimisticLockingFailureException e) {
                     conflictCount.incrementAndGet(); // Version mismatch detected
-                } catch (Exception ignored) {
+                } catch (Exception e) { System.err.println("PESSIMISTIC_ERR: " + e.getClass().getSimpleName() + " - " + e.getMessage());
                 } finally {
                     latch.countDown();
                 }
@@ -103,7 +103,7 @@ public class ConcurrencyController {
                     } else {
                         outOfStockCount.incrementAndGet();
                     }
-                } catch (Exception ignored) {
+                } catch (Exception e) { System.err.println("PESSIMISTIC_ERR: " + e.getClass().getSimpleName() + " - " + e.getMessage());
                 } finally {
                     latch.countDown();
                 }
