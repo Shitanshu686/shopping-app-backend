@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.shitanshu.shopping.repository.ProductRepository;
 
 import com.shitanshu.shopping.dto.CreateOrderRequestDTO;
 import com.shitanshu.shopping.dto.OrderItemResponseDTO;
@@ -58,11 +60,15 @@ public class OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
 
     // =====================================================
     // CREATE ORDER / CHECKOUT
     // =====================================================
 
+    @Transactional
     public OrderResponseDTO createOrder(
             String email,
             CreateOrderRequestDTO request) {
@@ -118,7 +124,7 @@ public class OrderService {
         // VALIDATE STOCK
         // =========================
 
-        validateStock(cartItems);
+        validateAndDeductStockWithLock(cartItems);
 
 
         // =========================
@@ -168,25 +174,23 @@ public class OrderService {
     // VALIDATE STOCK
     // =====================================================
 
-    private void validateStock(
-            List<CartItem> cartItems) {
-
-
+        private void validateAndDeductStockWithLock(List<CartItem> cartItems) {
         for (CartItem cartItem : cartItems) {
+            Product cartProduct = cartItem.getProduct();
+            // MODULE 32: Concurrency & Thread-Safety (Pessimistic Row Lock)
+            Product lockedProduct = productRepository.findByIdWithPessimisticLock(cartProduct.getId())
+                    .orElseThrow(() -> new InsufficientStockException("Product not found: " + cartProduct.getId()));
 
-            Product product =
-                    cartItem.getProduct();
-
-
-            if (cartItem.getQuantity()
-                    > product.getStock()) {
-
+            if (cartItem.getQuantity() > lockedProduct.getStock()) {
                 throw new InsufficientStockException(
-                        "Insufficient stock for product '"
-                                + product.getName()
-                                + "'"
+                        "Insufficient stock for product '" + lockedProduct.getName() + "'. Available: " 
+                        + lockedProduct.getStock() + ", Requested: " + cartItem.getQuantity()
                 );
             }
+
+            // Deduct stock safely inside transaction
+            lockedProduct.setStock(lockedProduct.getStock() - cartItem.getQuantity());
+            productRepository.save(lockedProduct);
         }
     }
 
