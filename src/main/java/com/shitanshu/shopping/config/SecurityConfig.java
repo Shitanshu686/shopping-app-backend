@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .requestMatchers("/users/**").permitAll()
                 .requestMatchers("/wishlist", "/wishlist/**").permitAll()
                 .requestMatchers("/cart", "/cart/**").permitAll()
+                .requestMatchers("/api/search-history", "/api/search-history/**", "/api/concurrency/**").permitAll()
                 .anyRequest().permitAll()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
