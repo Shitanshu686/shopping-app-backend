@@ -2,6 +2,7 @@ package com.shitanshu.shopping.concurrency;
 
 import com.shitanshu.shopping.model.Product;
 import com.shitanshu.shopping.repository.ProductRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,9 +16,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DatabaseConcurrencyService {
 
     private final ProductRepository productRepository;
+    private final DatabaseConcurrencyService self;
 
-    public DatabaseConcurrencyService(ProductRepository productRepository) {
+    public DatabaseConcurrencyService(ProductRepository productRepository, @Lazy DatabaseConcurrencyService self) {
         this.productRepository = productRepository;
+        this.self = self;
     }
 
     @Transactional
@@ -43,7 +46,7 @@ public class DatabaseConcurrencyService {
 
         if (product.getStock() >= quantity) {
             try {
-                Thread.sleep(5);
+                Thread.sleep(5); // Simulate brief processing delay widening race condition
             } catch (InterruptedException ignored) {}
             product.setStock(product.getStock() - quantity);
             productRepository.save(product);
@@ -82,7 +85,6 @@ public class DatabaseConcurrencyService {
     }
 
     // 4. ATOMIC SQL UPDATE DEDUCTION (Single query - No lock wait)
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean deductWithAtomicQuery(Integer productId, int quantity) {
         int updatedRows = productRepository.decrementStockAtomic(productId, quantity);
         return updatedRows > 0;
@@ -107,13 +109,13 @@ public class DatabaseConcurrencyService {
                     startSignal.await();
                     boolean success = false;
                     if ("unsafe".equalsIgnoreCase(strategy)) {
-                        success = deductUnsafe(productId, 1);
+                        success = self.deductUnsafe(productId, 1);
                     } else if ("optimistic".equalsIgnoreCase(strategy)) {
-                        success = deductWithOptimisticLock(productId, 1);
+                        success = self.deductWithOptimisticLock(productId, 1);
                     } else if ("pessimistic".equalsIgnoreCase(strategy)) {
-                        success = deductWithPessimisticLock(productId, 1);
+                        success = self.deductWithPessimisticLock(productId, 1);
                     } else if ("atomic".equalsIgnoreCase(strategy)) {
-                        success = deductWithAtomicQuery(productId, 1);
+                        success = self.deductWithAtomicQuery(productId, 1);
                     }
 
                     if (success) {

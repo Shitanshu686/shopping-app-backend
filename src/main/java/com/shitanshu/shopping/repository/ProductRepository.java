@@ -1,63 +1,45 @@
 package com.shitanshu.shopping.repository;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.shitanshu.shopping.model.Product;
-import java.util.Optional;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer>,
-JpaSpecificationExecutor<Product> { 
+public interface ProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
 
     boolean existsByName(String name);
 
-    List<Product> findTop4ByCategoryAndIdNot(
-            String category,
-            Integer id
-    );
+    List<Product> findTop4ByCategoryAndIdNot(String category, Integer id);
 
-    long countByStockBetween(
-            Integer minStock,
-            Integer maxStock
-    );
+    long countByStockBetween(Integer minStock, Integer maxStock);
 
-    long countByStock(
-            Integer stock
-    );
+    long countByStock(Integer stock);
+
     Page<Product> findAll(Pageable pageable);
-    Page<Product> findByNameContainingIgnoreCase(
-            String name,
-            Pageable pageable
-    );
-    Page<Product> findByCategoryIgnoreCase(
-            String category,
-            Pageable pageable
-    );
-    Page<Product> findByBrandIgnoreCase(
-            String brand,
-            Pageable pageable
-    );
-    Page<Product> findByPriceBetween(
-            Double minPrice,
-            Double maxPrice,
-            Pageable pageable
-    );
-    Page<Product> findByRatingGreaterThanEqual(
-            Double minRating,
-            Pageable pageable
-    );
+
+    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<Product> findByCategoryIgnoreCase(String category, Pageable pageable);
+
+    Page<Product> findByBrandIgnoreCase(String brand, Pageable pageable);
+
+    Page<Product> findByPriceBetween(Double minPrice, Double maxPrice, Pageable pageable);
+
+    Page<Product> findByRatingGreaterThanEqual(Double minRating, Pageable pageable);
 
     // ==========================================
-    // MODULE 32: CONCURRENCY & LOCKING QUERIES
+    // MODULE 32/33: CONCURRENCY & LOCKING QUERIES
     // ==========================================
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
@@ -65,6 +47,7 @@ JpaSpecificationExecutor<Product> {
     Optional<Product> findByIdWithPessimisticLock(@Param("id") Integer id);
 
     @Modifying
-    @Query("UPDATE Product p SET p.stock = p.stock - :quantity WHERE p.id = :id AND p.stock >= :quantity")
+    @Transactional
+    @Query(value = "UPDATE products SET stock = stock - :quantity WHERE id = :id AND stock >= :quantity", nativeQuery = true)
     int decrementStockAtomic(@Param("id") Integer id, @Param("quantity") Integer quantity);
 }
