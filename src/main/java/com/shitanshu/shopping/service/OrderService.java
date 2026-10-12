@@ -157,7 +157,7 @@ public class OrderService {
         // CLEAR CART
         // =========================
 
-        //cartItemRepository.deleteAll(cartItems);
+        cartItemRepository.deleteAll(cartItems);
 
 
         // =========================
@@ -175,7 +175,9 @@ public class OrderService {
     // =====================================================
 
         private void validateAndDeductStockWithLock(List<CartItem> cartItems) {
-        for (CartItem cartItem : cartItems) {
+        List<CartItem> sortedItems = new ArrayList<>(cartItems);
+        sortedItems.sort((a, b) -> a.getProduct().getId().compareTo(b.getProduct().getId()));
+        for (CartItem cartItem : sortedItems) {
             Product cartProduct = cartItem.getProduct();
             // MODULE 32: Concurrency & Thread-Safety (Pessimistic Row Lock)
             Product lockedProduct = productRepository.findByIdWithPessimisticLock(cartProduct.getId())

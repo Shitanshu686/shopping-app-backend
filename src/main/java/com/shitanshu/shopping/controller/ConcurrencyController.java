@@ -75,7 +75,7 @@ public class ConcurrencyController {
             }
 
             // Case 3: Replay completed cached response (Stripe response replay pattern)
-            Map<String, Object> replayedResponse = new LinkedHashMap<>(existingRecord.getResponseBody());
+            @SuppressWarnings("unchecked") Map<String, Object> replayedResponse = new LinkedHashMap<>((Map<String, Object>) existingRecord.getResponseBody());
             replayedResponse.put("replayed", true);
             return ResponseEntity.status(existingRecord.getHttpStatusCode())
                     .header("Idempotency-Replayed", "true")
