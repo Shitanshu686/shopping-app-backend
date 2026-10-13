@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +19,7 @@ public class IdempotencyService {
     public static class IdempotencyRecord {
         private final String payloadHash;
         private volatile Status status;
-        private volatile Map<String, Object> responseBody;
+        private volatile Object responseBody;
         private volatile int httpStatusCode;
         private final long createdAt;
 
@@ -33,11 +32,11 @@ public class IdempotencyService {
 
         public String getPayloadHash() { return payloadHash; }
         public Status getStatus() { return status; }
-        public Map<String, Object> getResponseBody() { return responseBody; }
+        public Object getResponseBody() { return responseBody; }
         public int getHttpStatusCode() { return httpStatusCode; }
         public long getCreatedAt() { return createdAt; }
 
-        public synchronized void complete(int httpStatusCode, Map<String, Object> responseBody) {
+        public synchronized void complete(int httpStatusCode, Object responseBody) {
             this.status = Status.COMPLETED;
             this.httpStatusCode = httpStatusCode;
             this.responseBody = responseBody;
@@ -47,7 +46,7 @@ public class IdempotencyService {
     private final ConcurrentHashMap<String, IdempotencyRecord> store = new ConcurrentHashMap<>();
     private static final long EXPIRATION_TIME_MS = TimeUnit.MINUTES.toMillis(15);
 
-    public String computePayloadHash(Map<String, Object> payload) {
+    public String computePayloadHash(Object payload) {
         if (payload == null) return "";
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -64,17 +63,13 @@ public class IdempotencyService {
         }
     }
 
-    /**
-     * Atomically locks key in PROCESSING state if absent.
-     * Returns null if key was newly reserved, or existing IdempotencyRecord if already present.
-     */
     public IdempotencyRecord lockOrGet(String key, String payloadHash) {
         cleanupExpiredKeys();
         IdempotencyRecord newRecord = new IdempotencyRecord(payloadHash);
         return store.putIfAbsent(key, newRecord);
     }
 
-    public void completeRequest(String key, int httpStatusCode, Map<String, Object> responseBody) {
+    public void completeRequest(String key, int httpStatusCode, Object responseBody) {
         IdempotencyRecord record = store.get(key);
         if (record != null) {
             record.complete(httpStatusCode, responseBody);
