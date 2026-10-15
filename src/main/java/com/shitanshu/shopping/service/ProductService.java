@@ -10,6 +10,8 @@ import com.shitanshu.shopping.exception.ProductNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 import com.shitanshu.shopping.specification.ProductSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import com.shitanshu.shopping.model.Product;
@@ -287,7 +289,8 @@ public class ProductService {
 	        return response;
 	    });
 	}
-    public ProductResponseDTO  getProductById(int id) {
+    @Cacheable(value = "products", key = "#id")
+    public ProductResponseDTO getProductById(int id) {
 
     	Product product = productRepository.findById(id)
     	        .orElseThrow(() ->
@@ -381,6 +384,7 @@ public class ProductService {
     	return response;
     }
     
+    @CacheEvict(value = "products", key = "#id")
     public ProductResponseDTO updateProduct(int id, ProductRequestDTO productRequestDTO) {
 
         Product existingProduct = productRepository.findById(id)
@@ -411,6 +415,7 @@ public class ProductService {
         response.setStock(savedProduct.getStock());
         return response;
     }
+    @CacheEvict(value = "products", key = "#id")
     public void deleteProduct(int id) {
 
         if (!productRepository.existsById(id)) {
