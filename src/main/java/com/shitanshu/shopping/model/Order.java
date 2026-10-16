@@ -17,7 +17,7 @@ public class Order {
     // USER
     // =========================
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
         name = "user_id",
         nullable = false
