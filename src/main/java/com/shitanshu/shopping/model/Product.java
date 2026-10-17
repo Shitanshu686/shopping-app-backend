@@ -6,10 +6,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Index;
 import jakarta.persistence.Version;
 
 @Entity
-@Table(name = "products")
+@Table(
+    name = "products",
+    indexes = {
+        @Index(name = "idx_products_category", columnList = "category"),
+        @Index(name = "idx_products_brand", columnList = "brand"),
+        @Index(name = "idx_products_price", columnList = "price"),
+        @Index(name = "idx_products_cat_price", columnList = "category, price")
+    }
+)
 public class Product {
 
     @Id
