@@ -35,6 +35,8 @@ import com.shitanshu.shopping.repository.CartRepository;
 import com.shitanshu.shopping.repository.OrderItemRepository;
 import com.shitanshu.shopping.repository.OrderRepository;
 import com.shitanshu.shopping.repository.UserRepository;
+import com.shitanshu.shopping.event.OrderPlacedEvent;
+import com.shitanshu.shopping.producer.OrderEventProducer;
 
 
 @Service
@@ -43,6 +45,9 @@ public class OrderService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private OrderEventProducer orderEventProducer;
 
 
     @Autowired
@@ -151,6 +156,22 @@ public class OrderService {
                 savedOrder,
                 cartItems
         );
+
+        // =========================
+        // KAFKA EVENT PUBLISHING (MODULE 35)
+        // =========================
+        try {
+            OrderPlacedEvent event = new OrderPlacedEvent(
+                savedOrder.getId(),
+                user.getId(),
+                user.getEmail(),
+                savedOrder.getTotalAmount(),
+                savedOrder.getStatus() != null ? savedOrder.getStatus().name() : "CREATED"
+            );
+            orderEventProducer.publishOrderPlacedEvent(event);
+        } catch (Exception e) {
+            // Async event failure should not fail core order creation transaction
+        }
 
 
         // =========================
