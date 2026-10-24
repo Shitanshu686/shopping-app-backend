@@ -46,7 +46,6 @@ public class PostgresAuditDataSourceConfig {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         em.setJpaPropertyMap(properties);
         em.setPersistenceUnitName("postgresPersistenceUnit");
 
