@@ -1,271 +1,47 @@
 package com.shitanshu.shopping.exception;
-import com.shitanshu.shopping.response.ApiResponse;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.HashMap;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.validation.FieldError;
-import com.shitanshu.shopping.exception.ResourceAlreadyExistsException;
-import com.shitanshu.shopping.exception.InvalidCredentialsException;
-import com.shitanshu.shopping.exception.UserNotFoundException;
-import com.shitanshu.shopping.exception.CartItemNotBelongToUserException;
-import com.shitanshu.shopping.exception.WishlistItemNotFoundException;
-import com.shitanshu.shopping.exception.WishlistItemNotBelongToUserException;
-import com.shitanshu.shopping.exception.WishlistAlreadyExistsException;
-@ControllerAdvice
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.shitanshu.shopping.interceptor.CorrelationIdInterceptor;
+
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(ProductNotFoundException.class)
-	public ResponseEntity<ApiResponse<String>> handleProductNotFound(ProductNotFoundException ex) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("timestamp", LocalDateTime.now());
+        errorDetails.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorDetails.put("error", "Internal Server Error");
+        errorDetails.put("message", ex.getMessage());
+        errorDetails.put("correlationId", MDC.get(CorrelationIdInterceptor.MDC_CORRELATION_KEY));
 
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+    }
 
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-	}
-    
-	@ExceptionHandler(ResourceAlreadyExistsException.class)
-	public ResponseEntity<ApiResponse<String>> handleResourceAlreadyExists(
-	        ResourceAlreadyExistsException ex) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("timestamp", LocalDateTime.now());
+        errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
+        errorDetails.put("error", "Validation Failed");
+        
+        Map<String, String> fieldErrors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error -> 
+            fieldErrors.put(error.getField(), error.getDefaultMessage())
+        );
+        errorDetails.put("fieldErrors", fieldErrors);
+        errorDetails.put("correlationId", MDC.get(CorrelationIdInterceptor.MDC_CORRELATION_KEY));
 
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-	}
-    
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationException(
-	        MethodArgumentNotValidException ex) {
-
-	    Map<String, String> errors = new HashMap<>();
-
-	    for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-
-	        errors.put(error.getField(), error.getDefaultMessage());
-
-	    }
-
-	    ApiResponse<Map<String, String>> response =
-	            new ApiResponse<>(
-	                    false,
-	                    "Validation Failed",
-	                    errors,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-
-	}
-	@ExceptionHandler(InvalidCredentialsException.class)
-	public ResponseEntity<ApiResponse<String>> handleInvalidCredentials(
-	        InvalidCredentialsException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-
-	}
-	@ExceptionHandler(InsufficientStockException.class)
-	public ResponseEntity<ApiResponse<String>> handleInsufficientStock(
-	        InsufficientStockException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-	}
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<ApiResponse<String>> handleUserNotFound(
-	        UserNotFoundException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-	}
-	@ExceptionHandler(CartItemNotFoundException.class)
-	public ResponseEntity<ApiResponse<String>> handleCartItemNotFound(
-	        CartItemNotFoundException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-	}
-	@ExceptionHandler(CartItemNotBelongToUserException.class)
-	public ResponseEntity<ApiResponse<String>> handleCartItemNotBelongToUser(
-	        CartItemNotBelongToUserException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-	}
-	// =========================
-	// WISHLIST ITEM NOT FOUND
-	// =========================
-
-	@ExceptionHandler(WishlistItemNotFoundException.class)
-	public ResponseEntity<ApiResponse<String>> handleWishlistItemNotFound(
-	        WishlistItemNotFoundException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(
-	            response,
-	            HttpStatus.NOT_FOUND);
-	}
-
-
-	// =========================
-	// WISHLIST ITEM NOT BELONG TO USER
-	// =========================
-
-	@ExceptionHandler(WishlistItemNotBelongToUserException.class)
-	public ResponseEntity<ApiResponse<String>> handleWishlistItemNotBelongToUser(
-	        WishlistItemNotBelongToUserException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(
-	            response,
-	            HttpStatus.FORBIDDEN);
-	}
-	// =========================
-	// WISHLIST ALREADY EXISTS
-	// =========================
-
-	@ExceptionHandler(WishlistAlreadyExistsException.class)
-	public ResponseEntity<ApiResponse<String>> handleWishlistAlreadyExists(
-	        WishlistAlreadyExistsException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(
-	            response,
-	            HttpStatus.CONFLICT);
-	}
-	// =========================
-	// ORDER NOT FOUND
-	// =========================
-
-	@ExceptionHandler(OrderNotFoundException.class)
-	public ResponseEntity<ApiResponse<String>> handleOrderNotFound(
-	        OrderNotFoundException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(
-	            response,
-	            HttpStatus.NOT_FOUND);
-	}
-	// =========================
-	// ORDER DOES NOT BELONG TO USER
-	// =========================
-
-	@ExceptionHandler(OrderNotBelongToUserException.class)
-	public ResponseEntity<ApiResponse<String>> handleOrderNotBelongToUser(
-	        OrderNotBelongToUserException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(
-	            response,
-	            HttpStatus.FORBIDDEN);
-	}
-	// =========================
-	// INVALID ORDER STATUS
-	// =========================
-
-	@ExceptionHandler(InvalidOrderStatusException.class)
-	public ResponseEntity<ApiResponse<String>> handleInvalidOrderStatus(
-	        InvalidOrderStatusException ex) {
-
-	    ApiResponse<String> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now());
-
-	    return new ResponseEntity<>(
-	            response,
-	            HttpStatus.BAD_REQUEST);
-	}
-	@ExceptionHandler(BadRequestException.class)
-	public ResponseEntity<ApiResponse<Object>> handleBadRequest(
-	        BadRequestException ex) {
-
-	    ApiResponse<Object> response =
-	            new ApiResponse<>(
-	                    false,
-	                    ex.getMessage(),
-	                    null,
-	                    LocalDateTime.now()
-	            );
-
-	    return ResponseEntity
-	            .badRequest()
-	            .body(response);
-	}
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+    }
 }
