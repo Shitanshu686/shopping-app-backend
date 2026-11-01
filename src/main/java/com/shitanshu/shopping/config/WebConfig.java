@@ -5,16 +5,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.shitanshu.shopping.interceptor.CorrelationIdInterceptor;
+import com.shitanshu.shopping.ratelimit.RateLimitingInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
-    private CorrelationIdInterceptor correlationIdInterceptor;
+    private RateLimitingInterceptor rateLimitingInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(correlationIdInterceptor);
+        registry.addInterceptor(rateLimitingInterceptor)
+                .addPathPatterns("/api/**"); // Apply rate limiting to API endpoints
     }
 }
