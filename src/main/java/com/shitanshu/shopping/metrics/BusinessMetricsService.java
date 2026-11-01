@@ -2,6 +2,8 @@ package com.shitanshu.shopping.metrics;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,37 +14,39 @@ public class BusinessMetricsService {
     private final Counter cacheHitCounter;
     private final Counter cacheMissCounter;
 
-    public BusinessMetricsService(MeterRegistry meterRegistry) {
+    public BusinessMetricsService(ObjectProvider<MeterRegistry> meterRegistryProvider) {
+        MeterRegistry registry = meterRegistryProvider.getIfAvailable(SimpleMeterRegistry::new);
+
         this.orderSuccessCounter = Counter.builder("shopping.orders.success")
                 .description("Number of successfully placed orders")
-                .register(meterRegistry);
+                .register(registry);
 
         this.orderFailureCounter = Counter.builder("shopping.orders.failure")
                 .description("Number of failed orders")
-                .register(meterRegistry);
+                .register(registry);
 
         this.cacheHitCounter = Counter.builder("shopping.cache.hits")
                 .description("Number of Redis cache hits")
-                .register(meterRegistry);
+                .register(registry);
 
         this.cacheMissCounter = Counter.builder("shopping.cache.misses")
                 .description("Number of Redis cache misses")
-                .register(meterRegistry);
+                .register(registry);
     }
 
     public void incrementOrderSuccess() {
-        orderSuccessCounter.increment();
+        if (orderSuccessCounter != null) orderSuccessCounter.increment();
     }
 
     public void incrementOrderFailure() {
-        orderFailureCounter.increment();
+        if (orderFailureCounter != null) orderFailureCounter.increment();
     }
 
     public void incrementCacheHit() {
-        cacheHitCounter.increment();
+        if (cacheHitCounter != null) cacheHitCounter.increment();
     }
 
     public void incrementCacheMiss() {
-        cacheMissCounter.increment();
+        if (cacheMissCounter != null) cacheMissCounter.increment();
     }
 }
