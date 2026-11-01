@@ -1,6 +1,5 @@
 package com.shitanshu.shopping.ratelimit;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,7 +19,7 @@ public class RateLimitingInterceptor implements HandlerInterceptor {
     private static final Logger log = LoggerFactory.getLogger(RateLimitingInterceptor.class);
     private final Map<String, RequestCounter> requestCounts = new ConcurrentHashMap<>();
     
-    // Limit: Max 20 requests per minute per IP for demonstration
+    // Limit: Max 20 requests per minute per IP
     private static final int MAX_REQUESTS_PER_MINUTE = 20;
 
     @Override
