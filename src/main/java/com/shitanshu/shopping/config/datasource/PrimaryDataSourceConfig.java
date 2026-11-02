@@ -1,26 +1,20 @@
 package com.shitanshu.shopping.config.datasource;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import jakarta.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
-@EnableTransactionManagement
 @EnableJpaRepositories(
     basePackages = "com.shitanshu.shopping.repository",
     entityManagerFactoryRef = "primaryEntityManagerFactory",
@@ -29,32 +23,36 @@ import jakarta.persistence.EntityManagerFactory;
 public class PrimaryDataSourceConfig {
 
     @Primary
-    @Bean(name = "primaryDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @Bean
     public DataSource primaryDataSource() {
-        return DataSourceBuilder.create().build();
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/shopease_audit?options=-c%20timezone=UTC");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("root");
+        return dataSource;
     }
 
     @Primary
-    @Bean(name = "primaryEntityManagerFactory")
+    @Bean
     public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(primaryDataSource());
-        em.setPackagesToScan("com.shitanshu.shopping.model");
-
+        em.setPackagesToScan("com.shitanshu.shopping.entity");
+        
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        em.setJpaPropertyMap(properties);
-        em.setPersistenceUnitName("primaryPersistenceUnit");
-
+        
+        Map<String, Object> props = new HashMap<>();
+        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        em.setJpaPropertyMap(props);
+        
         return em;
     }
 
     @Primary
-    @Bean(name = "primaryTransactionManager")
+    @Bean
     public PlatformTransactionManager primaryTransactionManager(
             EntityManagerFactory primaryEntityManagerFactory) {
         return new JpaTransactionManager(primaryEntityManagerFactory);
