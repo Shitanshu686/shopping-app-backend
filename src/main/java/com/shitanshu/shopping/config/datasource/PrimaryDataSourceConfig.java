@@ -27,7 +27,7 @@ public class PrimaryDataSourceConfig {
     public DataSource primaryDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/shopease_audit?options=-c%20timezone=UTC");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/shopease?options=-c%20timezone=UTC");
         dataSource.setUsername("postgres");
         dataSource.setPassword("root");
         return dataSource;
@@ -38,14 +38,13 @@ public class PrimaryDataSourceConfig {
     public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(primaryDataSource());
-        em.setPackagesToScan("com.shitanshu.shopping.entity");
+        em.setPackagesToScan("com.shitanshu.shopping.model", "com.shitanshu.shopping.entity");
         
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         
         Map<String, Object> props = new HashMap<>();
         props.put("hibernate.hbm2ddl.auto", "update");
-        props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         em.setJpaPropertyMap(props);
         
         return em;
