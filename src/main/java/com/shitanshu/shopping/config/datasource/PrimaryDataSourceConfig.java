@@ -1,5 +1,6 @@
 package com.shitanshu.shopping.config.datasource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -22,14 +23,17 @@ import java.util.Map;
 )
 public class PrimaryDataSourceConfig {
 
+    @Value("${spring.datasource.password}")
+    private String dbPassword;
+
     @Primary
     @Bean
     public DataSource primaryDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/shopease?options=-c%20timezone=UTC");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/shopease?useSSL=false&serverTimezone=UTC");
+        dataSource.setUsername("root");
+        dataSource.setPassword(dbPassword);
         return dataSource;
     }
 
@@ -45,6 +49,7 @@ public class PrimaryDataSourceConfig {
         
         Map<String, Object> props = new HashMap<>();
         props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         em.setJpaPropertyMap(props);
         
         return em;
