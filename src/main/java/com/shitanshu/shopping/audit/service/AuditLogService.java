@@ -16,7 +16,7 @@ public class AuditLogService {
 
     private static final Logger log = LoggerFactory.getLogger(AuditLogService.class);
 
-    @Autowired
+    @Autowired(required = false)
     private AuditLogRepository auditLogRepository;
 
     @Async

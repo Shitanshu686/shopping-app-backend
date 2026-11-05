@@ -31,7 +31,7 @@ public class PrimaryDataSourceConfig {
     public DataSource primaryDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/shopease?useSSL=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3308/shopping_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC?useSSL=false&serverTimezone=UTC");
         dataSource.setUsername("root");
         dataSource.setPassword(dbPassword);
         return dataSource;
@@ -48,7 +48,7 @@ public class PrimaryDataSourceConfig {
         em.setJpaVendorAdapter(vendorAdapter);
         
         Map<String, Object> props = new HashMap<>();
-        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.hbm2ddl.auto", "none");
         props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         em.setJpaPropertyMap(props);
         
