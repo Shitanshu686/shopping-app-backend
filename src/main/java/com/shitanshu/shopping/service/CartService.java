@@ -231,14 +231,7 @@ public class CartService {
 
     private CartResponseDTO buildCartResponse(Cart cart) {
 
-        List<CartItem> cartItems =
-                cartItemRepository.findAll()
-                        .stream()
-                        .filter(item ->
-                                item.getCart()
-                                    .getId()
-                                    .equals(cart.getId()))
-                        .toList();
+        List<CartItem> cartItems = cartItemRepository.findByCart(cart);
 
         List<CartItemResponseDTO> responseItems =
                 new ArrayList<>();
