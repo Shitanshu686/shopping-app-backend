@@ -19,32 +19,34 @@ import com.shitanshu.shopping.exception.UserNotFoundException;
 import org.springframework.security.core.Authentication;
 @Service
 public class UserService {
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.shitanshu.shopping.security.RefreshTokenService refreshTokenService;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.shitanshu.shopping.repository.RefreshTokenRepository refreshTokenRepository;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.shitanshu.shopping.security.JwtUtil jwtTokenProvider;
+
 	@Autowired
 	private UserRepository userRepository;
-	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
 	@Autowired
     private JwtUtil jwtUtil;
 	public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
 		if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
-
 		    throw new ResourceAlreadyExistsException(
 		            "User with email '" + userRequestDTO.getEmail() + "' already exists");
-
 		}
 		User user = new User();
 		user.setName(userRequestDTO.getName());
-
 		user.setEmail(userRequestDTO.getEmail());
-
 		user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-
 		user.setRole("USER");
 		  userRepository.save(user);
 		  UserResponseDTO response = new UserResponseDTO();
-
 		    response.setId(user.getId());
 		    response.setName(user.getName());
 		    response.setEmail(user.getEmail());
@@ -56,20 +58,15 @@ public class UserService {
 		Optional<User> optionalUser =
 		        userRepository.findByEmail(loginRequestDTO.getEmail());
 		if (optionalUser.isEmpty()) {
-
 			throw new InvalidCredentialsException("Invalid Email or Password");
-
 		}
 		User user = optionalUser.get();
 		if (!passwordEncoder.matches(
 		        loginRequestDTO.getPassword(),
 		        user.getPassword())) {
-
 		    throw new InvalidCredentialsException("Invalid Email or Password");
-
 		}
 		UserResponseDTO response = new UserResponseDTO();
-
 		response.setId(user.getId());
 		response.setName(user.getName());
 		response.setEmail(user.getEmail());
@@ -85,139 +82,95 @@ public class UserService {
 	public void changePassword(
 	        String email,
 	        ChangePasswordRequestDTO request) {
-
 	    // ======================
 	    // FIND USER
 	    // ======================
-
 	    Optional<User> optionalUser =
 	            userRepository.findByEmail(email);
-
 	    if (optionalUser.isEmpty()) {
-
 	        throw new InvalidCredentialsException(
 	                "User not found"
 	        );
-
 	    }
-
 	    User user =
 	            optionalUser.get();
-
-
 	    // ======================
 	    // VERIFY CURRENT PASSWORD
 	    // ======================
-
 	    if (!passwordEncoder.matches(
 	            request.getCurrentPassword(),
 	            user.getPassword())) {
-
 	        throw new InvalidCredentialsException(
 	                "Current password is incorrect"
 	        );
-
 	    }
-
-
 	    // ======================
 	    // CONFIRM NEW PASSWORD
 	    // ======================
-
 	    if (!request.getNewPassword().equals(
 	            request.getConfirmPassword())) {
-
 	    	throw new BadRequestException(
 	    	        "New password and confirm password do not match"
 	    	);
-
 	    }
-
-
 	    // ======================
 	    // PREVENT SAME PASSWORD
 	    // ======================
-
 	    if (passwordEncoder.matches(
 	            request.getNewPassword(),
 	            user.getPassword())) {
-
 	    	throw new BadRequestException(
 	    	        "New password must be different from current password"
 	    	);
-
 	    }
-
-
 	    // ======================
 	    // HASH NEW PASSWORD
 	    // ======================
-
 	    String encodedPassword =
 	            passwordEncoder.encode(
 	                    request.getNewPassword()
 	            );
-
-
 	    // ======================
 	    // UPDATE PASSWORD
 	    // ======================
-
 	    user.setPassword(
 	            encodedPassword
 	    );
-
 	    userRepository.save(user);
-
 	}
 	public void updateDarkMode(
 	        String email,
 	        Boolean darkMode) {
-
 	    Optional<User> optionalUser =
 	            userRepository.findByEmail(email);
-
 	    if (optionalUser.isEmpty()) {
-
 	        throw new InvalidCredentialsException(
 	                "User not found"
 	        );
-
 	    }
-
 	    User user =
 	            optionalUser.get();
-
 	    user.setDarkMode(darkMode);
-
 	    userRepository.save(user);
 	}
 	// =========================================================
 	// ADMIN USER MANAGEMENT
 	// =========================================================
-
 	// =========================
 	// GET ALL USERS
 	// =========================
-
 	public List<UserResponseDTO> getAllUsers() {
-
 	    List<User> users =
 	            userRepository.findAll();
-
 	    return users.stream()
 	            .map(this::convertToResponseDTO)
 	            .toList();
 	}
-
-
 	// =========================
 	// GET USER BY ID
 	// =========================
-
 	public UserResponseDTO getUserById(
 	        Integer userId) {
-
 	    User user =
 	            userRepository.findById(userId)
 	            .orElseThrow(() ->
@@ -225,20 +178,15 @@ public class UserService {
 	                            "User not found"
 	                    )
 	            );
-
 	    return convertToResponseDTO(user);
 	}
-
-
 	// =========================
 	// UPDATE USER ROLE
 	// =========================
-
 	public UserResponseDTO updateUserRole(
 	        Integer userId,
 	        String role,
 	        Authentication authentication) {
-
 	    User user =
 	            userRepository.findById(userId)
 	            .orElseThrow(() ->
@@ -246,53 +194,36 @@ public class UserService {
 	                            "User not found"
 	                    )
 	            );
-
-
 	    // =========================
 	    // VALIDATE ROLE
 	    // =========================
-
 	    if (!role.equals("USER") &&
 	        !role.equals("ADMIN")) {
-
 	        throw new BadRequestException(
 	                "Role must be USER or ADMIN"
 	        );
 	    }
-
-
 	    // =========================
 	    // PREVENT SELF ROLE CHANGE
 	    // =========================
-
 	    if (user.getEmail().equals(
 	            authentication.getName())) {
-
 	        throw new BadRequestException(
 	                "You cannot change your own role"
 	        );
 	    }
-
-
 	    // =========================
 	    // UPDATE ROLE
 	    // =========================
-
 	    user.setRole(role);
-
 	    userRepository.save(user);
-
-
 	    return convertToResponseDTO(user);
 	}
-
 	// =========================
 	// DELETE USER
 	// =========================
-
 	public void deleteUser(
 	        Integer userId) {
-
 	    User user =
 	            userRepository.findById(userId)
 	            .orElseThrow(() ->
@@ -300,43 +231,30 @@ public class UserService {
 	                            "User not found"
 	                    )
 	            );
-
 	    userRepository.delete(user);
 	}
-
-
 	// =========================
 	// CONVERT USER → DTO
 	// =========================
-
 	private UserResponseDTO convertToResponseDTO(
 	        User user) {
-
 	    UserResponseDTO response =
 	            new UserResponseDTO();
-
 	    response.setId(user.getId());
-
 	    response.setName(user.getName());
-
 	    response.setEmail(user.getEmail());
-
 	    response.setRole(user.getRole());
-
 	    response.setDarkMode(
 	            user.getDarkMode()
 	    );
-
 	    return response;
 	}
 	// =========================
 	// DELETE USER
 	// =========================
-
 	public void deleteUser(
 	        Integer userId,
 	        Authentication authentication) {
-
 	    User user =
 	            userRepository.findById(userId)
 	            .orElseThrow(() ->
@@ -344,16 +262,26 @@ public class UserService {
 	                            "User not found"
 	                    )
 	            );
-
 	    // Prevent admin from deleting himself
 	    if (user.getEmail().equals(
 	            authentication.getName())) {
-
 	        throw new BadRequestException(
 	                "You cannot delete your own account"
 	        );
 	    }
-
 	    userRepository.delete(user);
 	}
+    public com.shitanshu.shopping.dto.TokenRefreshResponse refreshToken(com.shitanshu.shopping.dto.TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(com.shitanshu.shopping.model.RefreshToken::getUser)
+                .map(user -> {
+                    refreshTokenRepository.deleteByUser(user);
+                    com.shitanshu.shopping.model.RefreshToken newToken = refreshTokenService.createRefreshToken(user.getEmail());
+                    String token = jwtTokenProvider.generateTokenFromUsername(user.getEmail());
+                    return new com.shitanshu.shopping.dto.TokenRefreshResponse(token, newToken.getToken());
+                })
+                .orElseThrow(() -> new RuntimeException("Refresh token is not in database!"));
+    }
 }

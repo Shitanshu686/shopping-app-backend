@@ -73,4 +73,9 @@ public class JwtUtil {
 	    }
 
 	}
+
+    public String generateTokenFromUsername(String username) {
+        return generateToken(username, "USER");
+    }
+
 }

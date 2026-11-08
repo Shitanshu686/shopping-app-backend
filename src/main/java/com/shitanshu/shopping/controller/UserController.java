@@ -272,4 +272,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+
+    @org.springframework.web.bind.annotation.PostMapping("/refreshtoken")
+    public org.springframework.http.ResponseEntity<com.shitanshu.shopping.dto.TokenRefreshResponse> refreshToken(
+            @org.springframework.web.bind.annotation.RequestBody com.shitanshu.shopping.dto.TokenRefreshRequest request) {
+        com.shitanshu.shopping.dto.TokenRefreshResponse response = userService.refreshToken(request);
+        return org.springframework.http.ResponseEntity.ok(response);
+    }
+
 }
