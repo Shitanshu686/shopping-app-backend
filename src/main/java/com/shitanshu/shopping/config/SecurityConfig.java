@@ -45,9 +45,11 @@ public class SecurityConfig {
                 .requestMatchers("/flash-sale", "/flash-sale/**").permitAll()
                 .requestMatchers("/users/**").permitAll()
                 .requestMatchers("/wishlist", "/wishlist/**").permitAll()
-                .requestMatchers("/cart", "/cart/**").permitAll()
+                .requestMatchers("/cart", "/cart/**").authenticated()
+                .requestMatchers("/orders", "/orders/**").authenticated()
+                .requestMatchers("/payments", "/payments/**").authenticated()
                 .requestMatchers("/api/search-history", "/api/search-history/**", "/api/concurrency/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
