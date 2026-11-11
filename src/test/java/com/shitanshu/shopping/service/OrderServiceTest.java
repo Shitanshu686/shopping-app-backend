@@ -3,7 +3,9 @@ package com.shitanshu.shopping.service;
 import com.shitanshu.shopping.dto.CreateOrderRequestDTO;
 import com.shitanshu.shopping.exception.UserNotFoundException;
 import com.shitanshu.shopping.model.User;
+import com.shitanshu.shopping.repository.CartRepository;
 import com.shitanshu.shopping.repository.OrderRepository;
+import com.shitanshu.shopping.repository.ProductRepository;
 import com.shitanshu.shopping.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,12 @@ class OrderServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private CartRepository cartRepository;
+
+    @Mock
+    private ProductRepository productRepository;
+
     @InjectMocks
     private OrderService orderService;
 
@@ -35,10 +43,12 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         sampleUser = new User();
-        sampleUser.setId(1L);
+        sampleUser.setId(1);
         sampleUser.setEmail("shitanshu@example.com");
 
         orderRequest = new CreateOrderRequestDTO();
+        orderRequest.setPaymentMethod("COD");
+        orderRequest.setShippingAddress("Delhi, India");
     }
 
     @Test
