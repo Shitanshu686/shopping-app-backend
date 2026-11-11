@@ -47,8 +47,6 @@ class OrderServiceTest {
         sampleUser.setEmail("shitanshu@example.com");
 
         orderRequest = new CreateOrderRequestDTO();
-        orderRequest.setPaymentMethod("COD");
-        orderRequest.setShippingAddress("Delhi, India");
     }
 
     @Test
