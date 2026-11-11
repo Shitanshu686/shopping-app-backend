@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Isolation;
 import com.shitanshu.shopping.repository.ProductRepository;
 
 import com.shitanshu.shopping.dto.CreateOrderRequestDTO;
@@ -73,7 +74,7 @@ public class OrderService {
     // CREATE ORDER / CHECKOUT
     // =====================================================
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public OrderResponseDTO createOrder(
             String email,
             CreateOrderRequestDTO request) {
