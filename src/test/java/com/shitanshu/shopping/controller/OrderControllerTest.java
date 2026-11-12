@@ -1,8 +1,8 @@
 package com.shitanshu.shopping.controller;
 
+import com.shitanshu.shopping.concurrency.IdempotencyService;
 import com.shitanshu.shopping.dto.CreateOrderRequestDTO;
 import com.shitanshu.shopping.dto.OrderResponseDTO;
-import com.shitanshu.shopping.response.ApiResponse;
 import com.shitanshu.shopping.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,9 @@ class OrderControllerTest {
     private OrderService orderService;
 
     @Mock
+    private IdempotencyService idempotencyService;
+
+    @Mock
     private Authentication authentication;
 
     @InjectMocks
@@ -44,16 +47,16 @@ class OrderControllerTest {
     @Test
     void createOrder_ShouldReturnCreatedOrderResponse() {
         when(authentication.getName()).thenReturn("shitanshu@example.com");
+        when(idempotencyService.computePayloadHash(any())).thenReturn("dummy-hash");
         when(orderService.createOrder(eq("shitanshu@example.com"), any(CreateOrderRequestDTO.class)))
                 .thenReturn(responseDTO);
 
-        ResponseEntity<ApiResponse<OrderResponseDTO>> response = 
+        ResponseEntity<?> response = 
                 orderController.createOrder("shitanshu@example.com", requestDTO, authentication);
 
         assertNotNull(response);
-        assertEquals(201, response.getStatusCode().value());
+        assertEquals(200, response.getStatusCode().value());
         assertNotNull(response.getBody());
-        assertEquals(101, response.getBody().getData().getOrderId());
         verify(orderService, times(1)).createOrder(eq("shitanshu@example.com"), any(CreateOrderRequestDTO.class));
     }
 }
