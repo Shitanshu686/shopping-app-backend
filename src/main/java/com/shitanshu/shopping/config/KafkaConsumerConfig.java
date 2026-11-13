@@ -2,11 +2,14 @@ package com.shitanshu.shopping.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,10 +60,22 @@ public class KafkaConsumerConfig {
         // MANUAL_IMMEDIATE acknowledgement: message process hone ke baad hi offset commit hoga
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
 
+        // Kafka Record Interceptor for Correlation ID Propagation in MDC
+        factory.setRecordInterceptor(record -> {
+            org.apache.kafka.common.header.Header header = record.headers().lastHeader("correlationId");
+            if (header != null) {
+                String correlationId = new String(header.value(), StandardCharsets.UTF_8);
+                MDC.put("correlationId", correlationId);
+            } else {
+                MDC.put("correlationId", UUID.randomUUID().toString());
+            }
+            return record;
+        });
+
         // Dead Letter Queue recoverer with 3 retries (1 second interval)
         DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(kafkaTemplate);
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(recoverer, new FixedBackOff(1000L, 3));
-        
+
         factory.setCommonErrorHandler(errorHandler);
         return factory;
     }
