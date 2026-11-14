@@ -60,8 +60,8 @@ public class KafkaConsumerConfig {
         // MANUAL_IMMEDIATE acknowledgement: message process hone ke baad hi offset commit hoga
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
 
-        // Kafka Record Interceptor for Correlation ID Propagation in MDC
-        factory.setRecordInterceptor(record -> {
+        // Kafka Record Interceptor with 2 parameters (record, consumer) for Spring Kafka compatibility
+        factory.setRecordInterceptor((record, consumer) -> {
             org.apache.kafka.common.header.Header header = record.headers().lastHeader("correlationId");
             if (header != null) {
                 String correlationId = new String(header.value(), StandardCharsets.UTF_8);
