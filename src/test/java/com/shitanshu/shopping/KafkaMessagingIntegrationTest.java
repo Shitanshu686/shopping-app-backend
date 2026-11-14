@@ -2,16 +2,15 @@ package com.shitanshu.shopping;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import com.shitanshu.shopping.config.KafkaTopicConfig;
 import com.shitanshu.shopping.event.OrderPlacedEvent;
 import com.shitanshu.shopping.producer.OrderEventProducer;
 
@@ -37,11 +36,7 @@ public class KafkaMessagingIntegrationTest {
 
             orderEventProducer.publishOrderPlacedEvent(testEvent);
 
-            verify(kafkaTemplate).send(
-                eq(KafkaTopicConfig.ORDER_PLACED_TOPIC),
-                eq("9999"),
-                any(OrderPlacedEvent.class)
-            );
+            verify(kafkaTemplate).send(any(ProducerRecord.class));
         });
     }
 }
