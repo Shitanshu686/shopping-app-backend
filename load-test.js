@@ -15,7 +15,7 @@ export const options = {
 
 export default function () {
   // Hit a public health or product catalog endpoint in your ShopEase backend
-  const res = http.get('http://localhost:8080/api/products');
+  const res = http.get('http://localhost:8080/products');
   
   check(res, {
     'status is 200': (r) => r.status === 200,
