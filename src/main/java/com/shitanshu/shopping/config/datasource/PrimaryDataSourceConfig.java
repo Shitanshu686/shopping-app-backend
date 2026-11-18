@@ -31,7 +31,7 @@ public class PrimaryDataSourceConfig {
     public DataSource primaryDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://' + dbHost + '3306/shopping_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC?useSSL=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://shopease-mysql:3306/shopping_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
         dataSource.setUsername("root");
         dataSource.setPassword(dbPassword);
         return dataSource;

@@ -5,10 +5,10 @@ services:
     container_name: shopease-mysql
     environment:
       MYSQL_DATABASE: shopping_db
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ShopEase@2026
       
     ports:
-      - "3308:3306"
+      - "3306:3306"
 
     volumes:
       - mysql_data:/var/lib/mysql
