@@ -2,6 +2,7 @@
 package com.shitanshu.shopping.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class User {
     private String password;
 
     private String role;
+    @Column(name = "dark_mode")
     private Boolean darkMode = false;
 
     public Integer getId() {
