@@ -18,7 +18,10 @@ import java.util.Map;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = "com.shitanshu.shopping.repository",
+    basePackages = {
+        "com.shitanshu.shopping.repository",
+        "com.shitanshu.shopping.audit.repository"
+    },
     entityManagerFactoryRef = "primaryEntityManagerFactory",
     transactionManagerRef = "primaryTransactionManager"
 )
@@ -58,7 +61,8 @@ public class PrimaryDataSourceConfig {
         em.setDataSource(primaryDataSource());
         em.setPackagesToScan(
             "com.shitanshu.shopping.model",
-            "com.shitanshu.shopping.entity"
+            "com.shitanshu.shopping.entity",
+            "com.shitanshu.shopping.audit.model"
         );
 
         HibernateJpaVendorAdapter vendorAdapter =
