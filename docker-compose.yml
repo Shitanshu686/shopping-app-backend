@@ -10,7 +10,8 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/shopping_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      POSTGRES_AUDIT_PASSWORD: ${POSTGRES_AUDIT_PASSWORD}
 
 
       RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID}
