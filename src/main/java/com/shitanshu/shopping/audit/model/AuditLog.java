@@ -26,18 +26,19 @@ public class AuditLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "entityname", nullable = false)
     private String entityName; // ORDER, PAYMENT, PRODUCT
 
-    @Column(nullable = false)
+    @Column(name = "entityid", nullable = false)
     private String entityId; // e.g. "9999"
 
     @Column(nullable = false)
     private String action; // CREATED, STATUS_UPDATED, REFUNDED
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "detailsjson", columnDefinition = "TEXT")
     private String detailsJson; // Semi-structured state snapshot
 
+    @Column(name = "performedbyuserid")
     private Long performedByUserId;
 
     @Column(nullable = false, updatable = false)
