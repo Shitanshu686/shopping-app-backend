@@ -40,6 +40,7 @@ jobs:
       - name: Build and Test
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/shopping_db
+          SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: ci_test_password
           RAZORPAY_KEY_ID: test_key_id

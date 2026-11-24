@@ -26,19 +26,26 @@ import java.util.Map;
 )
 public class PrimaryDataSourceConfig {
 
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+
+    @Value("${spring.datasource.username}")
+    private String dbUsername;
+
     @Value("${spring.datasource.password}")
     private String dbPassword;
+
+    @Value("${spring.datasource.driver-class-name:com.mysql.cj.jdbc.Driver}")
+    private String dbDriverClassName;
 
     @Primary
     @Bean
     public DataSource primaryDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
 
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setJdbcUrl(
-            "jdbc:mysql://host.docker.internal:3306/shopping_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
-        );
-        dataSource.setUsername("root");
+        dataSource.setDriverClassName(dbDriverClassName);
+        dataSource.setJdbcUrl(dbUrl);
+        dataSource.setUsername(dbUsername);
         dataSource.setPassword(dbPassword);
 
         dataSource.setPoolName("ShopEaseHikariCP");
