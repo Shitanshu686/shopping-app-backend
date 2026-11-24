@@ -33,7 +33,7 @@ public class AuditEventListener {
             log.info("[AUDIT-CONSUMER] Processing audit trail for order: {}", event.getOrderId());
             String payloadJson = objectMapper.writeValueAsString(event);
             
-            auditLogService.recordLogAsync(
+            auditLogService.recordLog(
                 "ORDER",
                 String.valueOf(event.getOrderId()),
                 "PLACED",
