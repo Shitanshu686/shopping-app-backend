@@ -44,7 +44,7 @@ public class AuditEventListener {
             ack.acknowledge();
         } catch (Exception e) {
             log.error("[AUDIT-CONSUMER] Failed to ingest audit trail for orderId: {}", event.getOrderId(), e);
-            ack.acknowledge(); // Logged failure, avoid blocking partition
+            throw new IllegalStateException("Audit log persistence failed for orderId: " + event.getOrderId(), e);
         }
     }
 }
