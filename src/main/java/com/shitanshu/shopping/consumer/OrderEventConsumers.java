@@ -14,43 +14,6 @@ public class OrderEventConsumers {
 
     private static final Logger log = LoggerFactory.getLogger(OrderEventConsumers.class);
 
-    // 1. INVENTORY CONSUMER GROUP
-    @KafkaListener(
-        topics = KafkaTopicConfig.ORDER_PLACED_TOPIC,
-        groupId = "shopease-inventory-group",
-        containerFactory = "kafkaListenerContainerFactory"
-    )
-    public void handleInventoryStockDeduction(OrderPlacedEvent event, Acknowledgment ack) {
-        try {
-            log.info("[INVENTORY-SERVICE] Received OrderPlacedEvent for orderId: {}. Deducting stock...", event.getOrderId());
-            // Business logic for stock allocation
-            log.info("[INVENTORY-SERVICE] Stock successfully deducted for orderId: {}", event.getOrderId());
-            ack.acknowledge();
-        } catch (Exception e) {
-            log.error("[INVENTORY-SERVICE] Failed processing inventory for orderId: {}", event.getOrderId(), e);
-            throw e;
-        }
-    }
-
-    // 2. PAYMENT INITIATION CONSUMER GROUP
-    @KafkaListener(
-        topics = KafkaTopicConfig.ORDER_PLACED_TOPIC,
-        groupId = "shopease-payment-group",
-        containerFactory = "kafkaListenerContainerFactory"
-    )
-    public void handlePaymentProcessing(OrderPlacedEvent event, Acknowledgment ack) {
-        try {
-            log.info("[PAYMENT-SERVICE] Processing payment verification/escrow for orderId: {}, amount: {}", 
-                    event.getOrderId(), event.getTotalAmount());
-            // Async payment ledger / intent creation
-            log.info("[PAYMENT-SERVICE] Payment verified and recorded for orderId: {}", event.getOrderId());
-            ack.acknowledge();
-        } catch (Exception e) {
-            log.error("[PAYMENT-SERVICE] Payment processing failed for orderId: {}", event.getOrderId(), e);
-            throw e;
-        }
-    }
-
     // 3. NOTIFICATION CONSUMER GROUP
     @KafkaListener(
         topics = KafkaTopicConfig.ORDER_PLACED_TOPIC,

@@ -37,7 +37,7 @@ public class PaymentEventListener {
             ack.acknowledge();
         } catch (Exception e) {
             log.error("[PAYMENT-CONSUMER] Payment processing failed for orderId: {}", event.getOrderId(), e);
-            ack.acknowledge();
+            throw new IllegalStateException("Payment processing failed for orderId: " + event.getOrderId(), e);
         }
     }
 }

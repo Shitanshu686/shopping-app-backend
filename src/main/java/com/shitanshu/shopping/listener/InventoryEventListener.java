@@ -38,7 +38,7 @@ public class InventoryEventListener {
             ack.acknowledge();
         } catch (Exception e) {
             log.error("[INVENTORY-CONSUMER] Failed to update inventory for orderId: {}", event.getOrderId(), e);
-            ack.acknowledge(); // Acknowledge to prevent poison pill infinite loop, handled by DLQ if configured
+            throw new IllegalStateException("Inventory processing failed for orderId: " + event.getOrderId(), e);
         }
     }
 }
